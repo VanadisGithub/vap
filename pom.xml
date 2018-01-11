@@ -31,6 +31,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!--模板引擎thymeleaf-->
+        <!--包含spring-boot-starter-web-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
         <!--热启动-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -46,13 +53,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <!--模板引擎thymeleaf-->
-        <!--包含spring-boot-starter-web-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
     </dependencies>
