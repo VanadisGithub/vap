@@ -6,7 +6,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class HomeController extends BaseController{
+
     @RequestMapping("")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("/home");
