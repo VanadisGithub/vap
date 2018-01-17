@@ -1,6 +1,6 @@
 package com.vanadis.mapper;
 
-import com.vanadis.entity.User;
+import com.vanadis.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
