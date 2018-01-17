@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling//增加支持定时任务的注解
-@MapperScan("com.vanadis.mapper")
+@MapperScan("com.vanadis.model")
 public class VapApplication {
 
 	public static void main(String[] args) {

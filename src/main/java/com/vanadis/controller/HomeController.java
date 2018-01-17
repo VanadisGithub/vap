@@ -1,14 +1,14 @@
 package com.vanadis.controller;
 
 import com.vanadis.model.User;
-import com.vanadis.mapper.UserMapper;
+import com.vanadis.model.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
-@RequestMapping("/home")
+@RestController
+@RequestMapping("home")
 public class HomeController extends BaseController {
 
     @Autowired
@@ -20,12 +20,11 @@ public class HomeController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping("/getUser")
-    public void getUser() throws Exception {
-        //userMapper.insert(new User("Vanadis", "ling123427", "872671438@qq.com", "Vanadis", "0"));
-        //List<User> users = userMapper.getAll();
-        User user = userMapper.getOne(1L);
-        System.out.println(user.toString());
+    @RequestMapping("getUser")
+    public User getUser() throws Exception {
+        userMapper.insert(new User("Vanadis", "ling123427", "872671438@qq.com", "Vanadis", System.currentTimeMillis()));
+        User user = userMapper.getLastOne();
+        return user;
     }
 
 }

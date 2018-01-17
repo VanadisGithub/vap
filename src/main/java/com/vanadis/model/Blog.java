@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-@Entity(name = "user")
+@Entity(name = "blog")
 public class Blog implements Serializable {
 
     @Id
@@ -20,11 +20,12 @@ public class Blog implements Serializable {
     private String email;
     @Column(nullable = true, unique = true)
     private int clickNum;
-    @Column(nullable = false)
     private String regTime;
 
     public Blog() {
         super();
     }
+
+
 
 }

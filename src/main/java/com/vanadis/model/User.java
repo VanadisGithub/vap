@@ -4,44 +4,83 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "user")
-public class User implements Serializable {
+public class User extends BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
-    private Long id;
-    @Column(nullable = false, unique = true)
+    public Long userId;
+    @Column
     private String userName;
-    @Column(nullable = false)
+    @Column
     private String passWord;
-    @Column(nullable = false, unique = true)
+    @Column
     private String email;
-    @Column(nullable = true, unique = true)
+    @Column
     private String nickName;
-    @Column(nullable = false)
+    @Column
     private Long registerTime;
 
     public User() {
         super();
     }
 
-    public User(String userName, String passWord, String email, String nickName, Long regTime) {
+    public User(String userName, String passWord, String email, String nickName, Long registerTime) {
         this.userName = userName;
         this.passWord = passWord;
         this.email = email;
         this.nickName = nickName;
-        this.registerTime = regTime;
+        this.registerTime = registerTime;
+        this.createTs = System.currentTimeMillis();
+        this.updateTs = System.currentTimeMillis();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", passWord='" + passWord + '\'' +
-                ", email='" + email + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", regTime='" + registerTime + '\'' +
-                '}';
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public Long getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Long registerTime) {
+        this.registerTime = registerTime;
     }
 }

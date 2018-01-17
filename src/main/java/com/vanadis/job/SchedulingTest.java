@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SchedulingTest {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Scheduled(cron = "0/5 * * * * ?") // 每5秒执行一次
     public void scheduler() {
