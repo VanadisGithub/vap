@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form class="form-inline" role="form">
+    <label class="control-label" for="timestamp">时间戳：</label>
+    <input id="timestamp" class="form-control" type="text">
+    <span id="switch" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
+    <input id="date" class="form-control" type="text">
+</form>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#switch").unbind("click").click(function () {
+            var timestamp = $("#timestamp").val();
+            if (timestamp.length == 10) {
+                timestamp = timestamp * 1000;
+            }
+            var dateStr = new Date(parseInt(timestamp)).toLocaleString();
+            if (dateStr === 'Invalid Date') {
+                dateStr = '无效的时间戳';
+            }
+            $('#date').val(dateStr)
+        });
+    });
+</script>
+</html>

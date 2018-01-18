@@ -16,13 +16,12 @@ public class HomeController extends BaseController {
 
     @RequestMapping("")
     public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView("/home");
+        ModelAndView modelAndView = new ModelAndView("/untils");
         return modelAndView;
     }
 
     @RequestMapping("getUser")
     public User getUser() throws Exception {
-        userMapper.insert(new User("Vanadis", "ling123427", "872671438@qq.com", "Vanadis", System.currentTimeMillis()));
         User user = userMapper.getLastOne();
         return user;
     }
