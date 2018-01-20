@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <title>VAP</title>
@@ -8,12 +8,18 @@
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+<div th:include="common/head :: copy"></div>
+
 <form class="form-inline" role="form">
     <label class="control-label" for="timestamp">时间戳：</label>
     <input id="timestamp" class="form-control" type="text">
     <span id="switch" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
     <input id="date" class="form-control" type="text">
 </form>
+
+<div th:include="common/foot :: copy"></div>
+
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -23,7 +29,7 @@
                 timestamp = timestamp * 1000;
             }
             var dateStr = new Date(parseInt(timestamp)).toLocaleString();
-            if (dateStr === 'Invalid Date') {
+            if (dateStr == 'Invalid Date') {
                 dateStr = '无效的时间戳';
             }
             $('#date').val(dateStr)
