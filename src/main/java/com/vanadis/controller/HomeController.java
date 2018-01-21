@@ -16,6 +16,12 @@ public class HomeController extends BaseController {
 
     @RequestMapping("")
     public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("/home");
+        return modelAndView;
+    }
+
+    @RequestMapping("untils")
+    public ModelAndView untils() {
         ModelAndView modelAndView = new ModelAndView("/untils");
         return modelAndView;
     }

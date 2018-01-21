@@ -9,31 +9,42 @@
 </head>
 <body>
 
-<div th:include="common/head :: copy"></div>
+<div th:replace ="common/head :: head"></div>
 
-<form class="form-inline" role="form">
-    <label class="control-label" for="timestamp">时间戳：</label>
-    <input id="timestamp" class="form-control" type="text">
-    <span id="switch" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
-    <input id="date" class="form-control" type="text">
-</form>
+<div style="margin-top: 70px">
+    <form class="form-inline" role="form">
+        <label class="control-label" for="timestamp">时间戳：</label>
+        <input id="timestamp" class="form-control" type="text">
+        <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换/Enter</span>
+        <input id="date" class="form-control" type="text">
+    </form>
+</div>
 
-<div th:include="common/foot :: copy"></div>
+<div th:replace="common/foot :: foot"></div>
 
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#switch").unbind("click").click(function () {
-            var timestamp = $("#timestamp").val();
-            if (timestamp.length == 10) {
-                timestamp = timestamp * 1000;
+        $("#timestamp").keypress(function (event) {
+            if (event.keyCode == 13) {
+                timestampToDate();
             }
-            var dateStr = new Date(parseInt(timestamp)).toLocaleString();
-            if (dateStr == 'Invalid Date') {
-                dateStr = '无效的时间戳';
-            }
-            $('#date').val(dateStr)
+        });
+        $("#switch-btn").unbind("click").click(function () {
+            timestampToDate();
         });
     });
+
+    function timestampToDate() {
+        var timestamp = $("#timestamp").val();
+        if (timestamp.length <= 10) {
+            timestamp = timestamp * 1000;
+        }
+        var dateStr = new Date(parseInt(timestamp)).toLocaleString();
+        if (dateStr == 'Invalid Date') {
+            dateStr = '无效的时间戳';
+        }
+        $('#date').val(dateStr)
+    }
 </script>
 </html>
