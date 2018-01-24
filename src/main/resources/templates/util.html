@@ -2,25 +2,20 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
-    <title>VAP</title>
-    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>VAP-Until</title>
 </head>
 <body>
 
-<div th:replace ="common/head :: head"></div>
+<div th:replace="common/head :: head"></div>
 
-<div style="margin-top: 70px">
-    <form class="form-inline" role="form">
+<div style="margin:70px">
+    <form class="form-inline">
         <label class="control-label" for="timestamp">时间戳：</label>
         <input id="timestamp" class="form-control" type="text">
-        <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换/Enter</span>
+        <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
         <input id="date" class="form-control" type="text">
     </form>
 </div>
-
-<div th:replace="common/foot :: foot"></div>
 
 </body>
 <script type="text/javascript">
