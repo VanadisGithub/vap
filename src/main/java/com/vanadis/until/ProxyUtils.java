@@ -82,18 +82,19 @@ public class ProxyUtils {
         }
     }
 
-    public static class TaskCallable2 implements Callable<String> {
+    public static class DoGetWithProxy implements Callable<String> {
 
+        private String url;
         private HttpHost proxy;
 
-        public TaskCallable2(HttpHost proxy) {
+        public DoGetWithProxy(String url, HttpHost proxy) {
+            this.url = url;
             this.proxy = proxy;
         }
 
         @Override
         public String call() {
-            String url = "http://www.baidu.com";
-            String resultStr = HttpUtil.doGet(url, null, this.proxy);
+            String resultStr = HttpUtil.doGet(url, null, proxy);
             return resultStr;
         }
     }

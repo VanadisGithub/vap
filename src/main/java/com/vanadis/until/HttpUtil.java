@@ -56,7 +56,8 @@ public class HttpUtil {
             if (proxy != null) {
                 RequestConfig requestConfig = RequestConfig.copy(baseRequestConfig).setProxy(proxy).build();
                 post.setConfig(requestConfig);
-            };
+            }
+            ;
 
             HttpResponse response = httpClient.execute(post);
 
@@ -108,6 +109,7 @@ public class HttpUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         } finally {
             try {
                 httpClient.close();
