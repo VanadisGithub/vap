@@ -8,6 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class BaseController {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    public final Logger log = LoggerFactory.getLogger(getClass());
 
 }

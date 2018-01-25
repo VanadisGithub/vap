@@ -25,7 +25,18 @@ public class HttpUtil {
 
     public static String UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.9.2.1000 Chrome/39.0.2146.0 Safari/537.36";
 
-    public static String doPost(String url, String entityStr, Map<String, Object> headerMap) {
+    private static int timeout = 30000;
+
+    private static RequestConfig baseRequestConfig = RequestConfig.custom()
+            .setMaxRedirects(20)
+            .setCircularRedirectsAllowed(true)
+            .setConnectTimeout(timeout)
+            .setSocketTimeout(timeout)
+            .build();
+
+    public static String doPost(String url, String entityStr, Map<String, Object> headerMap, HttpHost proxy) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
         try {
             HttpPost post = new HttpPost(url);
 
@@ -36,16 +47,22 @@ public class HttpUtil {
                 post.setEntity(entity);
             }
 
-            for (String key : headerMap.keySet()) {
-                post.setHeader(key, String.valueOf(headerMap.get(key)));
+            if (headerMap != null) {
+                for (String key : headerMap.keySet()) {
+                    post.setHeader(key, String.valueOf(headerMap.get(key)));
+                }
             }
 
-            HttpClient httpClient = HttpClients.createDefault();
+            if (proxy != null) {
+                RequestConfig requestConfig = RequestConfig.copy(baseRequestConfig).setProxy(proxy).build();
+                post.setConfig(requestConfig);
+            };
+
             HttpResponse response = httpClient.execute(post);
 
             int statusCode = response.getStatusLine().getStatusCode();
 
-            log.info("PostUrl:" + url + " " + statusCode);
+            log.info("doPost:" + url + " " + statusCode);
 
             if (statusCode == HttpStatus.SC_OK) {
                 String resultStr = EntityUtils.toString(response.getEntity(), "utf-8");
@@ -53,40 +70,18 @@ public class HttpUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
-    public static String doPost() throws IOException {
-
-        int timeout = 30000;
-
-        String url = "http://www.baidu.com";
-
-        HttpHost proxy = new HttpHost("61.155.164.110", 3128, "http");
-
-        //访问目标地址
-        HttpGet get = new HttpGet(url);
-
-        RequestConfig requestConfig = RequestConfig.custom().setMaxRedirects(20).setCircularRedirectsAllowed(true).setConnectTimeout(timeout)
-                .setSocketTimeout(timeout).setProxy(proxy).build();
-        get.setConfig(requestConfig);
-
-        HttpClient httpClient = HttpClients.createDefault();
-        HttpResponse response = httpClient.execute(get);
-
-        int statusCode = response.getStatusLine().getStatusCode();
-
-        log.info("GetUrl:" + url + " " + statusCode);
-
-        if (statusCode == HttpStatus.SC_OK) {
-            String resultStr = EntityUtils.toString(response.getEntity(), "utf-8");
-            return resultStr;
-        }
-        return null;
-    }
-
-    public static String doGet(String url, Map<String, Object> headerMap) {
+    public static String doGet(String url, Map<String, Object> headerMap, HttpHost proxy) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpGet get = new HttpGet(url);
 
@@ -96,12 +91,16 @@ public class HttpUtil {
                 }
             }
 
-            HttpClient httpClient = HttpClients.createDefault();
+            if (proxy != null) {
+                RequestConfig requestConfig = RequestConfig.copy(baseRequestConfig).setProxy(proxy).build();
+                get.setConfig(requestConfig);
+            }
+
             HttpResponse response = httpClient.execute(get);
 
             int statusCode = response.getStatusLine().getStatusCode();
 
-            log.info("GetUrl:" + url + " " + statusCode);
+            log.info("doGet:" + url + " " + statusCode);
 
             if (statusCode == HttpStatus.SC_OK) {
                 String resultStr = EntityUtils.toString(response.getEntity(), "utf-8");
@@ -110,6 +109,11 @@ public class HttpUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
