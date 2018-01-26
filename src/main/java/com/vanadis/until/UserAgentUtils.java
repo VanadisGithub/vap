@@ -91,6 +91,8 @@ public class UserAgentUtils {
 
         //UC Opera
         UserAgents.add("Mozilla/4.0 (compatible; MSIE 6.0; ) Opera/UCWEB7.0.2.37/28/999");
+
+        size = UserAgents.size();
     }
 
     public static String getUserAgent() {

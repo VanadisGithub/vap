@@ -10,7 +10,7 @@
 
 <div style="margin:70px">
     <form class="form-inline">
-        <label class="control-label" for="timestamp">时间戳：</label>
+        <span>时间戳：</span>
         <input id="timestamp" class="form-control" type="text">
         <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
         <input id="date" class="form-control" type="text">
@@ -19,7 +19,11 @@
 
 </body>
 <script type="text/javascript">
-    $(document).ready(function () {
+
+    $(function () {
+        $("#timestamp").val(new Date().getTime());
+        timestampToDate();
+
         $("#timestamp").keypress(function (event) {
             if (event.keyCode == 13) {
                 timestampToDate();

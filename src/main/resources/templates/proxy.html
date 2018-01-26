@@ -6,9 +6,16 @@
 </head>
 <body>
 <style type="text/css">
+
+    #visitUrl {
+        min-width: 42%;
+        max-width: 42%;
+    }
+
     textarea {
-        min-width: 800px;
-        min-height: 800px;
+        min-width: 42%;
+        max-width: 42%;
+        min-height: 80%;
     }
 </style>
 
@@ -16,7 +23,12 @@
 
 <div style="margin:70px;">
     <form class="form-inline">
-        <label class="control-label" for="htmlText">页面：</label>
+        <span>链接：</span>
+        <input id="visitUrl" class="form-control" type="text">
+        <span id="visit-btn" class="btn btn-info" style="margin-left: 20px;margin-right: 20px">访问</span>
+    </form>
+    <form class="form-inline" style="margin-top: 20px">
+        <span>页面：</span>
         <textarea id="htmlText" class="form-control" type="text"></textarea>
         <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
         <textarea id="proxyText" class="form-control" type="text"></textarea>
@@ -26,7 +38,16 @@
 </body>
 <script type="text/javascript">
     //@ sourceURL=test.js
-    $(document).ready(function () {
+    $(function () {
+        $("visitUrl").keypress(function (event) {
+            if (event.keyCode == 13) {
+                visitByProxy();
+            }
+        });
+        $("#visit-btn").unbind("click").click(function () {
+            visitByProxy();
+        });
+
         $("#htmlText").keypress(function (event) {
             if (event.keyCode == 13) {
                 htmlToProxy();
@@ -36,6 +57,24 @@
             htmlToProxy();
         });
     });
+
+    function visitByProxy() {
+        var paramData = {};
+        var url = $("#visitUrl").val();
+        paramData.url = url;
+        $.ajax({
+            type: "post",
+            url: "/proxy/visitByProxy",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                $("#proxyText").val(resultDate.result);
+            },
+            error: function () {
+                alert('访问出错~！')
+            }
+        });
+    }
 
     function htmlToProxy() {
         var paramData = {};
