@@ -1,4 +1,4 @@
-package com.vanadis;
+package com.vanadis.vap;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling//增加支持定时任务的注解
-@MapperScan("com.vanadis.model")
+@MapperScan("com.vanadis.vap.model")
 public class VapApplication {
 
 	public static void main(String[] args) {

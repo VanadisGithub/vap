@@ -1,4 +1,4 @@
-package com.vanadis.until;
+package com.vanadis.vap.until;
 
 import org.apache.http.HttpHost;
 import org.jsoup.Jsoup;
@@ -14,11 +14,11 @@ import java.util.concurrent.Callable;
 
 public class ProxyUtils {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(ProxyUtils.class);
+    public static final Logger log = LoggerFactory.getLogger(ProxyUtils.class);
 
-    public static List<HttpHost> Proxys = new ArrayList<HttpHost>();
-    public static int size = 0;
-    static Random rand = new Random();
+    private static List<HttpHost> Proxys = new ArrayList<HttpHost>();
+    private static int size;
+    private static Random rand = new Random();
 
     static {
         Proxys.add(new HttpHost("113.99.218.102", 9797));

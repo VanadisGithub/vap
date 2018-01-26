@@ -1,4 +1,4 @@
-package com.vanadis.model;
+package com.vanadis.vap.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,8 +1,8 @@
-package com.vanadis.controller;
+package com.vanadis.vap.controller;
 
-import com.vanadis.model.User;
-import com.vanadis.model.UserMapper;
-import com.vanadis.until.HttpUtil;
+import com.vanadis.vap.model.User;
+import com.vanadis.vap.model.UserMapper;
+import com.vanadis.vap.until.HttpUtil;
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

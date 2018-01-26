@@ -1,4 +1,4 @@
-package com.vanadis.vap;
+package com.vanadis.vap.vap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

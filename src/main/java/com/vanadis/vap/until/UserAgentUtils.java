@@ -1,17 +1,11 @@
-package com.vanadis.until;
+package com.vanadis.vap.until;
 
-import org.apache.http.HttpHost;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.tomcat.jni.OS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.plugin2.gluegen.runtime.CPU;
-import sun.plugin2.os.windows.Windows;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
 
 public class UserAgentUtils {
 

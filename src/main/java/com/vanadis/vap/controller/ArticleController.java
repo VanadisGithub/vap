@@ -1,6 +1,6 @@
-package com.vanadis.controller;
+package com.vanadis.vap.controller;
 
-import com.vanadis.model.UserMapper;
+import com.vanadis.vap.model.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

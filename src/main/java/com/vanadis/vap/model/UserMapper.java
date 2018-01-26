@@ -1,4 +1,4 @@
-package com.vanadis.model;
+package com.vanadis.vap.model;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.vanadis.controller;
+package com.vanadis.vap.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
