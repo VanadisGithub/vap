@@ -47,6 +47,10 @@ public class HttpUtil {
                 post.setEntity(entity);
             }
 
+            //默认添加请求头
+            post.addHeader("user-agent", UserAgentUtils.getUserAgent());
+
+
             if (headerMap != null) {
                 for (String key : headerMap.keySet()) {
                     post.setHeader(key, String.valueOf(headerMap.get(key)));
@@ -57,7 +61,6 @@ public class HttpUtil {
                 RequestConfig requestConfig = RequestConfig.copy(baseRequestConfig).setProxy(proxy).build();
                 post.setConfig(requestConfig);
             }
-            ;
 
             HttpResponse response = httpClient.execute(post);
 
@@ -91,6 +94,9 @@ public class HttpUtil {
                     get.setHeader(key, String.valueOf(headerMap.get(key)));
                 }
             }
+
+            //默认添加请求头
+            get.addHeader("user-agent", UserAgentUtils.getUserAgent());
 
             if (proxy != null) {
                 RequestConfig requestConfig = RequestConfig.copy(baseRequestConfig).setProxy(proxy).build();

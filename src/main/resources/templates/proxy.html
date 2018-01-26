@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP-Until</title>
+</head>
+<body>
+<style type="text/css">
+    textarea {
+        min-width: 800px;
+        min-height: 800px;
+    }
+</style>
+
+<div th:replace="common/head :: head"></div>
+
+<div style="margin:70px;">
+    <form class="form-inline">
+        <label class="control-label" for="htmlText">页面：</label>
+        <textarea id="htmlText" class="form-control" type="text"></textarea>
+        <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
+        <textarea id="proxyText" class="form-control" type="text"></textarea>
+    </form>
+</div>
+
+</body>
+<script type="text/javascript">
+    //@ sourceURL=test.js
+    $(document).ready(function () {
+        $("#htmlText").keypress(function (event) {
+            if (event.keyCode == 13) {
+                htmlToProxy();
+            }
+        });
+        $("#switch-btn").unbind("click").click(function () {
+            htmlToProxy();
+        });
+    });
+
+    function htmlToProxy() {
+        var paramData = {};
+        var html = $("#htmlText").val();
+        paramData.html = html;
+        $.ajax({
+            type: "post",
+            url: "/proxy/htmlToProxy",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                $("#proxyText").val(resultDate.result);
+            },
+            error: function () {
+                alert('访问出错~！')
+            }
+        })
+    }
+</script>
+</html>

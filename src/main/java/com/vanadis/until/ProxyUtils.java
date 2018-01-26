@@ -63,25 +63,6 @@ public class ProxyUtils {
         return Proxys.get(rand.nextInt(size));
     }
 
-    public static class TaskCallable implements Callable<String> {
-
-        private String ip;
-        private int port;
-
-        public TaskCallable(String ip, int port) {
-            this.ip = ip;
-            this.port = port;
-        }
-
-        @Override
-        public String call() {
-            String url = "http://www.baidu.com";
-            HttpHost proxy = new HttpHost(this.ip, this.port);
-            String resultStr = HttpUtil.doGet(url, null, proxy);
-            return resultStr;
-        }
-    }
-
     public static class DoGetWithProxy implements Callable<String> {
 
         private String url;
@@ -96,6 +77,26 @@ public class ProxyUtils {
         public String call() {
             String resultStr = HttpUtil.doGet(url, null, proxy);
             return resultStr;
+        }
+    }
+
+    public static class TestProxy implements Callable<HttpHost> {
+
+        private String url;
+        private HttpHost proxy;
+
+        public TestProxy(String url, HttpHost proxy) {
+            this.url = url;
+            this.proxy = proxy;
+        }
+
+        @Override
+        public HttpHost call() {
+            String resultStr = HttpUtil.doGet(url, null, proxy);
+            if (resultStr != null) {
+                return proxy;
+            }
+            return null;
         }
     }
 
