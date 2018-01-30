@@ -243,7 +243,7 @@ public class ProxyUtils {
 
         @Override
         public HttpHost call() {
-            String resultStr = HttpUtil.doGet(url, null, proxy);
+            String resultStr = HttpUtils.doGet(url, null, proxy);
             if (resultStr != null) {
                 return proxy;
             }
@@ -264,7 +264,7 @@ public class ProxyUtils {
                     url += page;
                 }
 
-                String html = HttpUtil.doGet(url, null, getProxy());
+                String html = HttpUtils.doGet(url, null, getProxy());
                 Document doc = Jsoup.parse(html);
                 Elements trs = doc.select("tr");
 

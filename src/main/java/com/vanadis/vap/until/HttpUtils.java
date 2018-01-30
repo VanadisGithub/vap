@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-public class HttpUtil {
+public class HttpUtils {
 
-    private static Logger log = Logger.getLogger(HttpUtil.class);
+    private static Logger log = Logger.getLogger(HttpUtils.class);
 
     public static String UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.9.2.1000 Chrome/39.0.2146.0 Safari/537.36";
 

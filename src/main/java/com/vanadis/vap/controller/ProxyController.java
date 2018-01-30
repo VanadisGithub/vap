@@ -1,6 +1,6 @@
 package com.vanadis.vap.controller;
 
-import com.vanadis.vap.until.HttpUtil;
+import com.vanadis.vap.until.HttpUtils;
 import com.vanadis.vap.until.ProxyUtils;
 import org.apache.http.HttpHost;
 import org.jsoup.Jsoup;
@@ -92,7 +92,7 @@ public class ProxyController extends BaseController {
 
         @Override
         public String call() {
-            String resultStr = HttpUtil.doGet(url, null, proxy);
+            String resultStr = HttpUtils.doGet(url, null, proxy);
             return resultStr;
         }
     }

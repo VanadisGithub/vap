@@ -3,7 +3,7 @@ package com.vanadis.vap.until;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexUtil {
+public class RegexUtils {
     // 正则匹配
     public static String getSubUtilSimple(String soap, String rgex) {
         Pattern pattern = Pattern.compile(rgex);// 匹配的模式
