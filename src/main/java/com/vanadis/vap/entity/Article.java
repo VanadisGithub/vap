@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity(name = "blog")
-public class Blog implements Serializable {
+public class Article implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -22,7 +22,7 @@ public class Blog implements Serializable {
     @Column()
     private Long updateTime;
 
-    public Blog() {
+    public Article() {
         super();
     }
 

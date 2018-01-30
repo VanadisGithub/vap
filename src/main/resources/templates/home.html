@@ -32,6 +32,13 @@
         font-size: 48px;
         font-family: Cutive;
     }
+
+    .talk-input {
+        margin-left: 30%;
+        max-width: 40%;
+        position: absolute;
+        top: 90%;
+    }
 </style>
 
 <body>
@@ -42,6 +49,7 @@
         <div class="words">- <span id="First"></span></div>
         <div class="words" style="display: none">- <span id="Second"></span></div>
     </div>
+    <input type="text" class="form-control talk-input" placeholder="也许你想说点什么..." style="display: none"/>
 </div>
 
 <script type="text/javascript">
@@ -49,10 +57,11 @@
         var theater = new TheaterJS();
         theater
             .describe("First", 0.8, "#First")
-            .describe("Second", 0.6, "#Second");
+            .describe("Second", 0.8, "#Second");
         theater
             .write("First:Welcome to my blog !", -6, "web !", 400, showSeconde)
-            .write("Second:喜欢，就点波关注呗？！", -11, "算了，我也没做关注 . . .", 400)
+            .write("Second:喜欢，就点波关注呗？！", 400)
+            .write("Second:算了，你还是敲回车吧 . . .", 400)
             .write(function () {
                 theater.play(false);//是否循环
             });
@@ -60,6 +69,41 @@
         function showSeconde() {
             $("#Second").parent().show();
         }
+
+        document.onkeydown = function (e) {
+            var ev = document.all ? window.event : e;
+            if (ev.keyCode == 13) {
+                $('.talk-input').show();
+                $('.talk-input').focus();
+                $("#Second").parent().hide();
+            }
+        }
+
+        $(".talk-input").keypress(function (event) {
+            if (event.keyCode == 13) {
+                var paramData = {};
+                paramData.info = $(this).val();
+                paramData.key = 'be83ffb9321944b1affc3a179ef15eee';
+                paramData.userId = 123;
+                $.ajax({
+                    type: "post",
+                    url: "http://www.tuling123.com/openapi/api",
+                    data: paramData,
+                    dataType: "json",
+                    success: function (resultDate) {
+                        theater
+                            .write("First:" + resultDate.text, 400)
+                            .write(function () {
+                                theater.play(false);//是否循环
+                            });
+                    },
+                    error: function () {
+                        alert('访问出错~！');
+                    }
+                })
+            }
+        });
+
     });
 </script>
 

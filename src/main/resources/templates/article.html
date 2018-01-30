@@ -9,7 +9,61 @@
 
 <nav th:replace="common/head :: head"></nav>
 <div class="container-fluid" style="margin-top: 70px;">
-    <div class="col-md-9">
+    <div class="col-md-3" style="width: 19.1%">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                推荐新闻
+            </div>
+            <div class="panel-body">
+                <strong class="panel-title">
+                    <a href="#">这里是新闻列表</a>
+                </strong>
+                <p>
+                    这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要这里是新闻内容摘要
+                </p>
+            </div>
+        </div>
+
+        <!-- 热点新闻侧边栏 -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                热点新闻
+                <a href="#" class="text-muted pull-right">>></a>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" style="border: 0;">
+                    <a href="#" class="text-muted">新闻标题列表</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 多媒体 -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                推荐视频
+                <a href="#" class="text-muted pull-right">>></a>
+            </div>
+            <ul class="media-list" style="margin: 5px;">
+                <li>
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="img/me.png" style="width: 50px;height: 50px;" class="media-object"/>
+                        </div>
+                        <div class="media-body">
+                            <strong class="media-heading">这是视频的标题</strong>
+                            <p>多媒体列表项介绍</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 广告位 -->
+        <a href="#">
+            <img src="img/1.png" style="width: 100%;height: 100px;"/>
+        </a>
+    </div>
+    <div class="col-md-9" style="width: 61.8%">
         <div class="list-group">
             <div class="list-group-item" style="border: 0;">
                 <a href="#"><h4>这是标题部分</h4></a>
@@ -43,7 +97,7 @@
         </div>
     </div>
     <!-- 侧边栏 -->
-    <div class="col-md-3">
+    <div class="col-md-3" style="width: 19.1%">
         <div class="panel panel-default">
             <div class="panel-heading">
                 推荐新闻
