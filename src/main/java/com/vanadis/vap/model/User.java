@@ -32,8 +32,7 @@ public class User extends BaseModel implements Serializable {
         this.email = email;
         this.nickName = nickName;
         this.registerTime = registerTime;
-        this.createTs = System.currentTimeMillis();
-        this.updateTs = System.currentTimeMillis();
+        this.createTs = this.updateTs = System.currentTimeMillis();
     }
 
     public Long getUserId() {

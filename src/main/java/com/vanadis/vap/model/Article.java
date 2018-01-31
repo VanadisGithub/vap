@@ -1,4 +1,4 @@
-package com.vanadis.vap.entity;
+package com.vanadis.vap.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

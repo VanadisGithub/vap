@@ -14,6 +14,10 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -122,5 +126,28 @@ public class HttpUtils {
             }
         }
         return null;
+    }
+
+    public static InputStream getInputStream(String urlStr) {
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
+        try {
+            URL url = new URL(urlStr);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            // 设置网络连接超时时间
+            httpURLConnection.setConnectTimeout(3000);
+            // 设置应用程序要从网络连接读取数据
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.setRequestMethod("GET");
+            int responseCode = httpURLConnection.getResponseCode();
+            if (responseCode == 200) {
+                inputStream = httpURLConnection.getInputStream();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
     }
 }

@@ -35,6 +35,26 @@ var Utils = {
     //判断值是否为undefined或者null或者为空
     isUfOrNullOrEmpty: function (val) {
         return val == null || val == 'undefined' || val == "";
+    },
+
+    //复制到粘贴板
+    copyToClipboard: function (str) {
+        var save = function (e) {
+            e.clipboardData.setData('text/plain', str);//下面会说到clipboardData对象
+            e.preventDefault();//阻止默认行为
+        }
+        document.addEventListener('copy', save);
+        document.execCommand("copy");//使文档处于可编辑状态，否则无效
+    },
+
+    isNumber: function (val) {
+        var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+        if (regPos.test(val) || regNeg.test(val)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

@@ -43,7 +43,8 @@
         if (dateStr == 'Invalid Date') {
             dateStr = '无效的时间戳';
         }
-        $('#date').val(dateStr)
+        $('#date').val(dateStr);
+        Utils.copyToClipboard(dateStr);
     }
 </script>
 </html>

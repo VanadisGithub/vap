@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP-Until</title>
+</head>
+<body>
+
+<div th:replace="common/head :: head"></div>
+
+<table>
+    <thead>
+    <input id="url" class="form-control" type="text">
+    <span id="add-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">添加</span>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $("#add-btn").unbind("click").click(function () {
+            addBookmark();
+        });
+    });
+
+    function addBookmark() {
+        var paramData = {};
+        paramData.url = $('#url').val();
+        $.ajax({
+            type: "post",
+            url: "/collection/addBookmark",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                alert(resultDate);
+            },
+            error: function () {
+                alert('访问出错~！')
+            }
+        })
+    }
+</script>
+</html>

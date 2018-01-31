@@ -25,16 +25,10 @@ public class HomeController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping("util")
-    public ModelAndView untils() {
-        ModelAndView modelAndView = new ModelAndView("/util");
-        return modelAndView;
-    }
-
     @RequestMapping("utils")
-    public String untils(HttpServletRequest request, @RequestParam(value = "name", required = false, defaultValue = "springboot-thymeleaf") String name) {
-        request.setAttribute("foot", "foot");
-        return "/util";
+    public ModelAndView untils() {
+        ModelAndView modelAndView = new ModelAndView("/utils");
+        return modelAndView;
     }
 
     @RequestMapping("getUser")
