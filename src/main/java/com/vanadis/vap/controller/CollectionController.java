@@ -3,6 +3,7 @@ package com.vanadis.vap.controller;
 import com.vanadis.vap.model.Bookmark;
 import com.vanadis.vap.model.BookmarkMapper;
 import com.vanadis.vap.until.HttpUtils;
+import com.vanadis.vap.until.RegexUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,26 +19,31 @@ import java.util.List;
 public class CollectionController extends BaseController {
 
     @Autowired
-    private static BookmarkMapper bookmarkMapper;
+    private BookmarkMapper bookmarkMapper;
 
     @RequestMapping("myCollection")
-    public static ModelAndView getUrlIcon() {
+    public ModelAndView myCollection() {
         ModelAndView modelAndView = new ModelAndView("/myCollection");
         List<Bookmark> bookmarks = bookmarkMapper.getList(1L);
-        modelAndView.addObject(bookmarks);
+        modelAndView.addObject("bookmarks", bookmarks);
         return modelAndView;
     }
 
     @RequestMapping("addBookmark")
-    public static boolean addBookmark(String url) {
-        Bookmark bookmark = new Bookmark(url, "", "", 1L);
+    public boolean addBookmark(String url) {
+        String html = HttpUtils.doGet(url, null, null);
+        String regx = "<title>(.*?)</title>";
+        String urlName = RegexUtils.getSubUtilSimple(html, regx);
+        String urlHost = RegexUtils.getHost(url);
+        Bookmark bookmark = new Bookmark(url, urlHost, urlName, 0, 0, 1L);
+        getUrlIcon(urlHost);
         return bookmarkMapper.insert(bookmark);
     }
 
     @RequestMapping("getUrlIcon")
-    public static String getUrlIcon(String url) {
-        String api = "http://statics.dnspod.cn/proxy_favicon/_/favicon?domain=" + url;
-        String path = "src/main/resources/static/myCollection/" + url + ".png";
+    public static String getUrlIcon(String urlHost) {
+        String api = "http://statics.dnspod.cn/proxy_favicon/_/favicon?domain=" + urlHost;
+        String path = "src/main/resources/static/myCollection/" + urlHost + ".png";
         InputStream inputStream = HttpUtils.getInputStream(api);
         byte[] data = new byte[1024];
         int len = 0;

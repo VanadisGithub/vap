@@ -13,7 +13,7 @@ public interface BookmarkMapper {
     @Select("SELECT * FROM bookmark WHERE user_id = #{userId}")
     List<Bookmark> getList(Long userId);
 
-    @Insert("INSERT INTO bookmark(url,tag,group,user_id,create_ts,update_ts) VALUES(#{url}, #{tag}, #{userId},#{createTs}, #{updateTs})")
+    @Insert("INSERT INTO bookmark(url,url_host,url_name,tag,url_group,user_id,create_ts,update_ts) VALUES(#{url}, #{urlHost}, #{urlName}, #{tag}, #{urlGroup}, #{userId},#{createTs}, #{updateTs})")
     boolean insert(Bookmark bookmark);
 
     @Delete("DELETE FROM bookmark WHERE user_id =#{userId}")

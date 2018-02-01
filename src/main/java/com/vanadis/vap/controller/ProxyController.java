@@ -32,26 +32,26 @@ public class ProxyController extends BaseController {
         ExecutorService executorService = Executors.newCachedThreadPool();
         ArrayList<Future<String>> resultList = new ArrayList<>();
 
-        List<HttpHost> proxys = ProxyUtils.getXiCiProxys();
+        List<HttpHost> proxys = ProxyUtils.getXiCiProxys(url);
         for (HttpHost proxy : proxys) {
-            executorService.submit(new DoGetWithProxy(url, proxy));
+//            executorService.submit(new DoGetWithProxy(url, proxy));
         }
         int num = 0;
-        for (Future<String> fs : resultList) {
-            try {
-                while (!fs.isDone()) ;
-                if (fs.get() != null) {
-                    num++;
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } finally {
-                //启动一次顺序关闭，执行以前提交的任务，但不接受新任务
-                executorService.shutdown();
-            }
-        }
+//        for (Future<String> fs : resultList) {
+//            try {
+//                while (!fs.isDone()) ;
+//                if (fs.get() != null) {
+//                    num++;
+//                }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            } finally {
+//                //启动一次顺序关闭，执行以前提交的任务，但不接受新任务
+//                executorService.shutdown();
+//            }
+//        }
         return num;
     }
 
@@ -78,23 +78,6 @@ public class ProxyController extends BaseController {
     @RequestMapping("test")
     public String test() {
         return null;
-    }
-
-    public static class DoGetWithProxy implements Callable<String> {
-
-        private String url;
-        private HttpHost proxy;
-
-        public DoGetWithProxy(String url, HttpHost proxy) {
-            this.url = url;
-            this.proxy = proxy;
-        }
-
-        @Override
-        public String call() {
-            String resultStr = HttpUtils.doGet(url, null, proxy);
-            return resultStr;
-        }
     }
 
 }

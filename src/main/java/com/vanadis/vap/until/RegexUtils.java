@@ -4,6 +4,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexUtils {
+
+    public static String getHost(String url) {
+        Pattern p = Pattern.compile("(http://|https://)?([^/]*)", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(url);
+        return m.find() ? m.group(2) : url;
+    }
+
     // 正则匹配
     public static String getSubUtilSimple(String soap, String rgex) {
         Pattern pattern = Pattern.compile(rgex);// 匹配的模式

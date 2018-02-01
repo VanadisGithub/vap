@@ -30,10 +30,11 @@
     <form class="form-inline">
         <input id="url" class="form-control" type="text">
         <span id="add-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">添加</span>
+        <span id="test-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">测试</span>
     </form>
-    <div>
-        <div class="icon-div" th:each="bookmark : ${bookmarks}"
-             th:onclick="'window.open(\'' + ${bookmark.url} + '\')'">
+    <div class="box" style="position:relative;">
+        <div class="icon-div" th:each="bookmark,iterStat : ${bookmarks}"
+             th:attr="style='position:absolute;left:'+${600-iterStat.index*20}+'px; top:' + ${iterStat.index*30}+'px;z-index: ' + ${iterStat.index} +';'">
             <div>
                 <img class="icon-img" th:attr="src=@{/myCollection/{urlHost}.png(urlHost=${bookmark.urlHost})}"
                      onerror="this.src='/favicon.ico'"/>
@@ -49,8 +50,23 @@
 
     $(function () {
         $(".icon-div").draggable();
+        $(".icon-div").unbind("dblclick").dblclick(function () {
+            changeZindex(this);
+        });
         $("#add-btn").unbind("click").click(function () {
             addBookmark();
+        });
+        $("#test-btn").unbind("click").click(function () {
+            for (var i = 0; i < 120; i++) {
+                $('.box').append('<div class="icon-div" style="position:absolute;left:' + (600 - i * 20) + 'px; top:' + (i * 20) + 'px;z-index: ' + i + ';\'">' +
+                    '            <div>' +
+                    '            </div>' +
+                    '            <div>urlName</div>' +
+                    '            <div>url</div>' +
+                    '        </div>'
+                )
+            }
+            $(".icon-div").draggable();
         });
     });
 
@@ -69,6 +85,17 @@
                 alert('访问出错~！')
             }
         })
+    }
+
+    function changeZindex(obj) {
+        var divs = $(".icon-div");
+        var maxNum = 0;
+        for (var i = 0; i < divs.length; i++) {
+            var tempNum = divs[i].style.zIndex;
+            tempNum = (tempNum) ? parseInt(tempNum) : 0;
+            if (tempNum > maxNum) maxNum = tempNum;
+        }
+        obj.style.zIndex = maxNum + 1;
     }
 </script>
 </html>

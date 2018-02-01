@@ -20,6 +20,7 @@ public class Blog implements Serializable {
     private String email;
     @Column(nullable = true, unique = true)
     private int clickNum;
+    @Column
     private String regTime;
 
     public Blog() {

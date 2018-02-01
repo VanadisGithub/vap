@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-@Entity(name = "user")
+@Entity(name = "bookmark")
 public class Bookmark extends BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -17,9 +17,13 @@ public class Bookmark extends BaseModel implements Serializable {
     @Column
     private String url;
     @Column
-    private String tag;
+    private String urlHost;
     @Column
-    private String group;
+    private String urlName;
+    @Column
+    private int tag;
+    @Column
+    private int urlGroup;
     @Column
     public Long userId;
 
@@ -27,10 +31,12 @@ public class Bookmark extends BaseModel implements Serializable {
         super();
     }
 
-    public Bookmark(String url, String tag, String group, Long userId) {
+    public Bookmark(String url, String urlHost, String urlName, int tag, int urlGroup, Long userId) {
         this.url = url;
+        this.urlHost = urlHost;
+        this.urlName = urlName;
         this.tag = tag;
-        this.group = group;
+        this.urlGroup = urlGroup;
         this.userId = userId;
         this.createTs = this.updateTs = System.currentTimeMillis();
     }
@@ -59,19 +65,35 @@ public class Bookmark extends BaseModel implements Serializable {
         this.url = url;
     }
 
-    public String getTag() {
+    public String getUrlHost() {
+        return urlHost;
+    }
+
+    public void setUrlHost(String urlHost) {
+        this.urlHost = urlHost;
+    }
+
+    public String getUrlName() {
+        return urlName;
+    }
+
+    public void setUrlName(String urlName) {
+        this.urlName = urlName;
+    }
+
+    public int getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(int tag) {
         this.tag = tag;
     }
 
-    public String getGroup() {
-        return group;
+    public int getUrlGroup() {
+        return urlGroup;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setUrlGroup(int urlGroup) {
+        this.urlGroup = urlGroup;
     }
 }
