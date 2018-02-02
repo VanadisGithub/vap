@@ -2,15 +2,13 @@ package com.vanadis.vap.controller;
 
 import com.vanadis.vap.model.User;
 import com.vanadis.vap.model.UserMapper;
+import com.vanadis.vap.action.AutoCodeAction;
 import com.vanadis.vap.until.HttpUtils;
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("")
@@ -32,13 +30,13 @@ public class HomeController extends BaseController {
     }
 
     @RequestMapping("getUser")
-    public User getUser() throws Exception {
+    public User getUser() {
         User user = userMapper.getLastOne();
         return user;
     }
 
     @RequestMapping("post")
-    public String doPost() throws Exception {
+    public String doPost() {
 
         String url = "http://www.baidu.com";
 
@@ -47,6 +45,11 @@ public class HomeController extends BaseController {
         String resultStr = HttpUtils.doGet(url, null, proxy);
 
         return resultStr;
+    }
+
+    @RequestMapping("test")
+    public void test() {
+        AutoCodeAction.autoCode();
     }
 
 }

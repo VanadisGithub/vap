@@ -31,6 +31,7 @@
         <input id="url" class="form-control" type="text">
         <span id="add-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">添加</span>
         <span id="test-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">测试</span>
+        <span id="hide-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">隐藏</span>
     </form>
     <div class="box" style="position:relative;">
         <div class="icon-div" th:each="bookmark,iterStat : ${bookmarks}"
@@ -50,11 +51,17 @@
 
     $(function () {
         $(".icon-div").draggable();
-        $(".icon-div").unbind("dblclick").dblclick(function () {
+        $(".icon-div").unbind("click").click(function () {
             changeZindex(this);
+        });
+        $(".icon-div").unbind("dblclick").dblclick(function () {
+            runEffect(this);
         });
         $("#add-btn").unbind("click").click(function () {
             addBookmark();
+        });
+        $("#hide-btn").unbind("click").click(function () {
+            $(".icon-div").slideUp();
         });
         $("#test-btn").unbind("click").click(function () {
             for (var i = 0; i < 120; i++) {
@@ -96,6 +103,24 @@
             if (tempNum > maxNum) maxNum = tempNum;
         }
         obj.style.zIndex = maxNum + 1;
+    }
+
+    function runEffect(obj) {
+        // 从中获取特效类型
+        var selectedEffect = 'fold';
+
+        // 大多数的特效类型默认不需要传递选项
+        var options = {};
+        // 一些特效带有必需的参数
+        if (selectedEffect === "scale") {
+            options = {percent: 0};
+        } else if (selectedEffect === "size") {
+            options = {to: {width: 200, height: 60}};
+        }
+
+        // 运行特效
+        $(".icon-div").toggle(selectedEffect, options, 500);
+
     }
 </script>
 </html>

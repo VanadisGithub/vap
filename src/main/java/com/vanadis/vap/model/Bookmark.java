@@ -2,8 +2,6 @@ package com.vanadis.vap.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity(name = "bookmark")
@@ -11,9 +9,6 @@ public class Bookmark extends BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue
-    public Long id;
     @Column
     private String url;
     @Column
@@ -25,7 +20,7 @@ public class Bookmark extends BaseModel implements Serializable {
     @Column
     private int urlGroup;
     @Column
-    public Long userId;
+    private Long userId;
 
     public Bookmark() {
         super();
@@ -38,16 +33,8 @@ public class Bookmark extends BaseModel implements Serializable {
         this.tag = tag;
         this.urlGroup = urlGroup;
         this.userId = userId;
-        this.createTs = this.updateTs = System.currentTimeMillis();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUserId() {
         return userId;
@@ -63,14 +50,6 @@ public class Bookmark extends BaseModel implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getUrlHost() {
-        return urlHost;
-    }
-
-    public void setUrlHost(String urlHost) {
-        this.urlHost = urlHost;
     }
 
     public String getUrlName() {

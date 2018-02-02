@@ -8,9 +8,6 @@ public class User extends BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue
-    public Long userId;
     @Column
     private String userName;
     @Column
@@ -33,14 +30,6 @@ public class User extends BaseModel implements Serializable {
         this.nickName = nickName;
         this.registerTime = registerTime;
         this.createTs = this.updateTs = System.currentTimeMillis();
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getUserName() {

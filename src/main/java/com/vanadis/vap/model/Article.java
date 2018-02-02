@@ -9,21 +9,24 @@ import java.io.Serializable;
 @Entity(name = "blog")
 public class Article implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
     @Column(unique = true)
     private String title;
-    @Column(nullable = false)
+    @Column(unique = true)
     private String content;
-    @Column()
-    private Long createTime;
-    @Column()
-    private Long updateTime;
+    @Column(nullable = true, unique = true)
+    private String email;
+    @Column(nullable = true, unique = true)
+    private int clickNum;
+    @Column
+    private String regTime;
 
     public Article() {
         super();
     }
+
+
 
 }
