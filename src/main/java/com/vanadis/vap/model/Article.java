@@ -6,27 +6,67 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-@Entity(name = "blog")
-public class Article implements Serializable {
+@Entity(name = "article")
+    public class Article extends BaseModel implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-    @Column(unique = true)
-    private String title;
-    @Column(unique = true)
-    private String content;
-    @Column(nullable = true, unique = true)
-    private String email;
-    @Column(nullable = true, unique = true)
-    private int clickNum;
     @Column
-    private String regTime;
+    private String title;
+    @Column
+    private String content;
+    @Column
+    private Long userId;
+    @Column
+    private int articleGroup;
+    @Column
+    private int tag;
+    @Column
+    private int clickNum;
 
-    public Article() {
-        super();
+    public String getTitle() {
+        return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public String getContent() {
+        return content;
+    }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public int getArticleGroup() {
+        return articleGroup;
+    }
+
+    public void setArticleGroup(int articleGroup) {
+        this.articleGroup = articleGroup;
+    }
+
+    public int getTag() {
+        return tag;
+    }
+
+    public void setTag(int tag) {
+        this.tag = tag;
+    }
+
+    public int getClickNum() {
+        return clickNum;
+    }
+
+    public void setClickNum(int clickNum) {
+        this.clickNum = clickNum;
+    }
 }

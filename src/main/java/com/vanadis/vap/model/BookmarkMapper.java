@@ -16,7 +16,7 @@ public interface BookmarkMapper {
     @Insert("INSERT INTO bookmark(url,url_host,url_name,tag,url_group,user_id,create_ts,update_ts) VALUES(#{url}, #{urlHost}, #{urlName}, #{tag}, #{urlGroup}, #{userId},#{createTs}, #{updateTs})")
     boolean insert(Bookmark bookmark);
 
-    @Delete("DELETE FROM bookmark WHERE user_id =#{userId}")
+    @Delete("DELETE FROM bookmark WHERE id =#{id}")
     boolean delete(Long id);
 
 }

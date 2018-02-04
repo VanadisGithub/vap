@@ -20,7 +20,7 @@
         padding-top: 50px;
     }
 
-    .myWord {
+    .word-box {
         margin-left: 30%;
         position: absolute;
         top: 50%;
@@ -30,6 +30,7 @@
     .words {
         color: #ededed;
         font-size: 48px;
+        /*font-family: 华文新魏;*/
         font-family: Cutive;
     }
 
@@ -45,7 +46,7 @@
 
 <nav th:replace="common/head :: head"></nav>
 <div class="myHome">
-    <div class="myWord">
+    <div class="word-box">
         <div class="words">- <span id="First"></span></div>
         <div class="words" style="display: none">- <span id="Second"></span></div>
     </div>
@@ -59,9 +60,13 @@
             .describe("First", 0.8, "#First")
             .describe("Second", 0.8, "#Second");
         theater
-            .write("First:Welcome to my blog !", -6, "web !", 400, showSeconde)
-            .write("Second:喜欢，就点波关注呗？！", 400)
-            .write("Second:算了，你还是敲回车吧 . . .", 400)
+            .write("First:嗨！兄弟，江湖在哪里？", 400, showSeconde)
+            .write("Second:我指给你看 . . .", 400)
+            .write("Second:算了，你还是自己看吧", 400, function () {
+                $('.talk-input').show();
+                $('.talk-input').focus();
+                $("#Second").parent().hide();
+            })
             .write(function () {
                 theater.play(false);//是否循环
             });

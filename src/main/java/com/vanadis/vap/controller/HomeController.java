@@ -24,7 +24,7 @@ public class HomeController extends BaseController {
     }
 
     @RequestMapping("utils")
-    public ModelAndView untils() {
+    public ModelAndView utils() {
         ModelAndView modelAndView = new ModelAndView("/utils");
         return modelAndView;
     }

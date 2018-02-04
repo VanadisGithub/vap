@@ -70,7 +70,7 @@ public class AutoCodeAction {
     private static Map<String, Object> createDataModel() {
         Map<String, Object> root = new HashMap<String, Object>();
         Entity user = new Entity();
-        user.setJavaPackage("com.vanadis.vap.model"); // 创建包名
+        user.setPackageName("com.vanadis.vap.model"); // 创建包名
         user.setClassName("Users");  // 创建类名
         user.setConstructors(true); // 是否创建构造函数
         // user.setSuperclass("person");
@@ -108,7 +108,7 @@ public class AutoCodeAction {
             outDirFile.mkdir();
         }
 
-        javaFile = toJavaFilename(outDirFile, user.getJavaPackage(), user.getClassName());
+        javaFile = toJavaFilename(outDirFile, user.getPackageName(), user.getClassName());
 
         root.put("entity", user);
         return root;
@@ -137,11 +137,11 @@ public class AutoCodeAction {
      */
     public static class Entity {
         // 实体所在的包名
-        private String javaPackage;
+        private String packageName;
         // 实体类名
         private String className;
         // 父类名
-        private String superclass;
+        private String superClassName;
         // 接口
         private String implementsList;
         // 属性集合
@@ -149,12 +149,12 @@ public class AutoCodeAction {
         // 是否有构造函数
         private boolean constructors;
 
-        public String getJavaPackage() {
-            return javaPackage;
+        public String getPackageName() {
+            return packageName;
         }
 
-        public void setJavaPackage(String javaPackage) {
-            this.javaPackage = javaPackage;
+        public void setPackageName(String packageName) {
+            this.packageName = packageName;
         }
 
         public String getClassName() {
@@ -165,12 +165,12 @@ public class AutoCodeAction {
             this.className = className;
         }
 
-        public String getSuperclass() {
-            return superclass;
+        public String getSuperClassName() {
+            return superClassName;
         }
 
-        public void setSuperclass(String superclass) {
-            this.superclass = superclass;
+        public void setSuperClassName(String superClassName) {
+            this.superClassName = superClassName;
         }
 
         public String getImplementsList() {
@@ -196,7 +196,6 @@ public class AutoCodeAction {
         public void setConstructors(boolean constructors) {
             this.constructors = constructors;
         }
-
     }
 
     /**

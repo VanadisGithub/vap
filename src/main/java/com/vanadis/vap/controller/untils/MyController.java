@@ -1,5 +1,6 @@
-package com.vanadis.vap.controller;
+package com.vanadis.vap.controller.untils;
 
+import com.vanadis.vap.controller.BaseController;
 import com.vanadis.vap.model.Bookmark;
 import com.vanadis.vap.model.BookmarkMapper;
 import com.vanadis.vap.until.HttpUtils;

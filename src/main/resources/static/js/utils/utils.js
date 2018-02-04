@@ -19,6 +19,19 @@ var Utils = {
         return ""
     },
 
+    //根据逗号分割
+    splitText: function (url) {
+        url = url.replace("，", ",");
+        var temp = url.split(/[\n]/g);
+        for (var i = 0; i < temp.length; i++) {
+            if (this.isUfOrNullOrEmpty(temp[i])) {
+                temp.splice(i, 1);
+                i--; //删除数组索引位置应保持不变
+            }
+        }
+        return temp;
+    },
+
     //根据逗号和换行分割
     splitUrl: function (url) {
         url = url.replace("，", ",");

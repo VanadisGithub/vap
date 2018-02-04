@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Map;
 
 public class HttpUtils {
@@ -36,14 +37,14 @@ public class HttpUtils {
             .setSocketTimeout(timeout)
             .build();
 
-    public static String doPost(String url, String entityStr, Map<String, Object> headerMap, HttpHost proxy) {
+    public static String doPost(String url, String dataStr, Map<String, Object> headerMap, HttpHost proxy) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         try {
             HttpPost post = new HttpPost(url);
 
-            if (!StringUtils.isNullOrEmpty(entityStr)) {
-                StringEntity entity = new StringEntity(entityStr, Charset.forName("utf-8"));
+            if (!StringUtils.isNullOrEmpty(dataStr)) {
+                StringEntity entity = new StringEntity(dataStr, Charset.forName("utf-8"));
                 entity.setContentEncoding("utf-8");
                 entity.setContentType("application/json");
                 post.setEntity(entity);
@@ -86,6 +87,50 @@ public class HttpUtils {
         return null;
     }
 
+    public static Map<String, Object> testPost(String url, String dataStr, Map<String, Object> headerMap) {
+        Map<String, Object> result = new HashMap<>();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
+        try {
+            HttpPost post = new HttpPost(url);
+
+            if (!StringUtils.isNullOrEmpty(dataStr)) {
+                StringEntity entity = new StringEntity(dataStr, Charset.forName("utf-8"));
+                entity.setContentEncoding("utf-8");
+                entity.setContentType("application/json");
+                post.setEntity(entity);
+            }
+
+            if (headerMap != null) {
+                for (String key : headerMap.keySet()) {
+                    post.setHeader(key, String.valueOf(headerMap.get(key)));
+                }
+            }
+
+            HttpResponse response = httpClient.execute(post);
+
+            int statusCode = response.getStatusLine().getStatusCode();
+
+            result.put("status", statusCode);
+
+            log.info("testPost:" + url + " " + statusCode);
+
+            if (statusCode == HttpStatus.SC_OK) {
+                String resultStr = EntityUtils.toString(response.getEntity(), "utf-8");
+                result.put("result", resultStr);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public static String doGet(String url, Map<String, Object> headerMap, HttpHost proxy) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
@@ -117,7 +162,6 @@ public class HttpUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         } finally {
             try {
                 httpClient.close();
@@ -126,6 +170,45 @@ public class HttpUtils {
             }
         }
         return null;
+    }
+
+    public static Map<String, Object> testGet(String url, Map<String, Object> headerMap) {
+        Map<String, Object> result = new HashMap<>();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpGet get = new HttpGet(url);
+
+            if (headerMap != null) {
+                for (String key : headerMap.keySet()) {
+                    get.setHeader(key, String.valueOf(headerMap.get(key)));
+                }
+            }
+
+            //默认添加请求头
+            get.addHeader("user-agent", UserAgentUtils.getUserAgent());
+
+            HttpResponse response = httpClient.execute(get);
+
+            int statusCode = response.getStatusLine().getStatusCode();
+
+            log.info("testGet:" + url + " " + statusCode);
+
+            result.put("status", statusCode);
+
+            if (statusCode == HttpStatus.SC_OK) {
+                String resultStr = EntityUtils.toString(response.getEntity(), "utf-8");
+                result.put("result", resultStr);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
     public static InputStream getInputStream(String urlStr) {
@@ -149,5 +232,31 @@ public class HttpUtils {
             e.printStackTrace();
         }
         return inputStream;
+    }
+
+    public class Httpheader {
+        private String header;
+        private String value;
+
+        public Httpheader(String header, String value) {
+            this.header = header;
+            this.value = value;
+        }
+
+        public String getHeader() {
+            return header;
+        }
+
+        public void setHeader(String header) {
+            this.header = header;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
     }
 }

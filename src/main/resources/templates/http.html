@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP</title>
+</head>
+
+<style>
+    .body {
+        background-color: #eee;
+    }
+
+    span {
+        font-weight: bolder;
+    }
+</style>
+<body class="body">
+
+<div th:replace="common/head :: head"></div>
+
+<div style="padding:70px 70px 0px">
+    <div class="row">
+        <div class="form-inline">
+            <select id="send-type" class="form-control">
+                <option value="post">Post</option>
+                <option value="get">Get</option>
+            </select>
+            <input id="url" class="form-control" placeholder="网址/URL" type="text" style="width:88%">
+            <span id="send-btn" class="btn btn-default">Send</span>
+            <!--<span id="header-btn" class="btn btn-default" data-toggle="modal"-->
+            <!--data-target="#headerDialog">Header</span>-->
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px">
+        <div style="width: 48%; float:left;">
+            <form>
+                <div class="form-group">
+                    <span style="font-size: 24px;font-weight: normal">Header：(跳过Content-Length)</span>
+                </div>
+                <div class="form-group">
+                    <textarea id="headerText" class="form-control" style="min-width: 100%;max-width: 100%;height: 300px"
+                              placeholder="可传如下格式：&#13;&#10;Accept:text/plain, */*; q=0.01&#13;&#10;Accept-Encoding:gzip, deflate&#13;&#10;Accept-Language:zh-CN,zh;q=0.9&#13;&#10;Connection:keep-alive"
+                    ></textarea>
+                </div>
+                <div class=" form-group">
+                    <span style="font-size: 24px;font-weight: normal">Data：</span>
+                </div>
+                <div class="form-group">
+                    <textarea id="bodyText" class="form-control" style="min-width: 100%;max-width: 100%;height: 100px"
+                              placeholder="可传如下格式：siteId=42482792&t=1517760016466"></textarea>
+                </div>
+                <!--<div id="header-box">-->
+                <!--<div class="header-div form-group">-->
+                <!--<div class="form-inline">-->
+                <!--<input class="header form-control" placeholder="header" type="text">-->
+                <!--<span>:</span>-->
+                <!--<input class="value form-control" placeholder="value" type="text">-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+            </form>
+        </div>
+        <div style="width: 48%; float:right;">
+            <div class="form-group">
+                <span style="font-size: 24px;font-weight: normal">Result：</span>
+                <span id="status"></span>
+            </div>
+            <div class="form-group">
+            <textarea id="resultText" class="form-control" style="min-width: 100%;max-width: 100%;height: 465px"
+                      placeholder=""></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="headerDialog" tabindex="-1" role="dialog" aria-labelledby="headerDialogLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="headerDialogLabel">
+                    header文本输入框
+                </h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <span class="btn btn-default" data-dismiss="modal">关闭
+                </span>
+                <span id="dialog-submit-btn" class="btn btn-primary">
+                    确定
+                </span>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $("#send-btn").click(function () {
+            send();
+        });
+
+        $(".header").change(function () {
+            var str = this.value;
+            if (str.indexOf(":") > 0) {
+                var arr = [str.split(":")[0], str.split(":").slice(1).join(":")];
+                this.value = arr[0];
+                $(this).parent().find(".value").val(arr[1]);
+            }
+        });
+        $("#dialog-submit-btn").click(function () {
+            var headers = Utils.splitText($("#headerText").val());
+            var endStr = $("#header-box").html();
+            $("#header-box").html("");
+            for (var i in headers) {
+                var str = headers[i];
+                var arr = [str.split(":")[0], str.split(":").slice(1).join(":")];
+                var html = '<div class="form-group">' +
+                    '                <div class="header-div form-inline">' +
+                    '                    <input value="' + arr[0] + '" class="header form-control" placeholder="header" type="text">' +
+                    '                    <span>:</span>' +
+                    '                    <input value="' + arr[1] + '" class="value form-control" placeholder="value" type="text">' +
+                    '                    <span type="button" class="btn btn-default">X</span></span>'
+                '                </div>' +
+                '            </div>';
+                $("#header-box").append(html);
+            }
+            $("#header-box").append(endStr);
+        });
+
+    });
+
+    function send() {
+        var paramData = {};
+        paramData.url = $("#url").val();
+        if (paramData.url.indexOf('?') > -1) {
+            $("#send-type").val('get');
+        }
+        paramData.sendType = $("#send-type").val();
+        var headerMap = {};
+        var headers = Utils.splitText($("#headerText").val());
+        for (var i in headers) {
+            var str = headers[i];
+            var arr = [str.split(":")[0], str.split(":").slice(1).join(":")];
+            var header = arr[0];
+            var value = arr[1];
+            if (header == 'Content-Length') {
+                continue;
+            }
+            if (!Utils.isUfOrNullOrEmpty(header) && !Utils.isUfOrNullOrEmpty(value)) {
+                headerMap[header] = value;
+            }
+        }
+        paramData.headerMap = JSON.stringify(headerMap);
+        paramData.dataStr = $('#bodyText').val();
+        $.ajax({
+            type: "post",
+            url: "/http/send",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                if (resultDate.status == 200) {
+                    $('#status').html('<span style="color:green;font-size: 24px;font-weight: normal">' + resultDate.status + '</span>');
+                } else {
+                    $('#status').html('<span style="color:red;font-size: 24px;font-weight: normal">' + resultDate.status + '</span>');
+                }
+                $('#resultText').val(resultDate.result);
+            },
+            error: function () {
+                alert('访问出错~！')
+            }
+        });
+    }
+</script>
+</html>

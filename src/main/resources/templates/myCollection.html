@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
-    <title>VAP-Until</title>
+    <title>VAP</title>
 </head>
 <body>
 
@@ -32,15 +32,7 @@
         <span id="add-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">添加</span>
     </form>
     <div>
-        <div class="icon-div" th:each="bookmark : ${bookmarks}"
-             th:onclick="'window.open(\'' + ${bookmark.url} + '\')'">
-            <div>
-                <img class="icon-img" th:attr="src=@{/myCollection/{urlHost}.png(urlHost=${bookmark.urlHost})}"
-                     onerror="this.src='/favicon.ico'"/>
-            </div>
-            <div th:text="${bookmark.urlName}">urlName</div>
-            <div th:text="${bookmark.url}">url</div>
-        </div>
+
     </div>
 </div>
 

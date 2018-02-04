@@ -4,16 +4,34 @@
     <meta charset="utf-8"/>
     <title>VAP</title>
 </head>
-<body>
+
+<style>
+    .body {
+        background-color: #eee;
+    }
+
+    span {
+        font-weight: bolder;
+    }
+</style>
+<body class="body">
 
 <div th:replace="common/head :: head"></div>
 
 <div style="margin:70px">
-    <form class="form-inline">
-        <span>时间戳：</span>
-        <input id="timestamp" class="form-control" type="text">
-        <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
-        <input id="date" class="form-control" type="text">
+    <form class="form-horizontal">
+        <div class="form-inline">
+            <span>package</span>
+            <input id="packageName" class="form-control" placeholder="包名" type="text">
+        </div>
+        <div class="form-inline">
+            <span>class</span>
+            <input id="className" class="form-control" placeholder="类名" type="text">
+            <span>extends</span>
+            <input id="superClassName" class="form-control" placeholder="父类" type="text">
+            <span>implements</span>
+            <input id="implementsList" class="form-control" placeholder="接口" type="text">
+        </div>
     </form>
 </div>
 

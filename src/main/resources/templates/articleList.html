@@ -2,31 +2,37 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
-    <title>VAP-Until</title>
+    <title>VAP</title>
 </head>
-<body>
 
 <style>
-    .icon-div {
-        width: 300px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        box-shadow: 5px 5px 10px #888888;
-        padding: 10px;
-        margin-top: 10px;
-        background-color: #fff;
+    .body {
+        background-color: #eee;
     }
 
-    .icon-img {
-        border-radius: 8px;
-        width: 48px;
-        height: 48px;
+    .article-div {
+        width: 100%;
+        border-radius: 3px;
+        border: 1px solid #f7f7f7;
+        box-shadow: 1px 1px 1px #d0d0d0;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #ffffff;
     }
+
+    .title {
+        font-size: 20px;
+        font-weight: bolder;
+    }
+
 </style>
+
+<body class="body">
+
 
 <div th:replace="common/head :: head"></div>
 
-<div style="margin:70px">
+<div style="margin-top:70px;margin-left: 19.1%;margin-right: 19.1%">
     <form class="form-inline">
         <input id="url" class="form-control" type="text">
         <span id="add-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">添加</span>
@@ -34,14 +40,9 @@
         <span id="hide-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">隐藏</span>
     </form>
     <div class="box" style="position:relative;">
-        <div class="icon-div" th:each="bookmark,iterStat : ${bookmarks}"
-             th:attr="style='position:absolute;left:'+${600-iterStat.index*20}+'px; top:' + ${iterStat.index*30}+'px;z-index: ' + ${iterStat.index} +';'">
-            <div>
-                <img class="icon-img" th:attr="src=@{/myCollection/{urlHost}.png(urlHost=${bookmark.urlHost})}"
-                     onerror="this.src='/favicon.ico'"/>
-            </div>
-            <div th:text="${bookmark.urlName}">urlName</div>
-            <div th:text="${bookmark.url}">url</div>
+        <div th:each="article : ${articles}" class="article-div">
+            <div th:text="${article.title}" class="title">标题</div>
+            <div th:text="${article.createTsStr}">时间</div>
         </div>
     </div>
 </div>
@@ -50,11 +51,11 @@
 <script type="text/javascript">
 
     $(function () {
-        $(".icon-div").draggable();
-        $(".icon-div").unbind("click").click(function () {
+        $(".article-div").draggable();
+        $(".article-div").unbind("click").click(function () {
             changeZindex(this);
         });
-        $(".icon-div").unbind("dblclick").dblclick(function () {
+        $(".article-div").unbind("dblclick").dblclick(function () {
             runEffect(this);
         });
         $("#add-btn").unbind("click").click(function () {
@@ -64,16 +65,7 @@
             $(".icon-div").slideUp();
         });
         $("#test-btn").unbind("click").click(function () {
-            for (var i = 0; i < 120; i++) {
-                $('.box').append('<div class="icon-div" style="position:absolute;left:' + (600 - i * 20) + 'px; top:' + (i * 20) + 'px;z-index: ' + i + ';\'">' +
-                    '            <div>' +
-                    '            </div>' +
-                    '            <div>urlName</div>' +
-                    '            <div>url</div>' +
-                    '        </div>'
-                )
-            }
-            $(".icon-div").draggable();
+
         });
     });
 
