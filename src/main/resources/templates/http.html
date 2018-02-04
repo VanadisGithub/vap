@@ -103,37 +103,37 @@
 <script type="text/javascript">
 
     $(function () {
-        $("#send-btn").click(function () {
+        $("#send-btn").unbind("click").click(function () {
             send();
         });
 
-        $(".header").change(function () {
-            var str = this.value;
-            if (str.indexOf(":") > 0) {
-                var arr = [str.split(":")[0], str.split(":").slice(1).join(":")];
-                this.value = arr[0];
-                $(this).parent().find(".value").val(arr[1]);
-            }
-        });
-        $("#dialog-submit-btn").click(function () {
-            var headers = Utils.splitText($("#headerText").val());
-            var endStr = $("#header-box").html();
-            $("#header-box").html("");
-            for (var i in headers) {
-                var str = headers[i];
-                var arr = [str.split(":")[0], str.split(":").slice(1).join(":")];
-                var html = '<div class="form-group">' +
-                    '                <div class="header-div form-inline">' +
-                    '                    <input value="' + arr[0] + '" class="header form-control" placeholder="header" type="text">' +
-                    '                    <span>:</span>' +
-                    '                    <input value="' + arr[1] + '" class="value form-control" placeholder="value" type="text">' +
-                    '                    <span type="button" class="btn btn-default">X</span></span>'
-                '                </div>' +
-                '            </div>';
-                $("#header-box").append(html);
-            }
-            $("#header-box").append(endStr);
-        });
+        // $(".header").change(function () {
+        //     var str = this.value;
+        //     if (str.indexOf(":") > 0) {
+        //         var arr = [str.split(":")[0], str.split(":").slice(1).join(":")];
+        //         this.value = arr[0];
+        //         $(this).parent().find(".value").val(arr[1]);
+        //     }
+        // });
+        // $("#dialog-submit-btn").unbind("click").click(function () {
+        //     var headers = Utils.splitText($("#headerText").val());
+        //     var endStr = $("#header-box").html();
+        //     $("#header-box").html("");
+        //     for (var i in headers) {
+        //         var str = headers[i];
+        //         var arr = [str.split(":")[0], str.split(":").slice(1).join(":")];
+        //         var html = '<div class="form-group">' +
+        //             '                <div class="header-div form-inline">' +
+        //             '                    <input value="' + arr[0] + '" class="header form-control" placeholder="header" type="text">' +
+        //             '                    <span>:</span>' +
+        //             '                    <input value="' + arr[1] + '" class="value form-control" placeholder="value" type="text">' +
+        //             '                    <span type="button" class="btn btn-default">X</span></span>'
+        //         '                </div>' +
+        //         '            </div>';
+        //         $("#header-box").append(html);
+        //     }
+        //     $("#header-box").append(endStr);
+        // });
 
     });
 
