@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP</title>
+</head>
+<body>
+
+<style>
+    button {
+
+    }
+</style>
+
+<div th:replace="common/head :: head"></div>
+
+<div id="layout" style="padding:70px 70px 0">
+    <div class="btns">
+        <button class="btn btn-default" id="goto-line-btn">Goto line 90</button>
+        <button class="btn btn-default" id="show-btn">Show editor</button>
+        <button class="btn btn-default" id="hide-btn">Hide editor</button>
+        <button class="btn btn-default" id="get-md-btn">Get Markdown</button>
+        <button class="btn btn-default" id="get-html-btn">Get HTML</button>
+        <button class="btn btn-default" id="watch-btn">Watch</button>
+        <button class="btn btn-default" id="unwatch-btn">Unwatch</button>
+        <button class="btn btn-default" id="preview-btn">Preview HTML (Press Shift + ESC cancel)</button>
+        <button class="btn btn-default" id="fullscreen-btn">Fullscreen (Press ESC cancel)</button>
+        <button class="btn btn-default" id="show-toolbar-btn">Show toolbar</button>
+        <button class="btn btn-default" id="close-toolbar-btn">Hide toolbar</button>
+        <button class="btn btn-default" id="toc-menu-btn">ToC Dropdown menu</button>
+        <button class="btn btn-default" id="toc-default-btn">ToC default</button>
+        <button class="btn btn-default" id="submit-btn">Submit</button>
+    </div>
+    <div id="test-editormd" style="margin-top:10px">
+        <textarea id="my-editormd-markdown-doc" name="my-editormd-markdown-doc" style="display:none;">
+[TOC]
+
+#### Disabled options
+
+- TeX (Based on KaTeX);
+- Emoji;
+- Task lists;
+- HTML tags decode;
+- Flowchart and Sequence Diagram;
+
+#### Editor.md directory
+
+    editor.md/
+            lib/
+            css/
+            scss/
+            tests/
+            fonts/
+            images/
+            plugins/
+            examples/
+            languages/
+            editormd.js
+            ...
+
+```html
+&lt;!-- English --&gt;
+&lt;script src="../dist/js/languages/en.js"&gt;&lt;/script&gt;
+
+&lt;!-- 繁體中文 --&gt;
+&lt;script src="../dist/js/languages/zh-tw.js"&gt;&lt;/script&gt;
+```
+        </textarea>
+        <textarea id="my-editormd-html-code" name="my-editormd-html-code" style="display:none;"></textarea>
+    </div>
+</div>
+<script type="text/javascript">
+    var testEditor;
+
+    $(function () {
+        testEditor = editormd({
+            id: "test-editormd",
+            width: "100%",
+            height: "100%",
+            syncScrolling: "single",
+            path: "/editor.md-master/lib/",
+            //theme: "dark",
+            //previewTheme: "dark",
+            //editorTheme: "pastel-on-dark",
+            //markdown: md,
+            codeFold: true,
+            //syncScrolling : false,
+            saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+            searchReplace: true,
+            //watch : false,                // 关闭实时预览
+            htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+            //toolbar  : false,             //关闭工具栏
+            //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+            emoji: true,
+            taskList: true,
+            tocm: true,         // Using [TOCM]
+            tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart: true,             // 开启流程图支持，默认关闭
+            sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+            //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+            //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+            //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+            //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+            //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "./php/upload.php",
+            onload: function () {
+                console.log('onload', this);
+                //this.fullscreen();
+                //this.unwatch();
+                //this.watch().fullscreen();
+
+                //this.setMarkdown("#PHP");
+                //this.width("100%");
+                //this.height(480);
+                //this.resize("100%", 640);
+            }
+        });
+
+        $("#submit-btn").bind("click", function () {
+            var paramData = {};
+            paramData.markdown = testEditor.getMarkdown();
+            $.ajax({
+                type: "post",
+                url: "/article/saveArticle",
+                data: paramData,
+                dataType: "json",
+                success: function (resultDate) {
+                    $("#proxyText").val(resultDate.result);
+                },
+                error: function () {
+                    alert('访问出错~！')
+                }
+            });
+        });
+
+        $("#goto-line-btn").bind("click", function () {
+            var paramData = {};
+            paramData.articleId = 1;
+            $.ajax({
+                type: "post",
+                url: "/article/getArticle",
+                data: paramData,
+                dataType: "json",
+                success: function (resultDate) {
+                    alert(resultDate.result);
+                },
+                error: function () {
+                    alert('访问出错~！')
+                }
+            });
+        });
+
+        $("#show-btn").bind('click', function () {
+            testEditor.show();
+        });
+
+        $("#hide-btn").bind('click', function () {
+            testEditor.hide();
+        });
+
+        $("#get-md-btn").bind('click', function () {
+            alert(testEditor.getMarkdown());
+        });
+
+        $("#get-html-btn").bind('click', function () {
+            alert(testEditor.getHTML());
+        });
+
+        $("#watch-btn").bind('click', function () {
+            testEditor.watch();
+        });
+
+        $("#unwatch-btn").bind('click', function () {
+            testEditor.unwatch();
+        });
+
+        $("#preview-btn").bind('click', function () {
+            testEditor.previewing();
+        });
+
+        $("#fullscreen-btn").bind('click', function () {
+            testEditor.fullscreen();
+        });
+
+        $("#show-toolbar-btn").bind('click', function () {
+            testEditor.showToolbar();
+        });
+
+        $("#close-toolbar-btn").bind('click', function () {
+            testEditor.hideToolbar();
+        });
+
+        $("#toc-menu-btn").click(function () {
+            testEditor.config({
+                tocDropdown: true,
+                tocTitle: "目录 Table of Contents",
+            });
+        });
+
+        $("#toc-default-btn").click(function () {
+            testEditor.config("tocDropdown", false);
+        });
+    });
+</script>
+</body>
+</html>
