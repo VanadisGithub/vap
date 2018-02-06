@@ -3,6 +3,7 @@ package com.vanadis.vap.controller;
 import com.vanadis.vap.model.User;
 import com.vanadis.vap.model.UserMapper;
 import com.vanadis.vap.action.AutoCodeAction;
+import com.vanadis.vap.until.EmailUtils;
 import com.vanadis.vap.until.HttpUtils;
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,9 @@ public class HomeController extends BaseController {
     }
 
     @RequestMapping("test")
-    public void test() {
+    public void test() throws Exception {
         String qqIcon = "http://q1.qlogo.cn/g?b=qq&nk=824503172&s=140&t=1368862220";
+        new EmailUtils().sendSimpleMail();
     }
 
 }
