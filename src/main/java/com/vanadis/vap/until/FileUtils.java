@@ -1,21 +1,15 @@
 package com.vanadis.vap.until;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FileUtils {
 
-    public Map<String, Object> saveArticle(String markdown) {
-
-        String path = "src/main/resources/static/myMarkdown/" + 1 + ".md";
+    public static void FileWriter(String path, String content) {
 
         FileWriter fwriter = null;
         try {
             fwriter = new FileWriter(path);
-            fwriter.write(markdown);
+            fwriter.write(content);
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -26,16 +20,12 @@ public class FileUtils {
                 ex.printStackTrace();
             }
         }
-        Map<String, Object> result = new HashMap<>();
-        return result;
     }
 
-    @RequestMapping("getArticle")
-    private String getArticle(Long articleId) {
+    private static String FileReader(String path) {
         StringBuffer resultStr = new StringBuffer();
-        Map<String, Object> result = new HashMap<>();
         try {
-            FileReader fr = new FileReader("src/main/resources/static/myMarkdown/" + articleId + ".md");
+            FileReader fr = new FileReader(path);
             BufferedReader br = new BufferedReader(fr);
             String markdown;
             while ((markdown = br.readLine()) != null) {

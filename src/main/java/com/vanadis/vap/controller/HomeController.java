@@ -49,7 +49,7 @@ public class HomeController extends BaseController {
 
     @RequestMapping("test")
     public void test() {
-        AutoCodeAction.autoCode();
+        String qqIcon = "http://q1.qlogo.cn/g?b=qq&nk=824503172&s=140&t=1368862220";
     }
 
 }

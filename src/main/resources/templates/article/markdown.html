@@ -74,6 +74,7 @@
                 dataType: "json",
                 success: function (resultDate) {
                     alert(resultDate.msg);
+                    window.open("/article/article?articleId=" + resultDate.data);
                 },
                 error: function () {
                     alert('访问出错~！')

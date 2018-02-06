@@ -2,14 +2,17 @@ package com.vanadis.vap.controller;
 
 import com.vanadis.vap.model.Article;
 import com.vanadis.vap.model.ArticleMapper;
+import com.vanadis.vap.model.Result;
+import com.vanadis.vap.until.FileUtils;
+import com.vanadis.vap.until.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("article")
@@ -35,19 +38,24 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping("markdown")
-    public ModelAndView markdown() {
+    public ModelAndView markdown(HttpServletRequest request, HttpServletResponse response, long articleId) {
         ModelAndView modelAndView = new ModelAndView("/article/markdown");
+        if (articleId != 0L) {
+            Article article = articleMapper.getArticle(articleId);
+            modelAndView.addObject("article", article);
+        }
         return modelAndView;
     }
 
     @RequestMapping("saveArticle")
-    public Map<String, Object> saveArticle(Article article) {
+    public Result saveArticle(Article article) {
         article.setUserId(1L);
-        articleMapper.insert(article);
-        Map<String, Object> result = new HashMap<>();
-        result.put("msg", "保存成功");
-        return result;
-    }
+        Long articleId = articleMapper.insertWithId(article);
 
+        String path = "src/myMarkdown/" + article.getTitle() + ".md";
+        FileUtils.FileWriter(path, article.getContent());
+
+        return ResultUtils.success("保存成功", articleId);
+    }
 
 }

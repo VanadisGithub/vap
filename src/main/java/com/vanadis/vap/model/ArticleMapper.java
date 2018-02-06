@@ -19,6 +19,9 @@ public interface ArticleMapper {
     @Insert("INSERT INTO article(title,content,article_group,tag,user_id,create_ts,update_ts) VALUES(#{title}, #{content}, #{articleGroup}, #{tag}, #{userId},#{createTs}, #{updateTs})")
     boolean insert(Article article);
 
+    @Insert("INSERT INTO article(title,content,article_group,tag,user_id,create_ts,update_ts) VALUES(#{title}, #{content}, #{articleGroup}, #{tag}, #{userId},#{createTs}, #{updateTs})")
+    Long insertWithId(Article article);
+
     @Delete("DELETE FROM article WHERE id =#{id}")
     boolean delete(Long id);
 
