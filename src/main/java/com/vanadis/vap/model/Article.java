@@ -1,17 +1,15 @@
 package com.vanadis.vap.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "article")
-    public class Article extends BaseModel implements Serializable {
+public class Article extends BaseModel implements Serializable {
 
     @Column
     private String title;
-    @Column
+    @Lob
+    @Column(columnDefinition = "mediumtext")
     private String content;
     @Column
     private Long userId;
@@ -21,6 +19,16 @@ import java.io.Serializable;
     private int tag;
     @Column
     private int clickNum;
+
+    public Article() {
+
+    }
+
+    public Article(String title, String content, Long userId) {
+        this.title = title;
+        this.content = content;
+        this.userId = userId;
+    }
 
     public String getTitle() {
         return title;

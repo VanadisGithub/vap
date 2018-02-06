@@ -13,6 +13,9 @@ public interface ArticleMapper {
     @Select("SELECT * FROM article")
     List<Article> getList();
 
+    @Select("SELECT * FROM article WHERE id =#{id}")
+    Article getArticle(Long id);
+
     @Insert("INSERT INTO article(title,content,article_group,tag,user_id,create_ts,update_ts) VALUES(#{title}, #{content}, #{articleGroup}, #{tag}, #{userId},#{createTs}, #{updateTs})")
     boolean insert(Article article);
 

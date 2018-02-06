@@ -62,5 +62,34 @@
             }
         })
     }
+
+    function changeZindex(obj) {
+        var divs = $(".icon-div");
+        var maxNum = 0;
+        for (var i = 0; i < divs.length; i++) {
+            var tempNum = divs[i].style.zIndex;
+            tempNum = (tempNum) ? parseInt(tempNum) : 0;
+            if (tempNum > maxNum) maxNum = tempNum;
+        }
+        obj.style.zIndex = maxNum + 1;
+    }
+
+    function runEffect(obj) {
+        // 从中获取特效类型
+        var selectedEffect = 'fold';
+
+        // 大多数的特效类型默认不需要传递选项
+        var options = {};
+        // 一些特效带有必需的参数
+        if (selectedEffect === "scale") {
+            options = {percent: 0};
+        } else if (selectedEffect === "size") {
+            options = {to: {width: 200, height: 60}};
+        }
+
+        // 运行特效
+        $(".icon-div").toggle(selectedEffect, options, 500);
+
+    }
 </script>
 </html>
