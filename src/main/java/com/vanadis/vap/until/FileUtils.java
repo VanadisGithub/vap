@@ -22,6 +22,24 @@ public class FileUtils {
         }
     }
 
+    public static void FileWriter(String path, String content, boolean isOld) {
+
+        FileWriter fwriter = null;
+        try {
+            fwriter = new FileWriter(path, isOld);
+            fwriter.write(content);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                fwriter.flush();
+                fwriter.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     private static String FileReader(String path) {
         StringBuffer resultStr = new StringBuffer();
         try {

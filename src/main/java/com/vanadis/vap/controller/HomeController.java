@@ -4,13 +4,17 @@ import com.vanadis.vap.model.User;
 import com.vanadis.vap.model.UserMapper;
 import com.vanadis.vap.until.EmailUtils;
 import com.vanadis.vap.until.HttpUtils;
+import com.vanadis.vap.until.IpUtils;
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("")
@@ -51,15 +55,9 @@ public class HomeController extends BaseController {
         return resultStr;
     }
 
-    @Autowired
-    private JavaMailSender mailSender; //自动注入的Bean
-
-    @Value("${spring.mail.username}")
-    private String Sender; //读取配置文件中的参数
-
     @RequestMapping("test")
-    public void test() {
-        EmailUtils.send(mailSender, Sender, "872671438@qq.com", "测试", "测试内容");
+    public String getIp(HttpServletRequest request) {
+        return IpUtils.getIpAddr(request);
     }
 
 }
