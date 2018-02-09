@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP</title>
+</head>
+
+<style>
+    .body {
+        background-color: #eee;
+    }
+
+    span {
+        font-weight: bolder;
+    }
+</style>
+<body class="body">
+
+<div th:replace="common/head :: head"></div>
+
+<div style="padding:70px 70px 0px">
+    <div class="row">
+        <div class="form-inline">
+            <input id="url" class="form-control" placeholder="淘宝宝贝链接" type="text" style="width:50%">
+            <span id="send-btn" class="btn btn-default">获取优惠券</span>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px">
+        <div id="couponList" style="width: 50%; float:left;">
+
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px">
+        <div id="buy-url" style="width: 50%; float:left;">
+
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $("#send-btn").unbind("click").click(function () {
+            send();
+        });
+    });
+
+    function send() {
+        var paramData = {};
+        paramData.url = $("#url").val();
+        $.ajax({
+            type: "post",
+            url: "/taobao/getCouponList",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                $('#couponList').html("");
+                if (resultDate.data.length == 0) {
+                    getBuyUrl();
+                } else {
+                    for (var i in resultDate.data) {
+                        $('#couponList').append('<span class="btn btn-default coupon" activityId="' + resultDate.data[i].activityId + '">' + resultDate.data[i].title + '</span>');
+                    }
+                    $(".coupon").unbind("click").click(function () {
+                        getBuyUrl($(this).attr("activityId"));
+                    })
+                }
+            },
+            error: function () {
+                alert('访问出错~！')
+            }
+        });
+    }
+
+    function getBuyUrl(activityId) {
+        var paramData = {};
+        paramData.url = $("#url").val();
+        paramData.activityId = activityId;
+        $.ajax({
+            type: "post",
+            url: "/taobao/getBuyUrl",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                $("#buy-url").html("");
+                $("#buy-url").append('<span class="btn btn-info buy-url">点击复制 ' + resultDate.data + '</span>');
+                $(".buy-url").unbind("click").click(function () {
+                    Utils.copyToClipboard(resultDate.data);
+                })
+            }
+        });
+    }
+</script>
+</html>

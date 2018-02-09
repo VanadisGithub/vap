@@ -52,8 +52,8 @@ public class AirplaneSchedule {
     //@Scheduled(cron = "0/10 * * * * ? ") // 每10秒执行一次
     @Scheduled(cron = "0 0/20 * * * ? ") // 每30分钟执行一次
     public void scheduler2() {
-        String qunarUrl = "https://kuxun-i.meituan.com/getLowPriceCalendar/other/4/mt%7Cm%7Cm/?startdate=2018-02-24&depart=KMG&arrive=HGH";
-        String data = HttpUtils.doGet(qunarUrl, null, null);
+        String meituanUrl = "https://kuxun-i.meituan.com/getLowPriceCalendar/other/4/mt%7Cm%7Cm/?startdate=2018-02-24&depart=KMG&arrive=HGH";
+        String data = HttpUtils.doGet(meituanUrl, null, null);
         JSONObject result = JSONObject.parseObject(data).getJSONObject("data");
         if (result.getIntValue("code") == 0) {
             JSONArray array = result.getJSONArray("dataList");

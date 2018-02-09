@@ -32,7 +32,11 @@
         <thead>
         <tr>
             <th>日期</th>
-            <th>价格</th>
+            <th>去哪儿</th>
+            <th>美团</th>
+            <th>京东</th>
+            <th>飞猪</th>
+            <th>携程</th>
         </tr>
         </thead>
         <tbody id="qunar-body">
@@ -43,6 +47,11 @@
 
 </body>
 <script type="text/javascript">
+
+    var placeNo = {
+        '杭州': 'HGH',
+        '昆明': 'KMG'
+    }
 
     $(function () {
         laydate.render({
@@ -56,13 +65,7 @@
     });
 
     function timestampToDate() {
-        var startDate = $("#start-date").val();
-        var depDays = 30;
-        if (Utils.isUfOrNullOrEmpty(startDate)) {
-            startDate = Utils.getDate()
-        } else {
-            depDays = 1;
-        }
+
         var depCity = $("#depCity").val();
         if (Utils.isUfOrNullOrEmpty(depCity)) {
             depCity = '杭州';
@@ -71,27 +74,40 @@
         if (Utils.isUfOrNullOrEmpty(arrCity)) {
             arrCity = '杭州';
         }
+        var startDate = $("#start-date").val();
+        var depDays = 30;
+        if (Utils.isUfOrNullOrEmpty(startDate)) {
+            startDate = Utils.getDate();
+        }
 
         var paramData = {};
-        paramData.url = 'https://m.flight.qunar.com/touch/api/airline/?depCity=' + depCity + '&arrCity=' + arrCity + '&depDate=' + startDate + '&depDays=' + depDays;
+        paramData.depCity = depCity;
+        paramData.arrCity = arrCity;
+        paramData.startDate = startDate;
         $.ajax({
             type: "post",
-            url: "/spider/getQunar",
+            url: "/spider/getAirplane",
             data: paramData,
             dataType: "json",
             success: function (resultDate) {
-
                 var html = "";
-                var result = JSON.parse(resultDate.data);
-                if (result.code != 0) {
-                    alert(result.des);
-                    return;
-                }
-                for (var i in result.data) {
-                    var data = result.data[i];
+                var quanr = resultDate.data.qunar;
+                var meituan = resultDate.data.meituan;
+                var jingdong = resultDate.data.jingdong;
+                var feizhu = resultDate.data.feizhu;
+                var xiecheng = resultDate.data.xiecheng;
+                console.log(resultDate);
+                for (var i = 0; i < 29; i++) {
+                    var date = new Date(startDate);
+                    date.setDate(date.getDate() + i);
+                    var key = Utils.getDate(date);
                     html += ('<tr>');
-                    html += ('<td>' + data.depDate + '</td>');
-                    html += ('<td>' + data.price + '</td></tr>');
+                    html += ('<td>' + key + '</td>');
+                    html += ('<td>' + quanr[key] + '</td>');
+                    html += ('<td>' + meituan[key] + '</td>');
+                    html += ('<td>' + jingdong[key] + '</td>');
+                    html += ('<td>' + feizhu[key] + '</td>');
+                    html += ('<td>' + xiecheng[key] + '</td>');
                     html += ('</tr>');
                 }
                 $("#qunar-body").html(html);

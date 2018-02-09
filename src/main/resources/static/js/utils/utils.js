@@ -70,8 +70,10 @@ var Utils = {
         }
     },
 
-    getDate: function () {
-        var date = new Date();
+    getDate: function (date) {
+        if (date == null) {
+            date = new Date();
+        }
         var month = date.getMonth() + 1;
         var strDate = date.getDate();
         if (month >= 1 && month <= 9) {

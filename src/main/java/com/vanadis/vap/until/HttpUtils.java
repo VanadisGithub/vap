@@ -1,9 +1,7 @@
 package com.vanadis.vap.until;
 
 import com.mysql.jdbc.StringUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -183,9 +181,6 @@ public class HttpUtils {
                     get.setHeader(key, String.valueOf(headerMap.get(key)));
                 }
             }
-
-            //默认添加请求头
-            get.addHeader("user-agent", UserAgentUtils.getUserAgent());
 
             HttpResponse response = httpClient.execute(get);
 

@@ -11,6 +11,15 @@ public class RegexUtils {
         return m.find() ? m.group(2) : url;
     }
 
+    public static String getId(String url) {
+        Pattern p = Pattern.compile("[?&]id=(\\d+)", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(url);
+        while (m.find()) {
+            return m.group(1);
+        }
+        return "";
+    }
+
     // 正则匹配
     public static String getSubUtilSimple(String soap, String rgex) {
         Pattern pattern = Pattern.compile(rgex);// 匹配的模式
