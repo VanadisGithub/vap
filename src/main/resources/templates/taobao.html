@@ -56,7 +56,7 @@
             dataType: "json",
             success: function (resultDate) {
                 $('#couponList').html("");
-                if (resultDate.data.length == 0) {
+                if (resultDate.data == null) {
                     getBuyUrl();
                 } else {
                     for (var i in resultDate.data) {
@@ -74,6 +74,17 @@
     }
 
     function getBuyUrl(activityId) {
+//        var activityUrl ="";
+//        if (activityId == null) {
+//            activityUrl = "https://uland.taobao.com/coupon/edetail?itemId=" + $("#url").val() + "&pid=mm_109312617_42546978_242072916";
+//        } else {
+//            activityUrl = "https://uland.taobao.com/coupon/edetail?activityId=" + activityId + "&itemId=" + $("#url").val() + "&pid=mm_109312617_42546978_242072916";
+//        }
+//        $("#buy-url").html("");
+//        $("#buy-url").append('<span class="btn btn-info buy-url">点击复制 ' + activityUrl + '</span>');
+//        $(".buy-url").unbind("click").click(function () {
+//            Utils.copyToClipboard(activityUrl);
+//        });
         var paramData = {};
         paramData.url = $("#url").val();
         paramData.activityId = activityId;
