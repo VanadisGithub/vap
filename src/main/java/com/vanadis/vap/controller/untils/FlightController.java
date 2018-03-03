@@ -18,12 +18,12 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("spider")
-public class SpiderController extends BaseController {
+@RequestMapping("flight")
+public class FlightController extends BaseController {
 
     @RequestMapping("")
     public ModelAndView index() throws Exception {
-        ModelAndView modelAndView = new ModelAndView("/spider");
+        ModelAndView modelAndView = new ModelAndView("/flight");
         return modelAndView;
     }
 

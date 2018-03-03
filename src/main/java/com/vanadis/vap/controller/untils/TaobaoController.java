@@ -27,10 +27,6 @@ import java.util.regex.Pattern;
 @RequestMapping("taobao")
 public class TaobaoController extends BaseController {
 
-    String qunarUrl = "https://m.flight.qunar.com/touch/api/airline/?depCity=西双版纳&arrCity=杭州&depDate=2018-02-07&depDays=30";
-
-    String meituanUrl = "https://detailskip.taobao.com/service/getData/1/p1/item/detail/sib.htm?itemId=35158433106&callback=onSibRequestSuccess&modules=couponActivity";
-
     @RequestMapping("")
     public ModelAndView index() throws Exception {
         ModelAndView modelAndView = new ModelAndView("/taobao");
