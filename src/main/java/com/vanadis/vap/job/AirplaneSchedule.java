@@ -29,7 +29,7 @@ public class AirplaneSchedule {
     private int minPrice = 1600;
 
     //@Scheduled(cron = "0/10 * * * * ? ") // 每10秒执行一次
-    @Scheduled(cron = "0 0/20 * * * ? ") // 每30分钟执行一次
+    //@Scheduled(cron = "0 0/20 * * * ? ") // 每30分钟执行一次
     public void scheduler1() {
         String qunarUrl = "https://m.flight.qunar.com/touch/api/airline/?depCity=昆明&arrCity=杭州&depDate=2018-02-24&depDays=1";
         String data = HttpUtils.doGet(qunarUrl, null, null);
@@ -50,7 +50,7 @@ public class AirplaneSchedule {
     }
 
     //@Scheduled(cron = "0/10 * * * * ? ") // 每10秒执行一次
-    @Scheduled(cron = "0 0/20 * * * ? ") // 每30分钟执行一次
+    //@Scheduled(cron = "0 0/20 * * * ? ") // 每30分钟执行一次
     public void scheduler2() {
         String meituanUrl = "https://kuxun-i.meituan.com/getLowPriceCalendar/other/4/mt%7Cm%7Cm/?startdate=2018-02-24&depart=KMG&arrive=HGH";
         String data = HttpUtils.doGet(meituanUrl, null, null);

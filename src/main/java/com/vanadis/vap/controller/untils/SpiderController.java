@@ -27,8 +27,8 @@ public class SpiderController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping("getAirplane")
-    public Result getAirplane(String depCity, String arrCity, String startDate) throws Exception {
+    @RequestMapping("getFlight")
+    public Result getFlight(String depCity, String arrCity, String startDate) throws Exception {
         Map<String, Object> result = new HashMap<>();
         result.put("qunar", getQunar(depCity, arrCity, startDate));
         result.put("meituan", getMeiTuan(depCity, arrCity, startDate));
