@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP</title>
+</head>
+
+<style>
+    .body {
+        background-color: #eee;
+    }
+</style>
+
+<body class="body">
+
+<div th:replace="common/head :: head"></div>
+
+<div style="margin:70px">
+    <form class="form-inline">
+        <input id="depCity" class="form-control" type="text" placeholder="默认杭州">
+        -
+        <input id="arrCity" class="form-control" type="text" placeholder="默认杭州">
+        <span id="search-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">查询</span>
+        <div class="input-group date">
+            <input id="start-date" type="text" class="form-control">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </form>
+    <table id="qunar" class="table" style="margin-top: 20px;background-color: #fff">
+        <thead>
+        <tr>
+            <th width="10%">日期</th>
+            <th width="10%"><a target="_blank" href="https://flight.qunar.com/">去哪儿</a></th>
+            <th width="10%"><a target="_blank" href="http://www.meituan.com/iflight/">美团</a></th>
+            <th width="10%"><a target="_blank" href="https://trip.jd.com/">京东</a></th>
+            <th width="10%"><a target="_blank" href="https://www.fliggy.com/jipiao/">飞猪</a></th>
+            <th width="10%"><a target="_blank" href="http://flights.ctrip.com/">携程</a></th>
+        </tr>
+        </thead>
+        <tbody id="qunar-body">
+
+        </tbody>
+    </table>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    var placeNo = {
+        '杭州': 'HGH',
+        '昆明': 'KMG'
+    }
+
+    $(function () {
+        laydate.render({
+            elem: '#start-date',
+            theme: '#101010'
+        });
+
+        $("#search-btn").unbind("click").click(function () {
+            timestampToDate();
+        });
+    });
+
+    function timestampToDate() {
+
+        var depCity = $("#depCity").val();
+        if (Utils.isUfOrNullOrEmpty(depCity)) {
+            depCity = '杭州';
+        }
+        var arrCity = $("#arrCity").val();
+        if (Utils.isUfOrNullOrEmpty(arrCity)) {
+            arrCity = '杭州';
+        }
+        var startDate = $("#start-date").val();
+        if (Utils.isUfOrNullOrEmpty(startDate)) {
+            startDate = Utils.getDate();
+        }
+
+        var paramData = {};
+        paramData.depCity = depCity;
+        paramData.arrCity = arrCity;
+        paramData.startDate = startDate;
+        $.ajax({
+            type: "post",
+            url: "/spider/getFlight",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                var html = "";
+                var quanr = resultDate.data.qunar;
+                var meituan = resultDate.data.meituan;
+                var jingdong = resultDate.data.jingdong;
+                var feizhu = resultDate.data.feizhu;
+                var xiecheng = resultDate.data.xiecheng;
+                console.log(resultDate);
+                for (var i = 0; i < 29; i++) {
+                    var date = new Date(startDate);
+                    date.setDate(date.getDate() + i);
+                    var key = Utils.getDate(date);
+                    html += ('<tr>');
+                    html += ('<td>' + key + '</td>');
+                    html += ('<td>' + quanr[key] + '</td>');
+                    html += ('<td>' + meituan[key] + '</td>');
+                    html += ('<td>' + jingdong[key] + '</td>');
+                    html += ('<td>' + feizhu[key] + '</td>');
+                    html += ('<td>' + xiecheng[key] + '</td>');
+                    html += ('</tr>');
+                }
+                $("#qunar-body").html(html);
+
+            },
+            error: function () {
+                alert('访问出错~！');
+            }
+        });
+    }
+
+</script>
+</html>

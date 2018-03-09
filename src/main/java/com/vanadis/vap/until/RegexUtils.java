@@ -21,8 +21,8 @@ public class RegexUtils {
     }
 
     // 正则匹配
-    public static String getSubUtilSimple(String soap, String rgex) {
-        Pattern pattern = Pattern.compile(rgex);// 匹配的模式
+    public static String getSubUtilSimple(String soap, String regx) {
+        Pattern pattern = Pattern.compile(regx);// 匹配的模式
         Matcher m = pattern.matcher(soap);
         while (m.find()) {
             return m.group(1);

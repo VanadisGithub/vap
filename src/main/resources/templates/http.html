@@ -140,9 +140,9 @@
     function send() {
         var paramData = {};
         paramData.url = $("#url").val();
-        if (paramData.url.indexOf('?') > -1) {
-            $("#send-type").val('get');
-        }
+//        if (paramData.url.indexOf('?') > -1) {
+//            $("#send-type").val('get');
+//        }
         paramData.sendType = $("#send-type").val();
         var headerMap = {};
         var headers = Utils.splitText($("#headerText").val());
