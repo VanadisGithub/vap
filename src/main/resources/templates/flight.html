@@ -28,7 +28,7 @@
             </div>
         </div>
     </form>
-    <table id="qunar" class="table" style="margin-top: 20px;background-color: #fff">
+    <table id="flight" class="table table-hover" style="margin-top: 20px;background-color: #fff">
         <thead>
         <tr>
             <th width="10%">日期</th>
@@ -39,7 +39,7 @@
             <th width="10%"><a target="_blank" href="http://flights.ctrip.com/">携程</a></th>
         </tr>
         </thead>
-        <tbody id="qunar-body">
+        <tbody id="flight-body">
 
         </tbody>
     </table>
@@ -47,11 +47,6 @@
 
 </body>
 <script type="text/javascript">
-
-    var placeNo = {
-        '杭州': 'HGH',
-        '昆明': 'KMG'
-    }
 
     $(function () {
         laydate.render({
@@ -85,7 +80,7 @@
         paramData.startDate = startDate;
         $.ajax({
             type: "post",
-            url: "/spider/getFlight",
+            url: "/flight/getFlight",
             data: paramData,
             dataType: "json",
             success: function (resultDate) {
@@ -95,7 +90,6 @@
                 var jingdong = resultDate.data.jingdong;
                 var feizhu = resultDate.data.feizhu;
                 var xiecheng = resultDate.data.xiecheng;
-                console.log(resultDate);
                 for (var i = 0; i < 29; i++) {
                     var date = new Date(startDate);
                     date.setDate(date.getDate() + i);
@@ -109,7 +103,7 @@
                     html += ('<td>' + xiecheng[key] + '</td>');
                     html += ('</tr>');
                 }
-                $("#qunar-body").html(html);
+                $("#flight-body").html(html);
 
             },
             error: function () {
