@@ -40,7 +40,7 @@ public class FileUtils {
         }
     }
 
-    private static String FileReader(String path) {
+    public static String FileReader(String path) {
         StringBuffer resultStr = new StringBuffer();
         try {
             FileReader fr = new FileReader(path);
@@ -57,5 +57,38 @@ public class FileUtils {
             e.printStackTrace();
         }
         return resultStr.toString();
+    }
+
+    public static String FileReaderWithEncode(String path) throws IOException {
+
+        FileInputStream fis = new FileInputStream(path);
+        InputStreamReader isr = new InputStreamReader(fis, "GBK");
+        BufferedReader br = new BufferedReader(isr);
+
+        String s = null;
+        StringBuilder file = new StringBuilder();
+        while ((s = br.readLine()) != null) {
+            file.append(s);
+        }
+        br.close();
+        isr.close();
+        fis.close();
+        return file.toString();
+    }
+
+    public static String FileReaderWithEncode2(String path) throws IOException {
+
+        FileInputStream fis = new FileInputStream(path);
+        InputStreamReader isr = new InputStreamReader(fis, "GBK");
+        BufferedReader br = new BufferedReader(isr);
+
+        String s = null;
+        while ((s = br.readLine()) != null) {
+            System.out.println("put(\"" + s + "\")");
+        }
+        br.close();
+        isr.close();
+        fis.close();
+        return s;
     }
 }
