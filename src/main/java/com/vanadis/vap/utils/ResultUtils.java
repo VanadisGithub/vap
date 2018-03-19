@@ -1,4 +1,4 @@
-package com.vanadis.vap.until;
+package com.vanadis.vap.utils;
 
 import com.vanadis.vap.model.Result;
 

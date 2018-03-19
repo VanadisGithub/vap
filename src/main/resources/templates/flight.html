@@ -18,7 +18,7 @@
 <div style="margin:70px">
     <form class="form-inline">
         <input id="depCity" class="form-control" type="text" placeholder="默认杭州">
-        -
+        <span id="switch-btn" class="btn btn-default" style="margin-left: 5px;margin-right: 5px"><></span>
         <input id="arrCity" class="form-control" type="text" placeholder="默认杭州">
         <span id="search-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">查询</span>
         <div class="input-group date">
@@ -38,7 +38,7 @@
             <th width="10%"><a target="_blank" href="https://www.fliggy.com/jipiao/">飞猪</a></th>
             <th width="10%"><a target="_blank" href="http://flights.ctrip.com/">携程</a></th>
         </tr>
-        </thead>
+        </thead>￥
         <tbody id="flight-body">
 
         </tbody>
@@ -52,6 +52,11 @@
         laydate.render({
             elem: '#start-date',
             theme: '#101010'
+        });
+        $("#switch-btn").unbind("click").click(function () {
+            var city = $("#depCity").val();
+            $("#depCity").val($("#arrCity").val());
+            $("#arrCity").val(city);
         });
 
         $("#search-btn").unbind("click").click(function () {
@@ -107,7 +112,7 @@
 
             },
             error: function () {
-                alert('访问出错~！');
+                errorMsg();
             }
         });
     }

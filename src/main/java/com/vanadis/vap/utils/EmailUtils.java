@@ -1,4 +1,4 @@
-package com.vanadis.vap.until;
+package com.vanadis.vap.utils;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

@@ -30,7 +30,7 @@ CodeMirror.defineMode("vb", function(conf, parserConf) {
     var endKeywords = ['next','loop'];
 
     var wordOperators = wordRegexp(['and', 'or', 'not', 'xor', 'in']);
-    var commonkeywords = ['as', 'dim', 'break',  'continue','optional', 'then',  'until',
+    var commonkeywords = ['as', 'dim', 'break',  'continue','optional', 'then',  'utils',
                           'goto', 'byval','byref','new','handles','property', 'return',
                           'const','private', 'protected', 'friend', 'public', 'shared', 'static', 'true','false'];
     var commontypes = ['integer','string','double','decimal','boolean','short','char', 'float','single'];

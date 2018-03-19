@@ -100,7 +100,7 @@ config = {
 	// The queue of tests to run
 	queue: [],
 
-	// block until document ready
+	// block utils document ready
 	blocking: true,
 
 	// when enabled, show only failing tests
@@ -289,7 +289,7 @@ extend( QUnit, {
 			// If a test is running, adjust its semaphore
 			config.current.semaphore -= count || 1;
 
-			// Don't start until equal number of stop-calls
+			// Don't start utils equal number of stop-calls
 			if ( config.current.semaphore > 0 ) {
 				return;
 			}

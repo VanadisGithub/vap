@@ -34,7 +34,7 @@ CodeMirror.defineMode("coffeescript", function(conf, parserConf) {
                         "switch", "try", "catch", "finally", "class"];
   var commonKeywords = ["break", "by", "continue", "debugger", "delete",
                         "do", "in", "of", "new", "return", "then",
-                        "this", "@", "throw", "when", "until", "extends"];
+                        "this", "@", "throw", "when", "utils", "extends"];
 
   var keywords = wordRegexp(indentKeywords.concat(commonKeywords));
 

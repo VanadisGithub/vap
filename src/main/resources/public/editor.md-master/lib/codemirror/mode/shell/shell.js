@@ -25,7 +25,7 @@ CodeMirror.defineMode('shell', function() {
   define('atom', 'true false');
 
   // Keywords
-  define('keyword', 'if then do else elif while until for in esac fi fin ' +
+  define('keyword', 'if then do else elif while utils for in esac fi fin ' +
     'fil done exit set unset export function');
 
   // Commands

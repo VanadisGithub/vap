@@ -53,7 +53,7 @@ CodeMirror.defineMode("dylan", function(_config) {
 
     // Words that begin statements with implicit bodies.
     statement: ["if", "block", "begin", "method", "case",
-                "for", "select", "when", "unless", "until",
+                "for", "select", "when", "unless", "utils",
                 "while", "iterate", "profiling", "dynamic-bind"
                ],
 

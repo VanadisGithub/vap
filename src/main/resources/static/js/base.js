@@ -1,4 +1,3 @@
-
 //ajax加载动画
 $(document).ajaxStart(function () {
     layer.ready(function () {
@@ -8,3 +7,11 @@ $(document).ajaxStart(function () {
 $(document).ajaxStop(function () {
     layer.close(layer.load());
 });
+
+function errorMsg(msg) {
+    if (msg == null) {
+        layer.msg("访问出错~！", {icon: 5});
+    } else {
+        layer.msg(msg, {icon: 5});
+    }
+}

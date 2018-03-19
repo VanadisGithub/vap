@@ -3,7 +3,7 @@ package com.vanadis.vap.controller.untils;
 import com.alibaba.fastjson.JSON;
 import com.vanadis.vap.controller.BaseController;
 import com.vanadis.vap.model.ArticleMapper;
-import com.vanadis.vap.until.HttpUtils;
+import com.vanadis.vap.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

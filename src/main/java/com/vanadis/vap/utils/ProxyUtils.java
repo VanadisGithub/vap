@@ -1,4 +1,4 @@
-package com.vanadis.vap.until;
+package com.vanadis.vap.utils;
 
 import org.apache.http.HttpHost;
 import org.jsoup.Jsoup;

@@ -3,15 +3,12 @@ package com.vanadis.vap.controller.untils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.vanadis.vap.controller.BaseController;
-import com.vanadis.vap.model.Bookmark;
 import com.vanadis.vap.model.Result;
-import com.vanadis.vap.until.*;
-import org.apache.http.client.methods.HttpGet;
+import com.vanadis.vap.utils.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

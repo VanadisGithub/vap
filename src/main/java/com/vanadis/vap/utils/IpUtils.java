@@ -1,10 +1,15 @@
-package com.vanadis.vap.until;
+package com.vanadis.vap.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class IpUtils {
+    /**
+     * 获取访问ip
+     * @param request
+     * @return
+     */
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = null;
         try {
@@ -39,7 +44,6 @@ public class IpUtils {
             ipAddress = "";
         }
         // ipAddress = this.getRequest().getRemoteAddr();
-
         return ipAddress;
     }
 }

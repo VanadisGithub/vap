@@ -22,7 +22,7 @@ CodeMirror.defineMode("eiffel", function() {
     'across',
     'when',
     'variant',
-    'until',
+    'utils',
     'unique',
     'undefine',
     'then',

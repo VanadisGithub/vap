@@ -2,19 +2,15 @@ package com.vanadis.vap.job;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.vanadis.vap.until.EmailUtils;
-import com.vanadis.vap.until.FileUtils;
-import com.vanadis.vap.until.HttpUtils;
+import com.vanadis.vap.utils.EmailUtils;
+import com.vanadis.vap.utils.FileUtils;
+import com.vanadis.vap.utils.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.FileWriter;
 
 @Component
 public class AirplaneSchedule {

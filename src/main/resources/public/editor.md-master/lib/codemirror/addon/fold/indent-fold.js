@@ -19,7 +19,7 @@ CodeMirror.registerHelper("fold", "indent", function(cm, start) {
   };
   var myIndent = getIndent(firstLine);
   var lastLineInFold = null;
-  // Go through lines until we find a line that definitely doesn't belong in
+  // Go through lines utils we find a line that definitely doesn't belong in
   // the block we're folding, or to the end.
   for (var i = start.line + 1, end = cm.lastLine(); i <= end; ++i) {
     var curLine = cm.getLine(i);

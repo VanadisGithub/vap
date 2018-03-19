@@ -261,7 +261,7 @@
   }
 
   // Returns a function that estimates the height of a line, to use as
-  // first approximation until the line becomes visible (and is thus
+  // first approximation utils the line becomes visible (and is thus
   // properly measurable).
   function estimateHeight(cm) {
     var th = textHeight(cm.display), wrapping = cm.options.lineWrapping;
@@ -735,7 +735,7 @@
         if (viewport && viewport.top != null)
           viewport = {top: Math.min(cm.doc.height + paddingVert(cm.display) - displayHeight(cm), viewport.top)};
         // Updated line heights might result in the drawn area not
-        // actually covering the viewport. Keep looping until it does.
+        // actually covering the viewport. Keep looping utils it does.
         update.visible = visibleLines(cm.display, cm.doc, viewport);
         if (update.visible.from >= cm.display.viewFrom && update.visible.to <= cm.display.viewTo)
           break;
@@ -2176,7 +2176,7 @@
                   // Driven in a corner -- no valid cursor position found at all
                   // -- try again *with* clearing, if we didn't already
                   if (!mayClear) return skipAtomic(doc, pos, bias, true);
-                  // Otherwise, turn off editing until further notice, and return the start of the doc
+                  // Otherwise, turn off editing utils further notice, and return the start of the doc
                   doc.cantEdit = true;
                   return Pos(doc.first, 0);
                 }
@@ -2908,7 +2908,7 @@
   }
 
   function fireCallbacksForOps(group) {
-    // Calls delayed callbacks and cursorActivity handlers until no
+    // Calls delayed callbacks and cursorActivity handlers utils no
     // new ones appear
     var callbacks = group.delayedCallbacks, i = 0;
     do {
@@ -8534,7 +8534,7 @@
       }
 
       // W2. Search backwards from each instance of a European number
-      // until the first strong type (R, L, AL, or sor) is found. If an
+      // utils the first strong type (R, L, AL, or sor) is found. If an
       // AL is found, change the type of the European number to Arabic
       // number.
       // W3. Change all ALs to R.
@@ -8571,7 +8571,7 @@
       }
 
       // W7. Search backwards from each instance of a European number
-      // until the first strong type (R, L, or sor) is found. If an L is
+      // utils the first strong type (R, L, or sor) is found. If an L is
       // found, then change the type of the European number to L.
       for (var i = 0, cur = outerType; i < len; ++i) {
         var type = types[i];

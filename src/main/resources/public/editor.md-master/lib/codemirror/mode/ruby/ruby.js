@@ -21,13 +21,13 @@ CodeMirror.defineMode("ruby", function(config) {
     "alias", "and", "BEGIN", "begin", "break", "case", "class", "def", "defined?", "do", "else",
     "elsif", "END", "end", "ensure", "false", "for", "if", "in", "module", "next", "not", "or",
     "redo", "rescue", "retry", "return", "self", "super", "then", "true", "undef", "unless",
-    "until", "when", "while", "yield", "nil", "raise", "throw", "catch", "fail", "loop", "callcc",
+    "utils", "when", "while", "yield", "nil", "raise", "throw", "catch", "fail", "loop", "callcc",
     "caller", "lambda", "proc", "public", "protected", "private", "require", "load",
     "require_relative", "extend", "autoload", "__END__", "__FILE__", "__LINE__", "__dir__"
   ]);
   var indentWords = wordObj(["def", "class", "case", "for", "while", "module", "then",
                              "catch", "loop", "proc", "begin"]);
-  var dedentWords = wordObj(["end", "until"]);
+  var dedentWords = wordObj(["end", "utils"]);
   var matching = {"[": "]", "{": "}", "(": ")"};
   var curPunc;
 

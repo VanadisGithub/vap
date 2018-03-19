@@ -1,4 +1,4 @@
-package com.vanadis.vap.until;
+package com.vanadis.vap.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +20,12 @@ public class RegexUtils {
         return "";
     }
 
-    // 正则匹配
+    /**
+     * 正则匹配
+     * @param soap
+     * @param regx
+     * @return
+     */
     public static String getSubUtilSimple(String soap, String regx) {
         Pattern pattern = Pattern.compile(regx);// 匹配的模式
         Matcher m = pattern.matcher(soap);
@@ -30,7 +35,11 @@ public class RegexUtils {
         return "";
     }
 
-    // Unicode转中文
+    /**
+     * Unicode转中文
+     * @param dataStr
+     * @return
+     */
     public static String decodeUnicode(final String dataStr) {
         int start = 0;
         int end = 0;
@@ -48,5 +57,20 @@ public class RegexUtils {
             start = end;
         }
         return buffer.toString();
+    }
+
+    /**
+     * 获取随机字符串
+     * @param length
+     * @return
+     */
+    public static String getRandomString(int length) {
+        String KeyString = "abcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuffer sb = new StringBuffer();
+        int len = KeyString.length();
+        for (int i = 0; i < length; i++) {
+            sb.append(KeyString.charAt((int) Math.round(Math.random() * (len - 1))));
+        }
+        return sb.toString();
     }
 }

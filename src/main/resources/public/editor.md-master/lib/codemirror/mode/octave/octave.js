@@ -37,7 +37,7 @@ CodeMirror.defineMode("octave", function() {
   var keywords = wordRegexp([
     'return', 'case', 'switch', 'else', 'elseif', 'end', 'endif', 'endfunction',
     'if', 'otherwise', 'do', 'for', 'while', 'try', 'catch', 'classdef', 'properties', 'events',
-    'methods', 'global', 'persistent', 'endfor', 'endwhile', 'printf', 'sprintf', 'disp', 'until',
+    'methods', 'global', 'persistent', 'endfor', 'endwhile', 'printf', 'sprintf', 'disp', 'utils',
     'continue', 'pkg'
   ]);
 

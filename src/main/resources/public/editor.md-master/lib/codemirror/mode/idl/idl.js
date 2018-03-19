@@ -229,7 +229,7 @@
     'endwhile', 'endif', 'endrep', 'endforeach',
     'break', 'case', 'continue', 'for',
     'foreach', 'goto', 'if', 'then', 'else',
-    'repeat', 'until', 'switch', 'while',
+    'repeat', 'utils', 'switch', 'while',
     'do', 'pro', 'function'
   ];
   var keywords = wordRegexp(keywordArray);

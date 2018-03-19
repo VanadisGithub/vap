@@ -40,7 +40,7 @@ CodeMirror.defineMode("vbscript", function(conf, parserConf) {
     var endKeywords = ['next','loop','wend'];
 
     var wordOperators = wordRegexp(['and', 'or', 'not', 'xor', 'is', 'mod', 'eqv', 'imp']);
-    var commonkeywords = ['dim', 'redim', 'then',  'until', 'randomize',
+    var commonkeywords = ['dim', 'redim', 'then',  'utils', 'randomize',
                           'byval','byref','new','property', 'exit', 'in',
                           'const','private', 'public',
                           'get','set','let', 'stop', 'on error resume next', 'on error goto 0', 'option explicit', 'call', 'me'];

@@ -61,11 +61,11 @@ CodeMirror.defineMode("lua", function(config, parserConfig) {
   ]);
   var keywords = wordRE(["and","break","elseif","false","nil","not","or","return",
                          "true","function", "end", "if", "then", "else", "do",
-                         "while", "repeat", "until", "for", "in", "local" ]);
+                         "while", "repeat", "utils", "for", "in", "local" ]);
 
   var indentTokens = wordRE(["function", "if","repeat","do", "\\(", "{"]);
-  var dedentTokens = wordRE(["end", "until", "\\)", "}"]);
-  var dedentPartial = prefixRE(["end", "until", "\\)", "}", "else", "elseif"]);
+  var dedentTokens = wordRE(["end", "utils", "\\)", "}"]);
+  var dedentPartial = prefixRE(["end", "utils", "\\)", "}", "else", "elseif"]);
 
   function readBracket(stream) {
     var level = 0;

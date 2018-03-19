@@ -1,8 +1,7 @@
 package com.vanadis.vap.controller.untils;
 
 import com.vanadis.vap.controller.BaseController;
-import com.vanadis.vap.until.HttpUtils;
-import com.vanadis.vap.until.ProxyUtils;
+import com.vanadis.vap.utils.ProxyUtils;
 import org.apache.http.HttpHost;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
