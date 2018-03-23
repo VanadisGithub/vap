@@ -58,6 +58,7 @@ var Utils = {
         }
         document.addEventListener('copy', save);
         document.execCommand("copy");//使文档处于可编辑状态，否则无效
+        layer.msg("已复制到剪切板！", {icon: 1});
     },
 
     isNumber: function (val) {

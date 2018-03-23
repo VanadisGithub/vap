@@ -9,6 +9,10 @@ import com.vanadis.vap.utils.RegexUtils;
 import com.vanadis.vap.utils.ResultUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.methods.HttpGet;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,16 +65,24 @@ public class HomeController extends BaseController {
         return resultStr;
     }
 
-    @RequestMapping("test")
-    public String getHomeImg() {
+    @RequestMapping("getHomeImg")
+    public Result getHomeImg() {
         String url = "http://wufazhuce.com/";
         String html = HttpUtils.doGet(url, null, null);
-        Matcher matcher = Pattern.compile("<img class=\"fp-one-imagen\" src=\"(.*?)\" alt=\"\" />").matcher(html);
-        String imgUrl = "";
-        while (matcher.find()) {
-            imgUrl = matcher.group(1);
+        Document document = Jsoup.parse(html);
+        Elements tags = document.select("a");
+        Map result = new HashMap();
+        for (int i = 0; i < tags.size(); i++) {
+            Element a = tags.get(i);
+            if (i == 1) {
+                String imgUrl = a.select("img").attr("src");
+                result.put("imgUrl", imgUrl);
+            }
+            if (i == 2) {
+                result.put("words", a.html());
+            }
         }
-        return imgUrl;
+        return ResultUtils.success(result);
     }
 
 }

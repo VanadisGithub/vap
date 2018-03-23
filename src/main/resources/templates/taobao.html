@@ -56,11 +56,10 @@
             dataType: "json",
             success: function (resultDate) {
                 $('#couponList').html("");
-                if (resultDate.data == null) {
-                    getBuyUrl();
-                } else {
+                getBuyUrl();
+                if (resultDate.data != null) {
                     for (var i in resultDate.data) {
-                        $('#couponList').append('<span class="btn btn-default coupon" activityId="' + resultDate.data[i].activityId + '">' + resultDate.data[i].title + '</span>');
+                        $('#couponList').append('<span class="btn btn-default coupon" style="margin-right:10px" activityId="' + resultDate.data[i].activityId + '">' + resultDate.data[i].title + '</span>');
                     }
                     $(".coupon").unbind("click").click(function () {
                         getBuyUrl($(this).attr("activityId"));
@@ -87,7 +86,6 @@
                 $("#buy-url").append('<span class="btn btn-info buy-url">点击复制 ' + resultDate.data + '</span>');
                 $(".buy-url").unbind("click").click(function () {
                     Utils.copyToClipboard(resultDate.data);
-                    layer.msg("已复制到剪切板！", { icon: 6 });
                 })
             }
         });
