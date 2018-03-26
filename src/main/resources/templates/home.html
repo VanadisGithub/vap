@@ -8,42 +8,29 @@
 </head>
 
 <style>
-    /*html, body {*/
-    /*height: 100%;*/
-    /*width: 100%;*/
-    /*}*/
-
     .body {
         background: #101010;
         background-size: 100%;
-        /*background-color: #eee;*/
     }
 
-    .myHome {
+    .home-box {
         width: 100%;
         height: 100%;
         background-color: #222222;
         padding-top: 50px;
     }
 
+    .img-box {
+        margin: 5% 30%;
+    }
+
     .word-box {
-        margin-left: 30%;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        margin: 10px 15%;
     }
 
-    .words {
-        color: #ededed;
-        font-size: 36px;
-        /*font-family: 华文新魏;*/
-        font-family: Cutive;
-    }
-
-    .words-new {
-        color: #101010;
-        font-size: 36px;
-        /*font-family: 华文新魏;*/
+    .wordStyle {
+        color: #d5d5d5;
+        font-size: 24px;
         font-family: Cutive;
     }
 
@@ -59,10 +46,12 @@
 
 <nav th:replace="common/head :: head"></nav>
 <div class="myHome">
-    <div class="word-box">
+    <div class="img-box">
         <img class="img"/>
-        <div class="words"><span id="First"></span></div>
-        <div class="words" style="display: none">- <span id="Second"></span></div>
+    </div>
+    <div class="word-box">
+        <span class="wordStyle">-</span>
+        <span id="First" class="wordStyle"></span>
     </div>
     <input type="text" class="form-control talk-input" placeholder="也许你想说点什么..." style="display: none"/>
 </div>

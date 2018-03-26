@@ -1,5 +1,6 @@
 package com.vanadis.vap.controller;
 
+import com.mysql.jdbc.StringUtils;
 import com.vanadis.vap.model.Result;
 import com.vanadis.vap.model.User;
 import com.vanadis.vap.model.UserMapper;
@@ -9,6 +10,7 @@ import com.vanadis.vap.utils.RegexUtils;
 import com.vanadis.vap.utils.ResultUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.methods.HttpGet;
+import org.codehaus.groovy.util.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -71,18 +73,21 @@ public class HomeController extends BaseController {
         String html = HttpUtils.doGet(url, null, null);
         Document document = Jsoup.parse(html);
         Elements tags = document.select("a");
-        Map result = new HashMap();
-        for (int i = 0; i < tags.size(); i++) {
-            Element a = tags.get(i);
-            if (i == 1) {
-                String imgUrl = a.select("img").attr("src");
-                result.put("imgUrl", imgUrl);
+        List<HashMap> homeList = new ArrayList<>();
+        for (int i = 1; i < 13; i = i + 2) {
+            Element img = tags.get(i);
+            String imgUrl = img.select("img").attr("src");
+            if (StringUtils.isNullOrEmpty(imgUrl)) {
+                log.warn("获取首页图片失败！");
+                continue;
             }
-            if (i == 2) {
-                result.put("words", a.html());
-            }
+            Element word = tags.get(i + 1);
+            Map result = new HashMap();
+            result.put("imgUrl", imgUrl);
+            result.put("words", word.html());
+            homeList.add((HashMap) result);
         }
-        return ResultUtils.success(result);
+        return ResultUtils.success(homeList.get((int) (Math.random() * homeList.size())));
     }
 
 }

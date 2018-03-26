@@ -19,7 +19,7 @@
     <form class="form-inline">
         <input id="depCity" class="form-control" type="text" placeholder="默认杭州">
         <span id="switch-btn" class="btn btn-default" style="margin-left: 5px;margin-right: 5px"><></span>
-        <input id="arrCity" class="form-control" type="text" placeholder="默认杭州">
+        <input id="arrCity" class="form-control" type="text" placeholder="默认昆明">
         <span id="search-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">查询</span>
         <div class="input-group date">
             <input id="start-date" type="text" class="form-control">
@@ -27,8 +27,12 @@
                 <span class="glyphicon glyphicon-calendar"></span>
             </div>
         </div>
+        <!--<span id="highcharts-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">折线图</span>-->
     </form>
-    <table id="flight" class="table table-hover" style="margin-top: 20px;background-color: #fff">
+
+    <div id="flight-chart" style="margin-top: 20px;"></div>
+
+    <table id="flight-table" class="table table-hover" style="margin-top: 20px;background-color: #fff">
         <thead>
         <tr>
             <th width="10%">日期</th>
@@ -40,13 +44,22 @@
         </tr>
         </thead>
         <tbody id="flight-body">
-
+        <tr v-for="day in x_value">
+            <td>{{day}}</td>
+            <td>{{flightData.data.qunar[day]}}</td>
+            <td>{{flightData.data.meituan[day]}}</td>
+            <td>{{flightData.data.jingdong[day]}}</td>
+            <td>{{flightData.data.feizhu[day]}}</td>
+            <td>{{flightData.data.xiecheng[day]}}</td>
+        </tr>
         </tbody>
     </table>
 </div>
 
 </body>
 <script type="text/javascript">
+
+    var flightTableVM;
 
     $(function () {
         laydate.render({
@@ -57,10 +70,20 @@
             var city = $("#depCity").val();
             $("#depCity").val($("#arrCity").val());
             $("#arrCity").val(city);
+            timestampToDate();
         });
 
         $("#search-btn").unbind("click").click(function () {
             timestampToDate();
+        });
+
+        flightTableVM = new Vue({
+            el: "#flight-table",
+            data: {
+                flightData: {},
+                x_value: []
+            },
+            methods: {}
         });
     });
 
@@ -72,7 +95,7 @@
         }
         var arrCity = $("#arrCity").val();
         if (Utils.isUfOrNullOrEmpty(arrCity)) {
-            arrCity = '杭州';
+            arrCity = '昆明';
         }
         var startDate = $("#start-date").val();
         if (Utils.isUfOrNullOrEmpty(startDate)) {
@@ -89,31 +112,135 @@
             data: paramData,
             dataType: "json",
             success: function (resultDate) {
-                var html = "";
-                var quanr = resultDate.data.qunar;
-                var meituan = resultDate.data.meituan;
-                var jingdong = resultDate.data.jingdong;
-                var feizhu = resultDate.data.feizhu;
-                var xiecheng = resultDate.data.xiecheng;
-                for (var i = 0; i < 29; i++) {
-                    var date = new Date(startDate);
-                    date.setDate(date.getDate() + i);
-                    var key = Utils.getDate(date);
-                    html += ('<tr>');
-                    html += ('<td>' + key + '</td>');
-                    html += ('<td>' + quanr[key] + '</td>');
-                    html += ('<td>' + meituan[key] + '</td>');
-                    html += ('<td>' + jingdong[key] + '</td>');
-                    html += ('<td>' + feizhu[key] + '</td>');
-                    html += ('<td>' + xiecheng[key] + '</td>');
-                    html += ('</tr>');
-                }
-                $("#flight-body").html(html);
 
+                flightTableVM.flightData = resultDate;
+
+                var x_value = [];
+
+                var qunarData = {};
+                qunarData.name = "去哪儿";
+                qunarData.data = [];
+                qunarData.color = "#00AFC7";
+
+                var meituanData = {};
+                meituanData.name = "美团";
+                meituanData.data = [];
+                meituanData.color = "#28BBAC";
+
+                var jingdongData = {};
+                jingdongData.name = "京东";
+                jingdongData.data = [];
+                jingdongData.color = "#E83632";
+
+                var feizhuData = {};
+                feizhuData.name = "飞猪";
+                feizhuData.data = [];
+                feizhuData.color = "#FFC900";
+
+                var xiechengData = {};
+                xiechengData.name = "携程";
+                xiechengData.data = [];
+                xiechengData.color = "#2577E3";
+
+                for (var i = 0; i < 29; i++) {
+                    x_value.push(key);
+                    addFlightData(qunarData.data, resultDate.data.quanr[key]);
+                    addFlightData(meituanData.data, resultDate.data.meituan[key]);
+                    addFlightData(jingdongData.data, resultDate.data.jingdong[key]);
+                    addFlightData(feizhuData.data, resultDate.data.feizhu[key]);
+                    addFlightData(xiechengData.data, resultDate.data.xiecheng[key]);
+                }
+
+                flightTableVM.x_value = x_value;
+
+                var flightData = [];
+                flightData.push(qunarData);
+                flightData.push(meituanData);
+                flightData.push(jingdongData);
+                flightData.push(feizhuData);
+                flightData.push(xiechengData);
+
+                showHighCharts(flightData, x_value);
             },
             error: function () {
                 errorMsg();
             }
+        });
+    }
+
+    function addFlightData(arr, data) {
+        if (Utils.isUfOrNullOrEmpty(data)) {
+            arr.push(null);
+        } else {
+            arr.push(data);
+        }
+    }
+
+    function showHighCharts(flightData, x_value) {
+        var chart = new Highcharts.Chart('flight-chart', {
+            chart: {
+                type: 'spline',
+                height: '500'
+            },
+            title: {
+                text: '各平台机票最低价走势',
+                x: -20
+            },
+            subtitle: {
+                text: '点击右侧隐藏平台',
+                x: -20
+            },
+            xAxis: {
+                categories: x_value,
+            },
+            yAxis: {
+                min: 1,
+                tickInterval: 100,
+                title: {
+                    text: '元'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+            },
+            tooltip: {
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}</small><table>',
+                pointFormatter: function () {
+                    return '<tr>' +
+                        '<td style="text-align: left;color: ' + this.series.color + '">' + this.series.name + ': </td>' +
+                        '<td style="text-align: right"><b>' + this.y + '元</b></td></tr>';
+                },
+                footerFormat: '</table>'
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000', // 开启数据标签
+                    },
+                    gapSize: 500
+                },
+                spline: {
+                    marker: {
+                        enabled: true,
+                        radius: 3
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: flightData,
+            credits: {
+                enabled: false
+            },
         });
     }
 
