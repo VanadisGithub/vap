@@ -115,6 +115,12 @@
 
                 flightTableVM.flightData = resultDate;
 
+                var quanr = resultDate.data.qunar;
+                var meituan = resultDate.data.meituan;
+                var jingdong = resultDate.data.jingdong;
+                var feizhu = resultDate.data.feizhu;
+                var xiecheng = resultDate.data.xiecheng
+
                 var x_value = [];
 
                 var qunarData = {};
@@ -143,12 +149,16 @@
                 xiechengData.color = "#2577E3";
 
                 for (var i = 0; i < 29; i++) {
+                    var date = new Date(startDate);
+                    date.setDate(date.getDate() + i);
+                    var key = Utils.getDate(date);
                     x_value.push(key);
-                    addFlightData(qunarData.data, resultDate.data.quanr[key]);
-                    addFlightData(meituanData.data, resultDate.data.meituan[key]);
-                    addFlightData(jingdongData.data, resultDate.data.jingdong[key]);
-                    addFlightData(feizhuData.data, resultDate.data.feizhu[key]);
-                    addFlightData(xiechengData.data, resultDate.data.xiecheng[key]);
+
+                    addFlightData(qunarData.data, quanr[key]);
+                    addFlightData(meituanData.data, meituan[key]);
+                    addFlightData(jingdongData.data, jingdong[key]);
+                    addFlightData(feizhuData.data, feizhu[key]);
+                    addFlightData(xiechengData.data, xiecheng[key]);
                 }
 
                 flightTableVM.x_value = x_value;

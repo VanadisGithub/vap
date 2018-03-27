@@ -43,12 +43,6 @@ public class HomeController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping("utils")
-    public ModelAndView utils() {
-        ModelAndView modelAndView = new ModelAndView("/utils");
-        return modelAndView;
-    }
-
     @RequestMapping("getUser")
     public User getUser() {
         User user = userMapper.getLastOne();

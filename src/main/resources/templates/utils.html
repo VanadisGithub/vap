@@ -4,7 +4,20 @@
     <meta charset="utf-8"/>
     <title>VAP</title>
 </head>
-<body>
+
+<style>
+    .body {
+        background-color: #eee;
+    }
+
+    textarea {
+        min-width: 40%;
+        max-width: 40%;
+        height: 200px;
+    }
+</style>
+
+<body class="body">
 
 <div th:replace="common/head :: head"></div>
 
@@ -12,8 +25,15 @@
     <form class="form-inline">
         <span>时间戳：</span>
         <input id="timestamp" class="form-control" type="text">
-        <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
+        <span id="time-switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
         <input id="date" class="form-control" type="text">
+    </form>
+    <form class="form-inline" style="margin-top: 20px">
+        <span>base64：</span>
+        <textarea id="decodeText" class="form-control" type="text" placeholder="原文"></textarea>
+        <span id="base64-encode-btn" class="btn btn-default" style="margin:0 20px 0 10px">Encode</span>
+        <span id="base64-decode-btn" class="btn btn-default" style="margin:0 10px 0 20px">Decode</span>
+        <textarea id="encodeText" class="form-control" type="text" placeholder="密文"></textarea>
     </form>
 </div>
 
@@ -29,12 +49,21 @@
                 timestampToDate();
             }
         });
-        $("#switch-btn").unbind("click").click(function () {
+        $("#time-switch-btn").unbind("click").click(function () {
             timestampToDate();
+        });
+        $("#base64-encode-btn").unbind("click").click(function () {
+            var decodeText = $("#decodeText").val();
+            base64(decodeText, 1);
+        });
+        $("#base64-decode-btn").unbind("click").click(function () {
+            var encodeText = $("#encodeText").val();
+            base64(encodeText, 2);
         });
     });
 
     function timestampToDate() {
+        l
         var timestamp = $("#timestamp").val();
         if (timestamp.length <= 10) {
             timestamp = timestamp * 1000;
@@ -44,6 +73,30 @@
             dateStr = '无效的时间戳';
         }
         $('#date').val(dateStr);
+    }
+
+    function base64(str, type) {
+        str = str.replace(/[\r\n]/g, "");
+        if (Utils.isUfOrNullOrEmpty(str)) {
+            layer.msg("给点东西喽！", {icon: 5});
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/utils/base64",
+            data: {str: str, type: type},
+            dataType: "json",
+            success: function (resultDate) {
+                if (type == 1) {
+                    $("#encodeText").val(resultDate.data);
+                } else {
+                    $("#decodeText").val(resultDate.data);
+                }
+            },
+            error: function () {
+                errorMsg();
+            }
+        });
     }
 </script>
 </html>
