@@ -13,7 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AirplaneSchedule {
+public class FlightSchedule {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired

@@ -25,32 +25,9 @@ public class ThreadController extends BaseController {
     private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(POOL_SIZE, POOL_SIZE, 0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(30), SHOP_COPY_FACTORY);
 
-    @Autowired
-    private ArticleMapper articleMapper;
-
     @RequestMapping("")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("/article/articleList");
-        List<Article> articles = articleMapper.getList();
-        modelAndView.addObject("articles", articles);
-        return modelAndView;
-    }
-
-    @RequestMapping("article")
-    public ModelAndView article(Long articleId) {
-        ModelAndView modelAndView = new ModelAndView("/article/article");
-        Article article = articleMapper.getArticle(articleId);
-        modelAndView.addObject("article", article);
-        return modelAndView;
-    }
-
-    @RequestMapping("markdown")
-    public ModelAndView markdown(long articleId) {
-        ModelAndView modelAndView = new ModelAndView("/article/markdown");
-        if (articleId != 0L) {
-            Article article = articleMapper.getArticle(articleId);
-            modelAndView.addObject("article", article);
-        }
         return modelAndView;
     }
 

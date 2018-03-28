@@ -1,24 +1,28 @@
 package com.vanadis.vap.controller.untils;
 
 import com.vanadis.vap.controller.BaseController;
+import com.vanadis.vap.model.Proxy;
+import com.vanadis.vap.model.ProxyMapper;
 import com.vanadis.vap.utils.ProxyUtils;
 import org.apache.http.HttpHost;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
 
 @RestController
 @RequestMapping("proxy")
 public class ProxyController extends BaseController {
+
+    @Autowired
+    private ProxyMapper proxyMapper;
 
     @RequestMapping("")
     public ModelAndView index() {
@@ -26,35 +30,29 @@ public class ProxyController extends BaseController {
         return modelAndView;
     }
 
+    /**
+     * 通过代理刷访问
+     *
+     * @param url
+     * @throws InterruptedException
+     */
     @RequestMapping("visitByProxy")
-    public int visitByProxy(String url) {
-
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        ArrayList<Future<String>> resultList = new ArrayList<>();
-
-        List<HttpHost> proxys = ProxyUtils.getXiCiProxys(url);
-        for (HttpHost proxy : proxys) {
-//            executorService.submit(new DoGetWithProxy(url, proxy));
+    public void visitByProxy(String url) {
+        List<Proxy> list = proxyMapper.getAll();
+        String[] urlArr = url.split("/[\n,]/g");
+        for (int i = 0; i < urlArr.length; i++) {
+            String eUrl = urlArr[i];
+            ProxyUtils.doGetWithProxyList(eUrl, list, 100, proxyMapper);
         }
-        int num = 0;
-//        for (Future<String> fs : resultList) {
-//            try {
-//                while (!fs.isDone()) ;
-//                if (fs.get() != null) {
-//                    num++;
-//                }
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } finally {
-//                //启动一次顺序关闭，执行以前提交的任务，但不接受新任务
-//                executorService.shutdown();
-//            }
-//        }
-        return num;
     }
 
+
+    /**
+     * xici页面转代码
+     *
+     * @param html
+     * @return
+     */
     @RequestMapping("htmlToProxy")
     public Map htmlToProxy(String html) {
 
@@ -75,9 +73,31 @@ public class ProxyController extends BaseController {
         return result;
     }
 
-    @RequestMapping("test")
-    public String test() {
-        return null;
+    /**
+     * 获取xici代理
+     *
+     * @return
+     */
+    @RequestMapping("saveProxyXici")
+    public String saveProxyXici() {
+        ProxyUtils.saveProxyXici(proxyMapper);
+        return "获取完成了！";
+    }
+
+    /**
+     * 导出完美代理
+     *
+     * @return
+     */
+    @RequestMapping("exportPerfectProxy")
+    public String exportPerfectProxy() {
+        List<Proxy> list = proxyMapper.getPerfectList();
+        StringBuffer resultStr = new StringBuffer();
+        for (Proxy proxy : list) {
+            resultStr.append("Proxys.add(new HttpHost(\"" + proxy.getIp() + "\", " + proxy.getPort() + "));\n");
+        }
+        System.out.println(resultStr.toString());
+        return resultStr.toString();
     }
 
 }

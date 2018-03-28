@@ -82,10 +82,11 @@ public class HomeController extends BaseController {
             homeList.add((HashMap) result);
         }
         HashMap<String,String> home = homeList.get((int) (Math.random() * homeList.size()));
+        home.replace("imgUrl","/img/home-crow.png");
         if(StringUtils.isNullOrEmpty(home.get("imgUrl"))){
-            home.replace("imgUrl","/img/home-crow");
+            home.replace("imgUrl","/img/home-crow.png");
         }
-        return ResultUtils.success();
+        return ResultUtils.success(home);
     }
 
 }

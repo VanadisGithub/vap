@@ -4,7 +4,14 @@
     <meta charset="utf-8"/>
     <title>VAP</title>
 </head>
-<body>
+
+<style>
+    .body {
+        background-color: #eee;
+    }
+</style>
+
+<body class="body">
 <style type="text/css">
 
     #visitUrl {
@@ -24,11 +31,11 @@
 <div style="margin:70px;">
     <form class="form-inline">
         <span>链接：</span>
-        <input id="visitUrl" class="form-control" type="text">
-        <span id="visit-btn" class="btn btn-info" style="margin-left: 20px;margin-right: 20px">访问</span>
+        <textarea id="visitUrl" class="form-control" type="text"></textarea>
+        <span id="visit-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">访问</span>
     </form>
     <form class="form-inline" style="margin-top: 20px">
-        <span>页面：</span>
+        <span>西刺：</span>
         <textarea id="htmlText" class="form-control" type="text"></textarea>
         <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
         <textarea id="proxyText" class="form-control" type="text"></textarea>
@@ -71,7 +78,7 @@
                 $("#proxyText").val(resultDate.result);
             },
             error: function () {
-                alert('访问出错~！')
+                errorMsg();
             }
         });
     }
@@ -89,7 +96,7 @@
                 $("#proxyText").val(resultDate.result);
             },
             error: function () {
-                alert('访问出错~！')
+                errorMsg();
             }
         })
     }
