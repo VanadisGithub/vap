@@ -1,23 +1,21 @@
 package com.vanadis.vap.controller;
 
+import cn.zhouyafeng.itchat4j.Wechat;
+import cn.zhouyafeng.itchat4j.api.WechatTools;
+import cn.zhouyafeng.itchat4j.face.IMsgHandlerFace;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.vanadis.vap.model.Article;
-import com.vanadis.vap.model.ArticleMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vanadis.vap.weixin.SimpleDemo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @RestController
-@RequestMapping("thread")
+@RequestMapping("test")
 public class ThreadController extends BaseController {
 
     private static final int POOL_SIZE = 64;
@@ -37,6 +35,15 @@ public class ThreadController extends BaseController {
             int finalI = i;
             EXECUTOR.execute(new Thread(() -> System.out.println(finalI + ":running")));
         }
+    }
+
+    @RequestMapping("wx")
+    public void wx() {
+        String qrPath = "D://itchat4j//login"; // 保存登陆二维码图片的路径
+        IMsgHandlerFace msgHandler = new SimpleDemo(); // 实现IMsgHandlerFace接口的类
+        Wechat wechat = new Wechat(msgHandler, qrPath); // 【注入】
+        wechat.start();
+        WechatTools.getContactList();
     }
 
 }

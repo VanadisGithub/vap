@@ -170,7 +170,7 @@ public class HttpUtils {
         return null;
     }
 
-    public static Map<String, Object> testGet(String url, Map<String, Object> headerMap) {
+    public static Map<String, Object> postmanGet(String url, Map<String, Object> headerMap) {
         Map<String, Object> result = new HashMap<>();
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
@@ -186,7 +186,7 @@ public class HttpUtils {
 
             int statusCode = response.getStatusLine().getStatusCode();
 
-            log.info("testGet:" + url + " " + statusCode);
+            log.info("postmanGet:" + url + " " + statusCode);
 
             result.put("status", statusCode);
 
@@ -206,6 +206,7 @@ public class HttpUtils {
         return result;
     }
 
+    //获取文件流
     public static InputStream getInputStream(String urlStr) {
         InputStream inputStream = null;
         HttpURLConnection httpURLConnection = null;
