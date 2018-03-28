@@ -67,7 +67,7 @@ public class HomeController extends BaseController {
         String html = HttpUtils.doGet(url, null, null);
         Document document = Jsoup.parse(html);
         Elements tags = document.select("a");
-        List<HashMap> homeList = new ArrayList<>();
+        List<HashMap<String,String>> homeList = new ArrayList<>();
         for (int i = 1; i < 13; i = i + 2) {
             Element img = tags.get(i);
             String imgUrl = img.select("img").attr("src");
@@ -81,7 +81,11 @@ public class HomeController extends BaseController {
             result.put("words", word.html());
             homeList.add((HashMap) result);
         }
-        return ResultUtils.success(homeList.get((int) (Math.random() * homeList.size())));
+        HashMap<String,String> home = homeList.get((int) (Math.random() * homeList.size()));
+        if(StringUtils.isNullOrEmpty(home.get("imgUrl"))){
+            home.replace("imgUrl","/img/home-crow");
+        }
+        return ResultUtils.success();
     }
 
 }

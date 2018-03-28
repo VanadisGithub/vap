@@ -38,7 +38,13 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping("markdown")
-    public ModelAndView markdown(long articleId) {
+    public ModelAndView markdown() {
+        ModelAndView modelAndView = new ModelAndView("/article/markdown");
+        return modelAndView;
+    }
+
+    @RequestMapping("updateArticle")
+    public ModelAndView updateArticle(long articleId) {
         ModelAndView modelAndView = new ModelAndView("/article/markdown");
         if (articleId != 0L) {
             Article article = articleMapper.getArticle(articleId);
