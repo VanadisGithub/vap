@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>VAP</title>
+</head>
+
+<style>
+    .body {
+        background-color: #eee;
+    }
+
+    textarea {
+        min-width: 40%;
+        max-width: 40%;
+        height: 200px;
+    }
+</style>
+
+<body class="body">
+
+<div th:replace="common/head :: head"></div>
+
+<div style="margin:70px">
+    <div id="map" style="width:800px;height: 500px;"></div>
+</div>
+
+</body>
+<script src="https://img.hcharts.cn/highmaps/highmaps.js"></script>
+<script src="https://data.jianshukeji.com/geochina/china.js"></script>
+<script type="text/javascript">
+    // 随机数据
+    var data = [{"name":"北京","value":9},{"name":"天津","value":87},{"name":"河北","value":75},{"name":"山西","value":47},{"name":"内蒙古","value":69},{"name":"辽宁","value":91},{"name":"吉林","value":21},{"name":"黑龙江","value":2},{"name":"上海","value":77},{"name":"江苏","value":91},{"name":"浙江","value":51},{"name":"安徽","value":60},{"name":"福建","value":67},{"name":"江西","value":98},{"name":"山东","value":44},{"name":"河南","value":34},{"name":"湖北","value":88},{"name":"湖南","value":100},{"name":"广东","value":6},{"name":"广西","value":6},{"name":"海南","value":93},{"name":"重庆","value":12},{"name":"四川","value":10},{"name":"贵州","value":71},{"name":"云南","value":80},{"name":"西藏","value":46},{"name":"陕西","value":34},{"name":"甘肃","value":11},{"name":"青海","value":51},{"name":"宁夏","value":29},{"name":"新疆","value":69},{"name":"台湾","value":97},{"name":"香港","value":92},{"name":"澳门","value":97},{"name":"南海诸岛","value":95},{"name":"南海诸岛","value":47}];
+    // 初始化图表
+    var map = new Highcharts.Map('map', {
+        title: {
+            text: '中国地图'
+        },
+        colorAxis: {
+            min: 0,
+            minColor: 'rgb(255,255,255)',
+            maxColor: '#006cee'
+        },
+        series: [{
+            data: data,
+            name: '随机数据',
+//            mapData: Highcharts.maps['cn/china'],
+            joinBy: 'name' // 根据 name 属性进行关联
+        }]
+    });
+</script>
+</html>

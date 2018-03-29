@@ -11,8 +11,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -219,6 +221,7 @@ public class HttpUtils {
             httpURLConnection.setDoInput(true);
             httpURLConnection.setRequestMethod("GET");
             int responseCode = httpURLConnection.getResponseCode();
+            log.info("getInputStream:" + url + " " + responseCode);
             if (responseCode == 200) {
                 inputStream = httpURLConnection.getInputStream();
             }
@@ -228,5 +231,33 @@ public class HttpUtils {
             e.printStackTrace();
         }
         return inputStream;
+    }
+
+    //保存文件
+    public static String saveFile(String url, String path) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpGet get = new HttpGet(url);
+            HttpResponse response = httpClient.execute(get);
+            int statusCode = response.getStatusLine().getStatusCode();
+            log.info("saveFile:" + url + " " + statusCode);
+            if (statusCode == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                OutputStream out = new FileOutputStream(path);
+                byte[] bytes = EntityUtils.toByteArray(entity);
+                out.write(bytes);
+                out.flush();
+                out.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return path;
     }
 }

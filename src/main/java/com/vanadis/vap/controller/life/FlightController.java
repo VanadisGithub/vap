@@ -1,4 +1,4 @@
-package com.vanadis.vap.controller.untils;
+package com.vanadis.vap.controller.life;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

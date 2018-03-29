@@ -27,7 +27,7 @@ public class VisitScheduler {
     @Autowired
     private ProxyMapper proxyMapper;
 
-    @Scheduled(cron = "0 0/30 * * * ? ")//每30分钟
+//    @Scheduled(cron = "0 0/30 * * * ? ")//每30分钟
     public void scheduler() {
         List<Proxy> list = proxyMapper.getAll();
         List<String> urlList = new ArrayList<String>() {
