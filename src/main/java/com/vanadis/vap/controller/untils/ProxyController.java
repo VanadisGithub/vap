@@ -4,6 +4,8 @@ import com.vanadis.vap.controller.BaseController;
 import com.vanadis.vap.model.Proxy;
 import com.vanadis.vap.model.ProxyMapper;
 import com.vanadis.vap.utils.ProxyUtils;
+import com.vanadis.vap.utils.RegexUtils;
+import javafx.scene.Parent;
 import org.apache.http.HttpHost;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("proxy")
@@ -68,6 +72,22 @@ public class ProxyController extends BaseController {
             String port = tds.get(2).html();
             HttpHost proxy = new HttpHost(ip, Integer.valueOf(port));
             resultStr.append("Proxys.add(new HttpHost(\"" + proxy.getHostName() + "\", " + proxy.getPort() + "));\n");
+        }
+        return result;
+    }
+
+    /**
+     * csdn页面转代码
+     *
+     * @param html
+     * @return
+     */
+    public Map htmlToProxyCsdn(String html) {
+        Map<String, String> result = new HashMap<>();
+        StringBuffer resultStr = new StringBuffer();
+        Matcher matcher = Pattern.compile("<td class='tdleft'><a href='(.*?)' target=_blank>").matcher(html);
+        while (matcher.find()) {
+            resultStr.append(matcher.group());
         }
         result.put("result", resultStr.toString());
         return result;

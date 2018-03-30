@@ -27,17 +27,41 @@ public class VisitScheduler {
     @Autowired
     private ProxyMapper proxyMapper;
 
-//    @Scheduled(cron = "0 0/30 * * * ? ")//每30分钟
+    @Scheduled(cron = "0 0/20 * * * ? ")//每30分钟
     public void scheduler() {
         List<Proxy> list = proxyMapper.getAll();
         List<String> urlList = new ArrayList<String>() {
             {
-                add("https://blog.csdn.net/vanadis_outlook/article/details/72972168");
-                add("https://blog.csdn.net/vanadis_outlook/article/details/72991117");
-                add("https://blog.csdn.net/vanadis_outlook/article/details/79525729");
-                add("https://blog.csdn.net/vanadis_outlook/article/details/79270395");
-                add("https://blog.csdn.net/vanadis_outlook/article/details/79266476");
-                add("https://blog.csdn.net/vanadis_outlook/article/details/72823024");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/79525729");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/79270395");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/79266476");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/73223918");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/73136356");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/72991117");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/72972168");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/72971080");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/72851739");
+//                add("http://blog.csdn.net/vanadis_outlook/article/details/72848008");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/72844302");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/72831853");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/72830205");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/71541589");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/71515487");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/71440510");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/71106563");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/70670699");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/70332257");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/70313101");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/70313045");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/70172029");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/70158834");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/70144841");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/68926324");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/68485949");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/68482881");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/68061686");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/67634780");
+                add("http://blog.csdn.net/vanadis_outlook/article/details/67634699");
             }
         };
         log.info("【访问任务开始】：链接：" + urlList.size() + "；代理：" + list.size());

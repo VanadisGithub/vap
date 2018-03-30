@@ -172,6 +172,37 @@ public class HttpUtils {
         return null;
     }
 
+    public static String visitGet(String url, Map<String, Object> headerMap, HttpHost proxy) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet get = new HttpGet(url);
+
+        if (headerMap != null) {
+            for (String key : headerMap.keySet()) {
+                get.setHeader(key, String.valueOf(headerMap.get(key)));
+            }
+        }
+
+        //默认添加请求头
+        get.addHeader("user-agent", UserAgentUtils.getUserAgent());
+
+        if (proxy != null) {
+            RequestConfig requestConfig = RequestConfig.copy(baseRequestConfig).setProxy(proxy).build();
+            get.setConfig(requestConfig);
+        }
+
+        HttpResponse response = httpClient.execute(get);
+
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        log.info("visitGet:" + url + " " + statusCode);
+
+        if (statusCode == HttpStatus.SC_OK) {
+            String resultStr = EntityUtils.toString(response.getEntity(), "utf-8");
+            return resultStr;
+        }
+        return null;
+    }
+
     public static Map<String, Object> postmanGet(String url, Map<String, Object> headerMap) {
         Map<String, Object> result = new HashMap<>();
         CloseableHttpClient httpClient = HttpClients.createDefault();

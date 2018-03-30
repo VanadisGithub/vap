@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -99,7 +100,8 @@ public class ProxyUtils {
                     String ip = tds.get(1).html();
                     String port = tds.get(2).html();
                     Proxy proxy = new Proxy(ip, port, 0, 0);
-                    if (proxyMapper.isExcited(proxy.getIp()) != 1) {
+                    System.out.println(proxyMapper.isExcited(proxy.getIp()));
+                    if (proxyMapper.isExcited(proxy.getIp()) == 0) {
                         proxyMapper.insert(proxy);
                     }
                 }
@@ -127,7 +129,12 @@ public class ProxyUtils {
 
         @Override
         public String call() {
-            String resultStr = HttpUtils.doGet(url, null, proxy);
+            String resultStr = null;
+            try {
+                resultStr = HttpUtils.visitGet(url, null, proxy);
+            } catch (IOException e) {
+                proxyMapper.addErrorNum(proxy.getHostName(), System.currentTimeMillis());
+            }
             if (StringUtils.isNullOrEmpty(resultStr)) {
                 proxyMapper.addErrorNum(proxy.getHostName(), System.currentTimeMillis());
             }
