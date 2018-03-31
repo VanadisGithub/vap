@@ -142,11 +142,11 @@
         </dependency>
 
         <!--ocr:tess4j-->
-        <!--<dependency>-->
-            <!--<groupId>net.sourceforge.tess4j</groupId>-->
-            <!--<artifactId>tess4j</artifactId>-->
-            <!--<version>3.1.0</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>3.4.6</version>
+        </dependency>
 
     </dependencies>
 

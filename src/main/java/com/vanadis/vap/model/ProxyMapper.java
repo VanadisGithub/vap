@@ -14,8 +14,8 @@ public interface ProxyMapper {
     @Select("SELECT * FROM proxy where error_num = 0")
     List<Proxy> getPerfectList();
 
-    @Select("SELECT * FROM proxy where error_num < 2")
-    List<Proxy> getGoodList();
+    @Select("SELECT * FROM proxy where error_num < #{num}")
+    List<Proxy> getGoodList(int num);
 
     @Select("SELECT * FROM proxy_xici")
     List<Proxy> getOldAll();
@@ -38,7 +38,7 @@ public interface ProxyMapper {
     @Select("select count(*) from proxy where ip = #{ip}")
     int isExcited(String ip);
 
-    @Update("update proxy set error_num = error_num + 1 , update_ts = #{updateTs} where ip = #{ip}")
-    void addErrorNum(String ip, Long updateTs);
+    @Update("update proxy set error_num = error_num + 1 , update_ts = #{1} where ip = #{0}")
+    boolean addErrorNum(String ip, Long updateTs);
 
 }

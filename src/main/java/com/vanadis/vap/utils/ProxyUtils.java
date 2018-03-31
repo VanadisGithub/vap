@@ -100,7 +100,6 @@ public class ProxyUtils {
                     String ip = tds.get(1).html();
                     String port = tds.get(2).html();
                     Proxy proxy = new Proxy(ip, port, 0, 0);
-                    System.out.println(proxyMapper.isExcited(proxy.getIp()));
                     if (proxyMapper.isExcited(proxy.getIp()) == 0) {
                         proxyMapper.insert(proxy);
                     }

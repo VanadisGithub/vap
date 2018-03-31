@@ -27,9 +27,9 @@ public class VisitScheduler {
     @Autowired
     private ProxyMapper proxyMapper;
 
-    @Scheduled(cron = "0 0/20 * * * ? ")//每30分钟
+    @Scheduled(cron = "0 0/30 * * * ? ")//每30分钟
     public void scheduler() {
-        List<Proxy> list = proxyMapper.getAll();
+        List<Proxy> list = proxyMapper.getGoodList(40);
         List<String> urlList = new ArrayList<String>() {
             {
 //                add("http://blog.csdn.net/vanadis_outlook/article/details/79525729");
@@ -70,7 +70,7 @@ public class VisitScheduler {
         }
     }
 
-    @Scheduled(cron = "0 0 0 1/1 * ?")//每天
+    @Scheduled(cron = "0 0 0 * * ? ")//每天0点
     public void saveProxyXici() {
         ProxyUtils.saveProxyXici(proxyMapper);
     }
