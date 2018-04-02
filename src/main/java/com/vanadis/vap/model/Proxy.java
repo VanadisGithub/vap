@@ -17,15 +17,18 @@ public class Proxy extends BaseModel implements Serializable {
     private int type;
     @Column
     private int errorNum;
+    @Column
+    private int status;
 
     public Proxy() {
     }
 
-    public Proxy(String ip, String port, int type, int errorNum) {
+    public Proxy(String ip, String port, int type, int errorNum, int status) {
         this.ip = ip;
         this.port = port;
         this.type = type;
         this.errorNum = errorNum;
+        this.status = status;
     }
 
     public String getIp() {
@@ -58,5 +61,13 @@ public class Proxy extends BaseModel implements Serializable {
 
     public void setErrorNum(int errorNum) {
         this.errorNum = errorNum;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

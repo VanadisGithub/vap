@@ -146,6 +146,7 @@
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
             <version>3.4.6</version>
+
         </dependency>
 
     </dependencies>

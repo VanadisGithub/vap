@@ -40,6 +40,12 @@
         <span id="switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
         <textarea id="proxyText" class="form-control" type="text"></textarea>
     </form>
+    <form class="form-inline" style="margin-top: 20px">
+        <span>大爷：</span>
+        <textarea id="htmlText2" class="form-control" type="text"></textarea>
+        <span id="switch-btn2" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
+        <textarea id="proxyText2" class="form-control" type="text"></textarea>
+    </form>
 </div>
 
 </body>
@@ -62,6 +68,9 @@
         });
         $("#switch-btn").unbind("click").click(function () {
             htmlToProxy();
+        });
+        $("#switch-btn2").unbind("click").click(function () {
+            htmlToProxy2();
         });
     });
 
@@ -90,6 +99,24 @@
         $.ajax({
             type: "post",
             url: "/proxy/htmlToProxy",
+            data: paramData,
+            dataType: "json",
+            success: function (resultDate) {
+                $("#proxyText").val(resultDate.result);
+            },
+            error: function () {
+                errorMsg();
+            }
+        })
+    }
+
+    function htmlToProxy2() {
+        var paramData = {};
+        var html = $("#htmlText2").val();
+        paramData.html = html;
+        $.ajax({
+            type: "post",
+            url: "/proxy/htmlToProxy2",
             data: paramData,
             dataType: "json",
             success: function (resultDate) {

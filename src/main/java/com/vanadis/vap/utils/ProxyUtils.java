@@ -85,9 +85,10 @@ public class ProxyUtils {
 
     //保存xici代理
     public static void saveProxyXici(ProxyMapper proxyMapper) {
+        int successNum = 0;
         String[] name = {"nt", "nn", "wt", "wn"};
         for (int index = 0; index < name.length; index++) {
-            for (int page = 1; page <= 5; page++) {
+            for (int page = 1; page <= 3; page++) {
                 String url = "http://www.xicidaili.com/" + name[index] + "/";
                 if (page > 1) {
                     url += page;
@@ -99,9 +100,11 @@ public class ProxyUtils {
                     Elements tds = trs.get(i).select("td");
                     String ip = tds.get(1).html();
                     String port = tds.get(2).html();
-                    Proxy proxy = new Proxy(ip, port, 0, 0);
+                    Proxy proxy = new Proxy(ip, port, 0, 0, 0);
                     if (proxyMapper.isExcited(proxy.getIp()) == 0) {
-                        proxyMapper.insert(proxy);
+                        if(proxyMapper.insert(proxy)){
+                            successNum++;
+                        }
                     }
                 }
                 try {

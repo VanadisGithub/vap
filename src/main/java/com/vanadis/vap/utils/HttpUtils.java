@@ -291,4 +291,42 @@ public class HttpUtils {
         }
         return path;
     }
+
+    //保存文件
+    public static String savePng(String url, String path) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpGet get = new HttpGet(url);
+            get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+            get.setHeader("Accept-Encoding", "gzip, deflate");
+            get.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+            get.setHeader("Cache-Control", "max-age=0");
+            get.setHeader("Connection", "keep-alive");
+            get.setHeader("Cookie", "AJSTAT_ok_times=2; acw_tc=AQAAANORPxwNGAsA6xsKcP///41yto8u; ASPSESSIONIDAATABACT=CLEDKBNDJOIBIOLLCIIKKLLJ; __51cke__=; Hm_lvt_8fd158bb3e69c43ab5dd05882cf0b234=1522511191; ASPSESSIONIDAATCCDBS=KLPPKINDIDKECHAJPJGOHMAK; ASPSESSIONIDCCQBCCBS=JENHLPNDDFBJGGPHBJKCCJFG; ASPSESSIONIDAARBABDS=AOKLLGODNDEDEHIIIAEHDBGG; acw_sc__=5abfd0bdf986ed4a688171a3901e03c7b20eb77b; __tins__16949115=%7B%22sid%22%3A%201522519656345%2C%20%22vd%22%3A%204%2C%20%22expires%22%3A%201522522064477%7D; __51laig__=10; Hm_lpvt_8fd158bb3e69c43ab5dd05882cf0b234=1522520265");
+            get.setHeader("Host", "ip.zdaye.com");
+            get.setHeader("Referer", "http://ip.zdaye.com/");
+            get.setHeader("Upgrade-Insecure-Requests", "1");
+            get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");
+            HttpResponse response = httpClient.execute(get);
+            int statusCode = response.getStatusLine().getStatusCode();
+            log.info("saveFile:" + url + " " + statusCode);
+            if (statusCode == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                OutputStream out = new FileOutputStream(path);
+                byte[] bytes = EntityUtils.toByteArray(entity);
+                out.write(bytes);
+                out.flush();
+                out.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return path;
+    }
 }

@@ -10,8 +10,14 @@
         background-color: #eee;
     }
 
+    .util-name {
+        text-align: right;
+        width: 100px;
+    }
+
     textarea {
         min-width: 40%;
+        width: 40%;
         max-width: 40%;
         height: 200px;
     }
@@ -23,17 +29,23 @@
 
 <div style="margin:70px">
     <form class="form-inline">
-        <span>时间戳：</span>
+        <span class="util-name">时间戳：</span>
         <input id="timestamp" class="form-control" type="text">
-        <span id="time-switch-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">转换</span>
+        <span id="time-switch-btn" class="btn btn-default"
+              style="margin-left: 20px;margin-right: 20px">转换</span>
         <input id="date" class="form-control" type="text">
     </form>
     <form class="form-inline" style="margin-top: 20px">
-        <span>base64：</span>
+        <span class="util-name">base64：</span>
         <textarea id="decodeText" class="form-control" type="text" placeholder="原文"></textarea>
-        <span id="base64-encode-btn" class="btn btn-default" style="margin:0 20px 0 10px">Encode</span>
-        <span id="base64-decode-btn" class="btn btn-default" style="margin:0 10px 0 20px">Decode</span>
+        <span id="base64-encode-btn" class="btn btn-default" style="">Encode</span>
+        <span id="base64-decode-btn" class="btn btn-default" style="">Decode</span>
         <textarea id="encodeText" class="form-control" type="text" placeholder="密文"></textarea>
+    </form>
+    <form class="form-inline" style="margin-top: 20px">
+        <input type="file" id="file">
+        <img src="" width="200px" height="200px" id="img-change">
+        <button id="btn">保存图片</button>
     </form>
 </div>
 

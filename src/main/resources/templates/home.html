@@ -21,7 +21,7 @@
     }
 
     .img-box {
-        margin: 5% 30%;
+        margin: 7% 30% 2%;
     }
 
     .imgStyle {
@@ -51,7 +51,7 @@
 <nav th:replace="common/head :: head"></nav>
 <div class="myHome">
     <div class="img-box">
-        <img class="img"/>
+        <img class="img" style="width: 100%;height: 100%"/>
     </div>
     <div class="word-box">
         <span class="wordStyle">-</span>
@@ -71,7 +71,7 @@
                 $(".img").attr("src", resultDate.data.imgUrl);
 
                 theater.describe("First", 0.8, "#First");
-                theater.write("First:" + resultDate.data.words, 400)
+                theater.write("First:" + resultDate.data.words+"\n——《one·一个》", 400)
                     .write(function () {
                         theater.play(false);//是否循环
                     });
