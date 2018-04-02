@@ -26,14 +26,17 @@ public interface ProxyMapper {
     @Select("SELECT * FROM proxy")
     List<Proxy> getAll();
 
-    @Select("SELECT * FROM proxy_xici")
-    List<Proxy> getOldAll();
-
     @Update("update proxy set error_num = error_num + 1 , update_ts = #{1} where ip = #{0}")
     boolean addErrorNum(String ip, Long updateTs);
 
+    @Update("update proxy set error_num = error_num - 1 , update_ts = #{1} where ip = #{0}")
+    boolean subErrorNum(String ip, Long updateTs);
+
     @Update("update proxy set status = 1 , update_ts = #{1} where ip = #{0}")
     boolean updateStatus(String ip, Long updateTs);
+
+    @Update("update proxy set ip = #{0} where id = #{1}")
+    boolean updateIp(String ip, Long id);
 
     @Insert("INSERT INTO proxy(ip,port,type,error_num,status,create_ts,update_ts) VALUES(#{ip}, #{port}, #{type}, #{errorNum}, #{status}, #{createTs}, #{updateTs})")
     boolean insert(Proxy proxy);

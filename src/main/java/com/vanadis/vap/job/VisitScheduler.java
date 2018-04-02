@@ -64,12 +64,13 @@ public class VisitScheduler {
                 add("http://blog.csdn.net/vanadis_outlook/article/details/68061686");
                 add("http://blog.csdn.net/vanadis_outlook/article/details/67634780");
                 add("http://blog.csdn.net/vanadis_outlook/article/details/67634699");
+                add("http://blog.csdn.net/Vanadis_outlook/article/details/79793961");
             }
         };
         log.info("【访问任务开始】：链接：" + urlList.size() + "；代理：" + list.size());
         for (String url : urlList) {
             ProxyUtils.doGetWithProxyList(url, list, 100, proxyMapper);
-            HttpUtils.doGet(url,null,null);
+            HttpUtils.doGet(url, null, null);
         }
     }
 

@@ -98,11 +98,11 @@ public class ProxyUtils {
                 Elements trs = doc.select("tr");
                 for (int i = 1; i < trs.size(); i++) {
                     Elements tds = trs.get(i).select("td");
-                    String ip = tds.get(1).html();
-                    String port = tds.get(2).html();
+                    String ip = tds.get(1).html().trim();
+                    String port = tds.get(2).html().trim();
                     Proxy proxy = new Proxy(ip, port, 0, 0, 0);
                     if (proxyMapper.isExcited(proxy.getIp()) == 0) {
-                        if(proxyMapper.insert(proxy)){
+                        if (proxyMapper.insert(proxy)) {
                             successNum++;
                         }
                     }
@@ -139,6 +139,8 @@ public class ProxyUtils {
             }
             if (StringUtils.isNullOrEmpty(resultStr)) {
                 proxyMapper.addErrorNum(proxy.getHostName(), System.currentTimeMillis());
+            } else {
+                proxyMapper.subErrorNum(proxy.getHostName(), System.currentTimeMillis());
             }
             return resultStr;
         }

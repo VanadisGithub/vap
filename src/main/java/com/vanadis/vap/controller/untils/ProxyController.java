@@ -54,6 +54,7 @@ public class ProxyController extends BaseController {
     public void visitByProxy(String url) {
         int mostErrorNum = proxyMapper.getMostErrorNum();
         List<Proxy> list = proxyMapper.getGoodList(mostErrorNum);
+        log.info("【访问开始】：链接：" + url + "；代理：" + list.size());
         String[] urlArr = url.split("/[\n,]/g");
         for (int i = 0; i < urlArr.length; i++) {
             String eUrl = urlArr[i];
@@ -63,7 +64,7 @@ public class ProxyController extends BaseController {
 
 
     /**
-     * xici页面转代码
+     * 西刺页面转代码
      *
      * @param html
      * @return
@@ -88,7 +89,7 @@ public class ProxyController extends BaseController {
     }
 
     /**
-     * daye页面转代码
+     * 大爷页面转代码
      *
      * @param html
      * @return
@@ -131,7 +132,7 @@ public class ProxyController extends BaseController {
     }
 
     /**
-     * csdn页面转链接
+     * CSDN页面转链接
      *
      * @param html
      * @return
@@ -172,25 +173,6 @@ public class ProxyController extends BaseController {
         }
         System.out.println(resultStr.toString());
         return resultStr.toString();
-    }
-
-    @RequestMapping("test")
-    public String test() {
-        String source = "d:/m_25e694199ca6b268.dib";
-        String result1 = "d:/m_25e694199ca6b268.png";
-        ImgUtils.convert(source, result1);
-
-        String result = "";
-        File imageFile3 = new File(result1);
-        Tesseract instance3 = new Tesseract();
-        //instance3.setLanguage("chi_sim");//中文识别
-        try {
-            result += instance3.doOCR(imageFile3);
-        } catch (TesseractException e) {
-            e.printStackTrace();
-        }
-        System.out.println(result);
-        return result;
     }
 
 }

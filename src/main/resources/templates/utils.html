@@ -26,7 +26,6 @@
 <body class="body">
 
 <div th:replace="common/head :: head"></div>
-
 <div style="margin:70px">
     <form class="form-inline">
         <span class="util-name">时间戳：</span>
@@ -37,18 +36,26 @@
     </form>
     <form class="form-inline" style="margin-top: 20px">
         <span class="util-name">base64：</span>
-        <textarea id="decodeText" class="form-control" type="text" placeholder="原文"></textarea>
+        <textarea id="base64-decode-text" class="form-control" type="text" placeholder="原文"></textarea>
         <span id="base64-encode-btn" class="btn btn-default" style="">Encode</span>
         <span id="base64-decode-btn" class="btn btn-default" style="">Decode</span>
-        <textarea id="encodeText" class="form-control" type="text" placeholder="密文"></textarea>
+        <textarea id="base64-encode-text" class="form-control" type="text" placeholder="密文"></textarea>
     </form>
     <form class="form-inline" style="margin-top: 20px">
-        <input type="file" id="file">
-        <img src="" width="200px" height="200px" id="img-change">
-        <button id="btn">保存图片</button>
+        <span class="util-name">url：</span>
+        <textarea id="url-decode-text" class="form-control" type="text" placeholder="原文"></textarea>
+        <span id="url-encode-btn" class="btn btn-default" style="">Encode</span>
+        <span id="url-decode-btn" class="btn btn-default" style="">Decode</span>
+        <textarea id="url-encode-text" class="form-control" type="text" placeholder="密文"></textarea>
+    </form>
+    <form class="form-inline" style="margin-top: 20px">
+        <img id="image" src="" accept="image/png,image/gif,image/jpeg"/>
+        <br/>
+        <input type="file" onchange="selectImage(this);"/>
+        <br/>
+        <input type="button" onclick="uploadImage();" value="提交"/>
     </form>
 </div>
-
 </body>
 <script type="text/javascript">
 
@@ -65,12 +72,18 @@
             timestampToDate();
         });
         $("#base64-encode-btn").unbind("click").click(function () {
-            var decodeText = $("#decodeText").val();
-            base64(decodeText, 1);
+            var base64DecodeText = $("#base64-decode-text").val();
+            base64(base64DecodeText, 1);
         });
         $("#base64-decode-btn").unbind("click").click(function () {
-            var encodeText = $("#encodeText").val();
-            base64(encodeText, 2);
+            var base64EncodeText = $("#base64-encode-text").val();
+            base64(base64EncodeText, 2);
+        });
+        $("#url-encode-btn").unbind("click").click(function () {
+            $("#url-encode-text").val(encodeURI($("#url-decode-text").val()));
+        });
+        $("#url-decode-btn").unbind("click").click(function () {
+            $("#url-decode-text").val(decodeURI($("#url-encode-text").val()));
         });
     });
 
@@ -89,7 +102,7 @@
     function base64(str, type) {
         str = str.replace(/[\r\n]/g, "");
         if (Utils.isUfOrNullOrEmpty(str)) {
-            layer.msg("给点东西喽！", {icon: 5});
+            errorMsg("给点东西喽！");
             return;
         }
         $.ajax({
@@ -99,15 +112,59 @@
             dataType: "json",
             success: function (resultDate) {
                 if (type == 1) {
-                    $("#encodeText").val(resultDate.data);
+                    $("#base64-encode-text").val(resultDate.data);
                 } else {
-                    $("#decodeText").val(resultDate.data);
+                    $("#base64-decode-text").val(resultDate.data);
                 }
             },
             error: function () {
                 errorMsg();
             }
         });
+    }
+
+    var image = '';
+
+    function selectImage(file) {
+        if (!file.files || !file.files[0]) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            document.getElementById('image').src = evt.target.result;
+            image = evt.target.result;
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+
+    function uploadImage() {
+//        var _file = $("#image").files[0];
+//        if (_file.size > 1048576) {
+//            alert("上传logo请小于1M");
+//            return false;
+//        }
+//        if (!/image\/\w+/.test(_file.type)) {
+//            alert("文件必须为图片！");
+//            return false;
+//        }
+        $.ajax({
+            type: 'POST',
+            url: 'utils/img',
+            data: {image: image, type: 1},
+            async: false,
+            dataType: 'json',
+            success: function (result) {
+                if (result.success) {
+                    errorMsg(result.data);
+                } else {
+                    errorMsg('上传失败');
+                }
+            },
+            error: function (err) {
+                errorMsg('网络故障');
+            }
+        });
+
     }
 </script>
 </html>

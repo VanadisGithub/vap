@@ -1,5 +1,8 @@
 package com.vanadis.vap.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,25 +10,31 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImgUtils {
-    public static void convert(String source, String result) {
-        File imageFile3 = new File(source);
-        try {
-            cleanLinesInImage(imageFile3, "d:/");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String formatName = "png";
+
+    private static Logger log = LoggerFactory.getLogger(ImgUtils.class);
+
+    public static void changeImgType(String source, String formatName, String result) {
         try {
             File f = new File(source);
             f.canRead();
             BufferedImage src = ImageIO.read(f);
             ImageIO.write(src, formatName, new File(result));
         } catch (Exception e) {
+            log.warn("图像类型转换失败！");
             e.printStackTrace();
         }
     }
 
-    public static void cleanLinesInImage(File sfile, String destDir) throws IOException {
+    public static void convert(String source) {
+        try {
+            ImageProcessing(new File(source), "d:/");
+        } catch (IOException e) {
+            log.warn("图像处理失败！");
+            e.printStackTrace();
+        }
+    }
+
+    public static void ImageProcessing(File sfile, String destDir) throws IOException {
         File destF = new File(destDir);
         if (!destF.exists()) {
             destF.mkdirs();
@@ -53,6 +62,8 @@ public class ImgUtils {
                 if (b >= 255) {
                     b = 255;
                 }
+
+                //此处根据实际需要进行设定阈值
                 gray[x][y] = (int) Math.pow((
                         Math.pow(r, 2.2) * 0.2973
                                 + Math.pow(g, 2.2) * 0.6274
@@ -74,32 +85,39 @@ public class ImgUtils {
             }
         }
 
-        //去除干扰线条
+        //去除干扰点 或 干扰线（运用八领域，即像素周围八个点判定，根据实际需要判定）
         for (int y = 1; y < h - 1; y++) {
             for (int x = 1; x < w - 1; x++) {
-                boolean flag = false;
+
+                boolean lineFlag = false;//去除线判定
+                int pointflagNum = 0;//去除点判定
+
                 if (isBlack(binaryBufferedImage.getRGB(x, y))) {
-                    int flagNum = 0;
-                    //左右均为空时，去掉此点
+                    //左右像素点为"白"即空时，去掉此点
                     if (isWhite(binaryBufferedImage.getRGB(x - 1, y)) && isWhite(binaryBufferedImage.getRGB(x + 1, y))) {
-                        flag = true;
-                        flagNum += 2;
+                        lineFlag = true;
+                        pointflagNum += 2;
                     }
-                    //上下均为空时，去掉此点
+                    //上下像素点为"白"即空时，去掉此点
                     if (isWhite(binaryBufferedImage.getRGB(x, y + 1)) && isWhite(binaryBufferedImage.getRGB(x, y - 1))) {
-                        flag = true;
-                        flagNum += 2;
+                        lineFlag = true;
+                        pointflagNum += 2;
                     }
-                    //斜上下为空时，去掉此点
+                    //斜上像素点为"白"即空时，去掉此点
                     if (isWhite(binaryBufferedImage.getRGB(x - 1, y + 1)) && isWhite(binaryBufferedImage.getRGB(x + 1, y - 1))) {
-                        flag = true;
-                        flagNum += 2;
+                        lineFlag = true;
+                        pointflagNum += 2;
                     }
                     if (isWhite(binaryBufferedImage.getRGB(x + 1, y + 1)) && isWhite(binaryBufferedImage.getRGB(x - 1, y - 1))) {
-                        flag = true;
-                        flagNum += 2;
+                        lineFlag = true;
+                        pointflagNum += 2;
                     }
-                    if (flagNum > 3) {
+                    //去除干扰线
+                    if (lineFlag) {
+                        //binaryBufferedImage.setRGB(x, y, -1);
+                    }
+                    //去除干扰点
+                    if (pointflagNum > 3) {
                         binaryBufferedImage.setRGB(x, y, -1);
                     }
                 }

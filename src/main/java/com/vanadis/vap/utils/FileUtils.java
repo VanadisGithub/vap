@@ -4,6 +4,23 @@ import java.io.*;
 
 public class FileUtils {
 
+    public static void uploadFile(byte[] file, String filePath) {
+        File targetFile = new File(filePath);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(filePath);
+            out.write(file);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void FileWriter(String path, String content) {
 
         FileWriter fwriter = null;
