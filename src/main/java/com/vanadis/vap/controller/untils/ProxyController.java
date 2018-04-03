@@ -11,6 +11,7 @@ import com.vanadis.vap.utils.RegexUtils;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.http.HttpHost;
+import org.apache.http.client.methods.HttpGet;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +61,7 @@ public class ProxyController extends BaseController {
         String[] urlArr = url.split("/[\n,]/g");
         for (int i = 0; i < urlArr.length; i++) {
             String eUrl = urlArr[i];
-            ProxyUtils.doGetWithProxyList(eUrl, list, 100, proxyMapper);
+            ProxyUtils.doGetWithProxyList(eUrl, list, 200, proxyMapper);
         }
     }
 
@@ -156,6 +159,18 @@ public class ProxyController extends BaseController {
     @RequestMapping("saveProxyXici")
     public String saveProxyXici() {
         ProxyUtils.saveProxyXici(proxyMapper);
+        return "获取完成了！";
+    }
+
+
+    /**
+     * 获取kuai代理
+     *
+     * @return
+     */
+    @RequestMapping("saveProxyKuai")
+    public String saveProxyKuai() {
+        ProxyUtils.saveProxyKuai(proxyMapper);
         return "获取完成了！";
     }
 

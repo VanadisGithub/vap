@@ -116,6 +116,11 @@ public class ProxyUtils {
         }
     }
 
+    //保存xici代理
+    public static void saveProxyKuai(ProxyMapper proxyMapper) {
+
+    }
+
     //Callable：用代理访问
     public static class DoGetWithProxy implements Callable<String> {
 
@@ -140,7 +145,12 @@ public class ProxyUtils {
             if (StringUtils.isNullOrEmpty(resultStr)) {
                 proxyMapper.addErrorNum(proxy.getHostName(), System.currentTimeMillis());
             } else {
-                proxyMapper.subErrorNum(proxy.getHostName(), System.currentTimeMillis());
+                if (proxyMapper.isExcited(proxy.getHostName()) == 1) {
+                    proxyMapper.subErrorNum(proxy.getHostName(), System.currentTimeMillis());
+                } else {
+                    Proxy newProxy = new Proxy(proxy.getHostName(), String.valueOf(proxy.getPort()), 2, 0, 0);
+                    proxyMapper.insert(newProxy);
+                }
             }
             return resultStr;
         }

@@ -1,5 +1,7 @@
 package com.vanadis.vap.utils;
 
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,9 +11,32 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static com.vanadis.vap.utils.ImgUtils.dataType.CHI;
+
 public class ImgUtils {
 
     private static Logger log = LoggerFactory.getLogger(ImgUtils.class);
+
+    public enum dataType {
+        CHI, ENG
+    }
+
+    public static String tessercatImg(String fileName, Enum dataType) {
+        changeImgType(fileName, "png", fileName);
+        File file = new File(fileName);
+        String result = null;
+        Tesseract instance = new Tesseract();
+        if (dataType == CHI) {
+            instance.setLanguage("chi_sim");//中文识别
+        }
+        try {
+            result = instance.doOCR(file);
+            log.info("Tessercat:" + result);
+        } catch (TesseractException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public static void changeImgType(String source, String formatName, String result) {
         try {

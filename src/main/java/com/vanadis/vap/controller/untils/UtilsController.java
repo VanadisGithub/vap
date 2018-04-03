@@ -18,6 +18,9 @@ import sun.misc.BASE64Decoder;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import static com.vanadis.vap.utils.ImgUtils.dataType.CHI;
+import static com.vanadis.vap.utils.ImgUtils.dataType.ENG;
+
 @RestController
 @RequestMapping("utils")
 public class UtilsController extends BaseController {
@@ -43,12 +46,8 @@ public class UtilsController extends BaseController {
     }
 
     @RequestMapping("img")
-    public @ResponseBody
-    Result img(String image, int type) {
-        String result = "";
+    public Result img(String image, String type) {
         String fileName = "tesseract/" + System.currentTimeMillis() + ".png";
-//        FileUtils.FileWriter(fileName, image);
-//        ImgUtils.convert(fileName);
         image = image.substring(image.indexOf(",") + 1);
         BASE64Decoder decoder = new BASE64Decoder();
         try {
@@ -59,17 +58,12 @@ public class UtilsController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        File imageFile = new File(fileName);
-        Tesseract instance = new Tesseract();
-        if (type == 2) {
-            instance.setLanguage("chi_sim");//中文识别
+        String result;
+        if ("chi".equals(type)) {
+            result = ImgUtils.tessercatImg(fileName, CHI);
+        } else {
+            result = ImgUtils.tessercatImg(fileName, ENG);
         }
-        try {
-            result = instance.doOCR(imageFile);
-        } catch (TesseractException e) {
-            e.printStackTrace();
-        }
-        System.out.println(result);
         return ResultUtils.success(result);
     }
 

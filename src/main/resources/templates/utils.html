@@ -49,14 +49,20 @@
         <textarea id="url-encode-text" class="form-control" type="text" placeholder="密文"></textarea>
     </form>
     <form class="form-inline" style="margin-top: 20px">
-        <img id="image" src="" accept="image/png,image/gif,image/jpeg"/>
-        <br/>
-        <input type="file" onchange="selectImage(this);"/>
-        <br/>
-        <input type="button" onclick="uploadImage();" value="提交"/>
+        <span class="util-name">图片识别：</span>
+        <img id="image" src="" style="width: 200px;"/>
+        <input id="imageFile" type="file" class="form-control" style="display: none" onchange="selectImage(this)"/>
+        <span id="select-image-btn" class="btn btn-default">选择图片</span>
+        <select id="data-type" class="form-control">
+            <option value="eng">English</option>
+            <option value="chi">中文</option>
+        </select>
+        <span id="upload-image-btn" class="btn btn-default">识别</span>
+        <textarea id="image-text" class="form-control" type="text" placeholder="识别结果"></textarea>
     </form>
 </div>
 </body>
+
 <script type="text/javascript">
 
     $(function () {
@@ -71,6 +77,7 @@
         $("#time-switch-btn").unbind("click").click(function () {
             timestampToDate();
         });
+
         $("#base64-encode-btn").unbind("click").click(function () {
             var base64DecodeText = $("#base64-decode-text").val();
             base64(base64DecodeText, 1);
@@ -79,11 +86,19 @@
             var base64EncodeText = $("#base64-encode-text").val();
             base64(base64EncodeText, 2);
         });
+
         $("#url-encode-btn").unbind("click").click(function () {
             $("#url-encode-text").val(encodeURI($("#url-decode-text").val()));
         });
         $("#url-decode-btn").unbind("click").click(function () {
             $("#url-decode-text").val(decodeURI($("#url-encode-text").val()));
+        });
+
+        $("#select-image-btn").unbind("click").click(function () {
+            $("#imageFile").click();
+        });
+        $("#upload-image-btn").unbind("click").click(function () {
+            uploadImage();
         });
     });
 
@@ -131,40 +146,35 @@
         }
         var reader = new FileReader();
         reader.onload = function (evt) {
-            document.getElementById('image').src = evt.target.result;
+            $('#image').attr("src", evt.target.result);
             image = evt.target.result;
-        }
+//            if (image.size > 1048576) {
+//                alert("上传logo请小于1M");
+//                return false;
+//            }
+//            if (!/image\/\w+/.test(image.type)) {
+//                alert("文件必须为图片！");
+//                return false;
+//            }
+        };
         reader.readAsDataURL(file.files[0]);
     }
 
     function uploadImage() {
-//        var _file = $("#image").files[0];
-//        if (_file.size > 1048576) {
-//            alert("上传logo请小于1M");
-//            return false;
-//        }
-//        if (!/image\/\w+/.test(_file.type)) {
-//            alert("文件必须为图片！");
-//            return false;
-//        }
+        var type = $("#data-type").val();
         $.ajax({
             type: 'POST',
             url: 'utils/img',
-            data: {image: image, type: 1},
+            data: {image: image, type: type},
             async: false,
             dataType: 'json',
             success: function (result) {
-                if (result.success) {
-                    errorMsg(result.data);
-                } else {
-                    errorMsg('上传失败');
-                }
+                $('#image-text').val(result.data);
             },
-            error: function (err) {
+            error: function () {
                 errorMsg('网络故障');
             }
         });
-
     }
 </script>
 </html>

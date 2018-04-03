@@ -105,10 +105,8 @@
 </body>
 
 <script>
-    var subjects = ['PHP', 'MySQL', 'SQL', 'PostgreSQL', 'HTML', 'CSS', 'HTML5', 'CSS3', 'JSON'];
-    $('#search-text').typeahead({source: subjects});
-    $(document).ready(function () {
-        $(".nav .navbar-nav").find("li").each(function () {
+    $(function () {
+        $(".nav").find("li").each(function () {
             var a = $(this).find("a:first")[0];
             if ($(a).attr("href") === location.pathname) {
                 $(this).addClass("active");

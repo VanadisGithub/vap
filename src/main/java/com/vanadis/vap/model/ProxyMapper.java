@@ -17,7 +17,7 @@ public interface ProxyMapper {
     @Select("select error_num from proxy group by error_num order by count(*) desc limit 1")
     int getMostErrorNum();
 
-    @Select("SELECT * FROM proxy where error_num = 0")
+    @Select("SELECT * FROM proxy where error_num < 0 and status = 0")
     List<Proxy> getPerfectList();
 
     @Select("SELECT * FROM proxy where error_num < #{num} and status = 0")
