@@ -1,6 +1,7 @@
 package com.vanadis.vap.utils;
 
 import com.mysql.jdbc.StringUtils;
+import com.vanadis.vap.job.VisitScheduler;
 import com.vanadis.vap.model.Proxy;
 import com.vanadis.vap.model.ProxyMapper;
 import org.apache.http.HttpHost;
@@ -17,6 +18,8 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProxyUtils {
 
@@ -116,9 +119,22 @@ public class ProxyUtils {
         }
     }
 
-    //保存xici代理
+    //保存kuai代理
     public static void saveProxyKuai(ProxyMapper proxyMapper) {
-
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        String url = "http://www.89ip.cn/apijk/?&tqsl=300&sxa=&sxb=&tta=&ports=&ktip=&cf=1";
+        String html = HttpUtils.doGet(url, null, null);
+        Matcher matcher = Pattern.compile("(.*?)<BR>").matcher(html);
+        while (matcher.find()) {
+            String ip = matcher.group();
+            ip = ip.replace("<BR>", "").trim();
+            String[] arr = ip.split(":");
+            HttpHost proxy = new HttpHost(arr[0], Integer.parseInt(arr[1]));
+            if (proxyMapper.isExcited(arr[0]) < 1) {
+                executorService.submit(new ProxyUtils.DoGetWithProxy(
+                        VisitScheduler.urlList.get(new Random().nextInt(VisitScheduler.urlList.size())), proxy, proxyMapper));
+            }
+        }
     }
 
     //Callable：用代理访问
@@ -149,7 +165,9 @@ public class ProxyUtils {
                     proxyMapper.subErrorNum(proxy.getHostName(), System.currentTimeMillis());
                 } else {
                     Proxy newProxy = new Proxy(proxy.getHostName(), String.valueOf(proxy.getPort()), 2, 0, 0);
-                    proxyMapper.insert(newProxy);
+                    if (proxyMapper.isExcited(proxy.getHostName()) < 1) {
+                        proxyMapper.insert(newProxy);
+                    }
                 }
             }
             return resultStr;

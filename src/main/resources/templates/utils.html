@@ -11,8 +11,9 @@
     }
 
     .util-name {
+        width: 150px;
         text-align: right;
-        width: 100px;
+        float: left;
     }
 
     textarea {
@@ -28,10 +29,10 @@
 <div th:replace="common/head :: head"></div>
 <div style="margin:70px">
     <form class="form-inline">
+        <div></div>
         <span class="util-name">时间戳：</span>
         <input id="timestamp" class="form-control" type="text">
-        <span id="time-switch-btn" class="btn btn-default"
-              style="margin-left: 20px;margin-right: 20px">转换</span>
+        <span id="time-switch-btn" class="btn btn-default">转换</span>
         <input id="date" class="form-control" type="text">
     </form>
     <form class="form-inline" style="margin-top: 20px">

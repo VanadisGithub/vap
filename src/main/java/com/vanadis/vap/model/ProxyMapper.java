@@ -11,6 +11,12 @@ import java.util.List;
 @Component
 public interface ProxyMapper {
 
+    @Select("SELECT count(*) FROM proxy where error_num < 0 and status = 0")
+    int getPerfectProxyNum();
+
+    @Select("SELECT count(*) FROM proxy where error_num < #{num} and status = 0")
+    int getGoodProxyNum(int num);
+
     @Select("select count(*) from proxy where ip = #{ip}")
     int isExcited(String ip);
 
@@ -25,6 +31,9 @@ public interface ProxyMapper {
 
     @Select("SELECT * FROM proxy")
     List<Proxy> getAll();
+
+    @Update("UPDATE proxy set error_num = #{errorNum} where error_num < #{errorNum}")
+    boolean updateErrorNum(int errorNum);
 
     @Update("update proxy set error_num = error_num + 1 , update_ts = #{1} where ip = #{0}")
     boolean addErrorNum(String ip, Long updateTs);
@@ -46,6 +55,5 @@ public interface ProxyMapper {
 
     @Delete("DELETE FROM proxy WHERE error_num >= #{errorNum}")
     void deleteErrorNum(int errorNum);
-
 
 }

@@ -1,17 +1,12 @@
 package com.vanadis.vap.controller.untils;
 
 import com.vanadis.vap.controller.BaseController;
-import com.vanadis.vap.job.VisitScheduler;
 import com.vanadis.vap.model.Proxy;
 import com.vanadis.vap.model.ProxyMapper;
 import com.vanadis.vap.utils.HttpUtils;
-import com.vanadis.vap.utils.ImgUtils;
 import com.vanadis.vap.utils.ProxyUtils;
 import com.vanadis.vap.utils.RegexUtils;
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
 import org.apache.http.HttpHost;
-import org.apache.http.client.methods.HttpGet;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -20,17 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +32,10 @@ public class ProxyController extends BaseController {
     @RequestMapping("")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("/proxy");
+        int goodNum = proxyMapper.getGoodProxyNum(30);
+        int perfect = proxyMapper.getPerfectProxyNum();
+        modelAndView.addObject("goodNum", goodNum);
+        modelAndView.addObject("perfectNum", perfect);
         return modelAndView;
     }
 
@@ -55,8 +47,7 @@ public class ProxyController extends BaseController {
      */
     @RequestMapping("visitByProxy")
     public void visitByProxy(String url) {
-        int mostErrorNum = proxyMapper.getMostErrorNum();
-        List<Proxy> list = proxyMapper.getGoodList(mostErrorNum);
+        List<Proxy> list = proxyMapper.getGoodList(30);
         log.info("【访问开始】：链接：" + url + "；代理：" + list.size());
         String[] urlArr = url.split("/[\n,]/g");
         for (int i = 0; i < urlArr.length; i++) {
@@ -137,18 +128,32 @@ public class ProxyController extends BaseController {
     /**
      * CSDN页面转链接
      *
-     * @param html
      * @return
      */
-    public Map htmlToProxyCsdn(String html) {
-        Map<String, String> result = new HashMap<>();
-        StringBuffer resultStr = new StringBuffer();
-        Matcher matcher = Pattern.compile("<td class='tdleft'><a href='(.*?)' target=_blank>").matcher(html);
-        while (matcher.find()) {
-            resultStr.append(matcher.group());
+    @RequestMapping("htmlToProxyCsdn")
+    public static List<String> htmlToProxyCsdn() {
+        List<String> artList = new ArrayList<>();
+        for (int i = 1; i <= 2; i++) {
+            String csdnUrl = "https://blog.csdn.net/vanadis_outlook";
+            if (i != 1) {
+                csdnUrl = csdnUrl + "/article/list/" + i;
+            }
+            StringBuffer resultStr = new StringBuffer();
+            String html = HttpUtils.doGet(csdnUrl, null, null);
+            html = html.replaceAll("\n|\t", "");
+            Matcher matcher = Pattern.compile("<li class=\"blog-unit\">(.*?)</li>").matcher(html);
+            while (matcher.find()) {
+                String str = matcher.group();
+                int Count = Integer.valueOf(RegexUtils.getSubUtilSimple(str, "<span>(.*?)</span>"));
+                if (Count < 10000) {
+                    String url = RegexUtils.getSubUtilSimple(str, "<a href=\"(.*?)target=\"_blank\"");
+                    url = url.replace("\"\"", "").trim();
+                    artList.add(url);
+                    System.out.println(url);
+                }
+            }
         }
-        result.put("result", resultStr.toString());
-        return result;
+        return artList;
     }
 
     /**
@@ -188,6 +193,18 @@ public class ProxyController extends BaseController {
         }
         System.out.println(resultStr.toString());
         return resultStr.toString();
+    }
+
+    @RequestMapping("test")
+    public void test() {
+        int mostErrorNum = proxyMapper.getMostErrorNum();
+        List<Proxy> list = proxyMapper.getGoodList(30);
+        List<String> urlList = ProxyController.htmlToProxyCsdn();
+        log.info("【访问任务开始】：链接：" + urlList.size() + "；代理：" + list.size());
+        for (String url : urlList) {
+            ProxyUtils.doGetWithProxyList(url, list, 200, proxyMapper);
+            HttpUtils.doGet(url, null, null);
+        }
     }
 
 }

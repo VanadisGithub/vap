@@ -44,13 +44,37 @@
         position: absolute;
         top: 90%;
     }
+
+    .web-index-logo {
+        /*will-change: transform;*/
+        /*position: absolute;*/
+        /*left: 50%;*/
+        /*transform: translate(-50%);*/
+        /*top: 40px;*/
+        /*z-index: 1;*/
+        /*width: 280px;*/
+        animation: floatAniM 7s ease-in-out infinite;
+    }
+
+    @keyframes floatAniM {
+        0% {
+            transform: translate(-50%, 0)
+        }
+        50% {
+            transform: translate(-50%, -20px)
+        }
+        100% {
+            transform: translate(-50%, 0)
+        }
+    }
 </style>
 
 <body class="body">
 
 <nav th:replace="common/head :: head"></nav>
 <div class="myHome">
-    <div class="img-box">
+    <div class="img-box web-index-logo">
+        <!--<img src="/img/index-1.png" alt="index-1" class="web-index-logo">-->
         <img class="img" style="width: 100%;height: 100%"/>
     </div>
     <div class="word-box">
@@ -71,7 +95,7 @@
                 $(".img").attr("src", resultDate.data.imgUrl);
 
                 theater.describe("First", 0.8, "#First");
-                theater.write("First:" + resultDate.data.words+"\n——《one·一个》", 400)
+                theater.write("First:" + resultDate.data.words + "\n——《one·一个》", 400)
                     .write(function () {
                         theater.play(false);//是否循环
                     });

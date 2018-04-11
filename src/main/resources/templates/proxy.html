@@ -29,7 +29,13 @@
 <div th:replace="common/head :: head"></div>
 
 <div style="margin:70px;">
-    <form class="form-inline">
+    <form class="form-inline" style="font-size: 18px">
+        <span>Perfect Proxy:</span>
+        <span th:text="${perfectNum}" style="color: darkred"></span>
+        <span style="margin-left: 20px">Good Proxy:</span>
+        <span th:text="${goodNum}" style="color: dodgerblue"></span>
+    </form>
+    <form class="form-inline" style="margin-top: 20px">
         <span>链接：</span>
         <textarea id="visitUrl" class="form-control" type="text"></textarea>
         <span id="visit-btn" class="btn btn-default" style="margin-left: 20px;margin-right: 20px">访问</span>
