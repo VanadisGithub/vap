@@ -44,21 +44,4 @@ public class MD5utils {
     private static final String hexDigits[] = { "0", "1", "2", "3", "4", "5",
             "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
 
-    public static String sign(SortedMap<Object, Object> parameters) {
-        StringBuffer sb = new StringBuffer();
-        Set es = parameters.entrySet();//所有参与传参的参数按照accsii排序（升序）
-        Iterator it = es.iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            String k = (String) entry.getKey();
-            Object v = entry.getValue();
-            if (null != v && !"".equals(v)) {
-                sb.append(k + v);
-            }
-        }
-
-        String sign = sb.toString();
-        sign = sign.toUpperCase();//转大写
-        return sign;
-    }
 }
