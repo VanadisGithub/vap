@@ -1,6 +1,7 @@
 package com.vanadis.vap.controller;
 
 import com.mysql.jdbc.StringUtils;
+import com.vanadis.vap.Api.TenXunAIApi;
 import com.vanadis.vap.model.Result;
 import com.vanadis.vap.model.User;
 import com.vanadis.vap.model.UserMapper;
@@ -8,6 +9,7 @@ import com.vanadis.vap.utils.HttpUtils;
 import com.vanadis.vap.utils.IpUtils;
 import com.vanadis.vap.utils.RegexUtils;
 import com.vanadis.vap.utils.ResultUtils;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.apache.http.HttpHost;
 import org.apache.http.client.methods.HttpGet;
 import org.codehaus.groovy.util.StringUtil;
@@ -61,13 +63,19 @@ public class HomeController extends BaseController {
         return resultStr;
     }
 
+    @RequestMapping("homeTalk")
+    public Result homeTalk(String text) {
+        String answer = TenXunAIApi.textchatApi("10000", text);
+        return ResultUtils.success(answer);
+    }
+
     @RequestMapping("getHomeImg")
     public Result getHomeImg() {
         String url = "http://wufazhuce.com/";
         String html = HttpUtils.doGet(url, null, null);
         Document document = Jsoup.parse(html);
         Elements tags = document.select("a");
-        List<HashMap<String,String>> homeList = new ArrayList<>();
+        List<HashMap<String, String>> homeList = new ArrayList<>();
         for (int i = 1; i < 13; i = i + 2) {
             Element img = tags.get(i);
             String imgUrl = img.select("img").attr("src");
@@ -81,10 +89,10 @@ public class HomeController extends BaseController {
             result.put("words", word.html());
             homeList.add((HashMap) result);
         }
-        HashMap<String,String> home = homeList.get((int) (Math.random() * homeList.size()));
-        home.replace("imgUrl","/img/home-crow.png");
-        if(StringUtils.isNullOrEmpty(home.get("imgUrl"))){
-            home.replace("imgUrl","/img/home-crow.png");
+        HashMap<String, String> home = homeList.get((int) (Math.random() * homeList.size()));
+        home.replace("imgUrl", "/img/home-crow.png");
+        if (StringUtils.isNullOrEmpty(home.get("imgUrl"))) {
+            home.replace("imgUrl", "/img/home-crow.png");
         }
         return ResultUtils.success(home);
     }

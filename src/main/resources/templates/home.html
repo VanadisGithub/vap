@@ -9,27 +9,15 @@
 
 <style>
     .body {
-        /*background: #101010;*/
         background: #000000;
         background-size: 100%;
     }
 
-    .home-box {
-        width: 100%;
-        height: 100%;
-        background-color: #222222;
-        padding-top: 50px;
+    .img-div {
+        margin: 5% 50%;
     }
 
-    .img-box {
-        margin: 7% 30% 2%;
-    }
-
-    .imgStyle {
-        box-shadow: 0px 0px 5px #CDCDCD;
-    }
-
-    .word-box {
+    .word-div {
         margin: 10px 15%;
     }
 
@@ -47,14 +35,8 @@
     }
 
     .web-index-logo {
-        /*will-change: transform;*/
-        /*position: absolute;*/
-        /*left: 50%;*/
-        /*transform: translate(-50%);*/
-        /*top: 40px;*/
-        /*z-index: 1;*/
-        /*width: 280px;*/
-        animation: floatAniM 7s ease-in-out infinite;
+        left: 50%;
+        animation: floatAniM 10s ease-in-out infinite;
     }
 
     @keyframes floatAniM {
@@ -68,17 +50,111 @@
             transform: translate(-50%, 0)
         }
     }
+
+    .box {
+        width: 300px;
+        height: 300px;
+        position: relative;
+        transform-style: preserve-3d;
+        margin: 300px auto;
+        animation: turn 20s infinite linear;
+    }
+
+    .box:hover {
+        animation-duration: 7s;
+    }
+
+    .box > div {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        border-radius: 10px;
+        border: 1px solid #999;
+        text-align: center;
+        line-height: 300px;
+        color: black;
+        font-size: 100px;
+        font-family: '微软雅黑';
+        transition: all 1s linear;
+        background: rgba(255, 255, 255, .9);
+    }
+
+    .left {
+        transform: rotateY(-90deg) translateZ(150px);
+    }
+
+    .right {
+        transform: rotateY(90deg) translateZ(150px);
+    }
+
+    .top {
+        transform: rotateX(90deg) translateZ(150px);
+    }
+
+    .bottom {
+        transform: rotateX(-90deg) translateZ(150px);
+    }
+
+    .before {
+        transform: translateZ(150px);
+    }
+
+    .after {
+        transform: translateZ(-150px);
+    }
+
+    @keyframes turn {
+        from {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    .box:hover .before {
+        transform: translateZ(300px);
+    }
+
+    .box:hover .after {
+        transform: translateZ(-300px);
+    }
+
+    .box:hover .left {
+        transform: rotateY(-90deg) translateZ(300px)
+    }
+
+    .box:hover .right {
+        transform: rotateY(90deg) translateZ(300px)
+    }
+
+    .box:hover .top {
+        transform: rotateX(90deg) translateZ(300px)
+    }
+
+    .box:hover .bottom {
+        transform: rotateX(-90deg) translateZ(300px)
+    }
+
 </style>
 
 <body class="body">
 
 <nav th:replace="common/head :: head"></nav>
 <div class="myHome">
-    <div class="img-box web-index-logo">
-        <!--<img src="/img/index-1.png" alt="index-1" class="web-index-logo">-->
-        <img class="img" style="width: 100%;height: 100%"/>
+    <div class="box" style="">
+        <div class="top">V</div>
+        <div class="bottom">V</div>
+        <div class="left">A</div>
+        <div class="right">A</div>
+        <div class="before">P</div>
+        <div class="after">P</div>
     </div>
-    <div class="word-box">
+    <div class="img-div">
+        <!--<img src="/img/index-1.png" class="web-index-logo">-->
+        <!--<img class="img" style="width: 100%;height: 100%"/>-->
+    </div>
+    <div class="word-div">
         <span class="wordStyle">-</span>
         <span id="First" class="wordStyle"></span>
     </div>
@@ -87,47 +163,49 @@
 
 <script type="text/javascript">
     $(function () {
+
         var theater = new TheaterJS();
-        $.ajax({
-            type: "post",
-            url: "/getHomeImg",
-            dataType: "json",
-            success: function (resultDate) {
-                $(".img").attr("src", resultDate.data.imgUrl);
-
-                theater.describe("First", 0.8, "#First");
-                theater.write("First:" + resultDate.data.words + "\n——《one·一个》", 400)
-                    .write(function () {
-                        theater.play(false);//是否循环
-                    });
-            },
-            error: function () {
-                errorMsg();
-            }
-        });
-
-        /*var theater = new TheaterJS();
-        theater
-            .describe("First", 0.8, "#First")
-            .describe("Second", 0.8, "#Second");
-        theater
-            .write("First:嗨！兄弟，江湖在哪里？", 400, showSeconde)
-            .write("Second:我指给你看 . . .", 400)
-            .write("Second:算了，你还是自己看吧", 400, function () {
-                $('.talk-input').show();
-                $('.talk-input').focus();
-                $("#Second").parent().hide();
-                $("body").css("background", "#fff url(\"http://image.wufazhuce.com/Fov1FvsKC9JLt5po1DWL0IIL5K6G\") no-repeat left top");
-                $(".words").addClass("words-new");
-            })
-            .write(function () {
-                theater.play(false);//是否循环
-            });*/
-
-        function showSeconde() {
-            $("#Second").parent().show();
-        }
-
+        theater.describe("First", 0.8, "#First");
+//        $.ajax({
+//            type: "post",
+//            url: "/getHomeImg",
+//            dataType: "json",
+//            success: function (resultDate) {
+//                $(".img").attr("src", resultDate.data.imgUrl);
+//
+//                theater.describe("First", 0.8, "#First");
+//                theater.write("First:" + resultDate.data.words + "\n——《one·一个》", 400)
+//                    .write(function () {
+//                        theater.play(false);//是否循环
+//                    });
+//            },
+//            error: function () {
+//                errorMsg();
+//            }
+//        });
+//
+//        /*var theater = new TheaterJS();
+//        theater
+//            .describe("First", 0.8, "#First")
+//            .describe("Second", 0.8, "#Second");
+//        theater
+//            .write("First:嗨！兄弟，江湖在哪里？", 400, showSeconde)
+//            .write("Second:我指给你看 . . .", 400)
+//            .write("Second:算了，你还是自己看吧", 400, function () {
+//                $('.talk-input').show();
+//                $('.talk-input').focus();
+//                $("#Second").parent().hide();
+//                $("body").css("background", "#fff url(\"http://image.wufazhuce.com/Fov1FvsKC9JLt5po1DWL0IIL5K6G\") no-repeat left top");
+//                $(".words").addClass("words-new");
+//            })
+//            .write(function () {
+//                theater.play(false);//是否循环
+//            });*/
+//
+//        function showSeconde() {
+//            $("#Second").parent().show();
+//        }
+//
         document.onkeydown = function (e) {
             var ev = document.all ? window.event : e;
             if (ev.keyCode == 13) {
@@ -138,19 +216,17 @@
         }
 
         $(".talk-input").keypress(function (event) {
+            var text = $(this).val();
+            $(this).val("")
             if (event.keyCode == 13) {
-                var paramData = {};
-                paramData.info = $(this).val();
-                paramData.key = 'be83ffb9321944b1affc3a179ef15eee';
-                paramData.userId = 123;
                 $.ajax({
                     type: "post",
-                    url: "http://www.tuling123.com/openapi/api",
-                    data: paramData,
+                    url: "/homeTalk",
+                    data: {text: text},
                     dataType: "json",
                     success: function (resultDate) {
                         theater
-                            .write("First:" + resultDate.text, 400)
+                            .write("First:" + resultDate.data, 400)
                             .write(function () {
                                 theater.play(false);//是否循环
                             });
@@ -161,8 +237,8 @@
                 })
             }
         });
-
     });
+
 </script>
 
 </body>

@@ -10,8 +10,8 @@ $(document).ajaxStop(function () {
 
 function errorMsg(msg) {
     if (msg == null) {
-        layer.msg("访问出错~！", {icon: 5});
+        layer.msg("访问出错~！");
     } else {
-        layer.msg(msg, {icon: 5});
+        layer.msg(msg);
     }
 }

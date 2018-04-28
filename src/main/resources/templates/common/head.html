@@ -5,7 +5,11 @@
     <title>VAP</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" href="/editor.md-master/css/editormd.css"/><!--Markdown-->
+    <!--Markdown-->
+    <link rel="stylesheet" href="/editor.md-master/css/editormd.css"/>
+
+    <!--3D-Square.css-->
+    <link rel="stylesheet" href="/css/3D-Square.css"/>
 
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -40,9 +44,6 @@
 </head>
 
 <style>
-    [v-cloak] {
-        display: none;
-    }
 </style>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="head" style="background: #000000;">
@@ -55,10 +56,19 @@
                 <span class="icon-bar">2</span>
                 <span class="icon-bar">3</span>
             </button>
-            <a class="navbar-brand" href="/">VAP</a>
+            <a class="navbar-brand" href="/">
+                <div class="small-box">
+                    <div class="small-top"></div>
+                    <div class="small-bottom"></div>
+                    <div class="small-left"></div>
+                    <div class="small-right"></div>
+                    <div class="small-before"></div>
+                    <div class="small-after"></div>
+                </div>
+            </a>
         </div>
         <form class="navbar-form navbar-right" role="search">
-            <input id="search-text" type="text" class="form-control" list="head_list"/>
+            <input id="search-text" type="text" class="form-control" list="head_list" style="display: none"/>
             <datalist id="head_list">
                 <option value="http">
                 <option value="flight">

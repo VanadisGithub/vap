@@ -197,7 +197,7 @@ CodeMirror.defineMode("smarty", function(config) {
   };
 
 
-  // the public API for CodeMirror
+  // the public Api for CodeMirror
   return {
     startState: function() {
       return {

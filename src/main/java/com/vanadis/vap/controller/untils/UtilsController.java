@@ -1,5 +1,6 @@
 package com.vanadis.vap.controller.untils;
 
+import com.vanadis.vap.Api.TenXunAIApi;
 import com.vanadis.vap.controller.BaseController;
 import com.vanadis.vap.model.ArticleMapper;
 import com.vanadis.vap.model.Result;
@@ -65,6 +66,11 @@ public class UtilsController extends BaseController {
             result = ImgUtils.tessercatImg(fileName, ENG);
         }
         return ResultUtils.success(result);
+    }
+
+    @RequestMapping("texttrans")
+    public Result texttrans(String text, int type) {
+        return ResultUtils.success(TenXunAIApi.texttransApi(text, type));
     }
 
 }

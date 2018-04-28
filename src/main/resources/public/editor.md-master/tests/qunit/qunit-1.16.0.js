@@ -1275,7 +1275,7 @@ QUnit.assert = Assert.prototype = {
 		};
 	},
 
-	// Exports test.push() to the user API
+	// Exports test.push() to the user Api
 	push: function( /* result, actual, expected, message */ ) {
 		var assert = this,
 			currentTest = ( assert instanceof Assert && assert.test ) || QUnit.config.current;

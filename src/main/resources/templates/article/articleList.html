@@ -12,12 +12,16 @@
 
     .article-div {
         width: 100%;
+        height: 100px;
         border-radius: 3px;
         border: 1px solid #f7f7f7;
-        box-shadow: 1px 1px 1px #d0d0d0;
         padding: 10px;
         margin-top: 10px;
         background-color: #ffffff;
+    }
+
+    .article-div:hover {
+        box-shadow: 2px 2px 2px #d0d0d0;
     }
 
     .title {
@@ -40,8 +44,11 @@
     <div class="box" style="position:relative;">
         <div th:each="article : ${articles}" th:href="@{'/article/article?articleId=' + ${article.id}}"
              class="article-div">
-            <div th:text="${article.title}" class="title">标题</div>
-            <div th:text="${article.createTsStr}">时间</div>
+            <img src="img/home-crow.png" height="80px" style="float:left"/>
+            <div style="float:left;padding: 10px">
+                <div th:text="${article.title}" class="title">标题</div>
+                <div th:text="${article.createTsStr}">时间</div>
+            </div>
         </div>
     </div>
 </div>

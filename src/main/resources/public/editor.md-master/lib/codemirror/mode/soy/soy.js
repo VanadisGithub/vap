@@ -35,7 +35,7 @@
       var match = untilRegExp.exec(oldString.substr(stream.pos));
       if (match) {
         // We don't use backUp because it backs up just the position, not the state.
-        // This uses an undocumented API.
+        // This uses an undocumented Api.
         stream.string = oldString.substr(0, stream.pos + match.index);
       }
       var result = stream.hideFirstChars(state.indent, function() {

@@ -1562,7 +1562,7 @@
             });
           }
         }
-        // iOS exposes the clipboard API, but seems to discard content inserted into it
+        // iOS exposes the clipboard Api, but seems to discard content inserted into it
         if (e.clipboardData && !ios) {
           e.preventDefault();
           e.clipboardData.clearData();
@@ -1986,7 +1986,7 @@
     return new Selection([new Range(anchor, head || anchor)], 0);
   }
 
-  // Most of the external API clips given positions to make sure they
+  // Most of the external Api clips given positions to make sure they
   // actually exist within the document.
   function clipLine(doc, n) {return Math.max(doc.first, Math.min(n, doc.first + doc.size - 1));}
   function clipPos(doc, pos) {
@@ -4522,7 +4522,7 @@
     }
   }
 
-  // API UTILITIES
+  // Api UTILITIES
 
   // Indent the given line. The how parameter can be "smart",
   // "add"/null, "subtract", or "prev". When aggressive is false
@@ -4703,7 +4703,7 @@
 
   // EDITOR METHODS
 
-  // The publicly visible API. Note that methodOp(f) means
+  // The publicly visible Api. Note that methodOp(f) means
   // 'wrap f in an operation, performed on its `this` parameter'.
 
   // This is not the complete set of editor methods. Most of the

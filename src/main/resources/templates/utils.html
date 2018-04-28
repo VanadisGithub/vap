@@ -43,11 +43,17 @@
         <textarea id="base64-encode-text" class="form-control" type="text" placeholder="密文"></textarea>
     </form>
     <form class="form-inline" style="margin-top: 20px">
-        <span class="util-name">url：</span>
+        <span class="util-name">URL编码：</span>
         <textarea id="url-decode-text" class="form-control" type="text" placeholder="原文"></textarea>
         <span id="url-encode-btn" class="btn btn-default" style="">Encode</span>
         <span id="url-decode-btn" class="btn btn-default" style="">Decode</span>
         <textarea id="url-encode-text" class="form-control" type="text" placeholder="密文"></textarea>
+    </form>
+    <form class="form-inline" style="margin-top: 20px">
+        <span class="util-name">翻译：</span>
+        <textarea id="translationText" class="form-control" type="text" placeholder="原文"></textarea>
+        <span id="translation-btn" class="btn btn-default" style="">Translation</span>
+        <textarea id="translationText2" class="form-control" type="text" placeholder="翻译"></textarea>
     </form>
     <form class="form-inline" style="margin-top: 20px">
         <span class="util-name">图片识别：</span>
@@ -93,6 +99,15 @@
         });
         $("#url-decode-btn").unbind("click").click(function () {
             $("#url-decode-text").val(decodeURI($("#url-encode-text").val()));
+        });
+
+        $("#translation-btn").unbind("click").click(function () {
+            texttrans();
+        });
+        $("#translationText").keypress(function (event) {
+            if (event.keyCode == 13) {
+                texttrans();
+            }
         });
 
         $("#select-image-btn").unbind("click").click(function () {
@@ -173,7 +188,25 @@
                 $('#image-text').val(result.data);
             },
             error: function () {
-                errorMsg('网络故障');
+                errorMsg();
+            }
+        });
+    }
+
+    function texttrans() {
+        var text = $("#translationText").val();
+        var type = 0;
+        $.ajax({
+            type: 'POST',
+            url: 'utils/texttrans',
+            data: {text: text, type: type},
+            async: false,
+            dataType: 'json',
+            success: function (result) {
+                $('#translationText2').val(result.data);
+            },
+            error: function () {
+                errorMsg();
             }
         });
     }
