@@ -1,0 +1,87 @@
+.small-box {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: turn 20s infinite linear;
+}
+
+@keyframes turn {
+    from {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    to {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+.small-box:hover {
+    animation-duration: 7s;
+}
+
+.small-box > div {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 1px;
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    line-height: 20px;
+    color: black;
+    font-size: 12px;
+    font-family: '微软雅黑';
+    transition: all 1s linear;
+    background: rgba(255, 255, 255, .7);
+}
+
+.small-left {
+    transform: rotateY(-90deg) translateZ(10px);
+}
+
+.small-right {
+    transform: rotateY(90deg) translateZ(10px);
+}
+
+.small-top {
+    transform: rotateX(90deg) translateZ(10px);
+}
+
+.small-bottom {
+    transform: rotateX(-90deg) translateZ(10px);
+}
+
+.small-before {
+    transform: translateZ(10px);
+}
+
+.small-after {
+    transform: translateZ(-10px);
+}
+
+.small-box:hover .small-before {
+    transform: translateZ(15px);
+}
+
+.small-box:hover .small-after {
+    transform: translateZ(-15px);
+}
+
+.small-box:hover .small-left {
+    transform: rotateY(-90deg) translateZ(15px)
+}
+
+.small-box:hover .small-right {
+    transform: rotateY(90deg) translateZ(15px)
+}
+
+.small-box:hover .small-top {
+    transform: rotateX(90deg) translateZ(15px)
+}
+
+.small-box:hover .small-bottom {
+    transform: rotateX(-90deg) translateZ(15px)
+}
+
+[v-cloak] {
+    display: none;
+}

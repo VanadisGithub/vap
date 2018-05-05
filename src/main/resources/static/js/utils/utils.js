@@ -102,6 +102,17 @@ var Utils = {
             + " " + date.getHours() + seperator2 + date.getMinutes()
             + seperator2 + date.getSeconds();
         return currentdate;
+    },
+
+    //休眠 此方法会组织js的UI渲染线程
+    sleep: function (numberMillis) {
+        var now = new Date();
+        var exitTime = now.getTime() + numberMillis;
+        while (true) {
+            now = new Date();
+            if (now.getTime() > exitTime)
+                return;
+        }
     }
 }
 

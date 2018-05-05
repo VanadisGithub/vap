@@ -68,12 +68,12 @@ public class VisitScheduler {
         }
     }
 
-    @Scheduled(cron = "0 5/10 * * * ? ")//15/25/35分钟
+//    @Scheduled(cron = "0 5/10 * * * ? ")//15/25/35分钟
     public void saveProxyKuai() {
         ProxyUtils.saveProxyKuai(proxyMapper);
     }
 
-    @Scheduled(cron = "0 15/59 0/1 * * ? ")//15分开始 每1小时
+//    @Scheduled(cron = "0 15/59 0/1 * * ? ")//15分开始 每1小时
     public void saveProxyXici() {
         ProxyUtils.saveProxyXici(proxyMapper);
     }

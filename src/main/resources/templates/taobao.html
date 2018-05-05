@@ -27,7 +27,14 @@
     </div>
     <div class="row" style="margin-top: 10px">
         <div id="couponList" style="width: 50%; float:left;">
-
+            <span v-for="coupon in couponList" class="btn btn-default coupon" style="margin-right:10px"
+                  :activityId="coupon.activityId" @click="getBuyUrl(coupon.activityId)">{{coupon.title}}</span>
+            <!--<div v-for="coupon in couponList" class="coupons-wrap noFollow">-->
+            <!--<div class="coupons-container js-can js-ready" mx-click="getCoupons()"><span-->
+            <!--class="coupons-price"><strong>¥</strong>10</span><span class="coupons-info">使用期限</span> <span-->
+            <!--class="coupons-data"><span class="coupons-data-icon">限</span>2018.05.03-2018.05.05</span> <span-->
+            <!--class="coupons-btn">立即领券</span></div>-->
+            <!--</div>-->
         </div>
     </div>
     <div class="row" style="margin-top: 10px">
@@ -39,10 +46,23 @@
 
 </body>
 <script type="text/javascript">
+    var CouponVM;
 
     $(function () {
         $("#send-btn").unbind("click").click(function () {
             send();
+        });
+
+        CouponVM = new Vue({
+            el: "#couponList",
+            data: {
+                couponList: {}
+            },
+            methods: {
+                getBuyUrl: function (activityId) {
+                    getBuyUrl(activityId);
+                }
+            }
         });
     });
 
@@ -55,16 +75,12 @@
             data: paramData,
             dataType: "json",
             success: function (resultDate) {
-                $('#couponList').html("");
                 getBuyUrl();
-                if (resultDate.data != null) {
-                    for (var i in resultDate.data) {
-                        $('#couponList').append('<span class="btn btn-default coupon" style="margin-right:10px" activityId="' + resultDate.data[i].activityId + '">' + resultDate.data[i].title + '</span>');
-                    }
-                    $(".coupon").unbind("click").click(function () {
-                        getBuyUrl($(this).attr("activityId"));
-                    })
-                }
+                console.log(resultDate.data)
+                CouponVM.couponList = resultDate.data;
+                $(".coupon").unbind("click").click(function () {
+                    getBuyUrl($(this).attr("activityId"));
+                })
             },
             error: function () {
                 errorMsg();
