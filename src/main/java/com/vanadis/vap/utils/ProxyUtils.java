@@ -28,40 +28,6 @@ public class ProxyUtils {
     private static List<HttpHost> Proxys = new ArrayList<HttpHost>() {
         {
             add(new HttpHost("211.159.177.212", 3128));
-            add(new HttpHost("219.135.164.245", 3128));
-            add(new HttpHost("124.193.37.5", 8888));
-            add(new HttpHost("120.78.182.79", 3128));
-            add(new HttpHost("183.56.177.130", 808));
-            add(new HttpHost("203.174.112.13", 3128));
-            add(new HttpHost("120.78.78.141", 8888));
-            add(new HttpHost("59.44.16.6", 80));
-            add(new HttpHost("61.134.25.106", 3128));
-            add(new HttpHost("121.206.245.247", 53281));
-            add(new HttpHost("221.7.255.168", 8080));
-            add(new HttpHost("222.186.45.65", 56721));
-            add(new HttpHost("139.198.12.227", 48888));
-            add(new HttpHost("14.29.47.90", 3128));
-            add(new HttpHost("116.226.66.17", 9000));
-            add(new HttpHost("119.28.138.104", 3128));
-            add(new HttpHost("14.118.255.8", 6666));
-            add(new HttpHost("175.163.66.136", 8118));
-            add(new HttpHost("120.92.88.202", 10000));
-            add(new HttpHost("183.56.177.130", 808));
-            add(new HttpHost("203.174.112.13", 3128));
-            add(new HttpHost("14.118.255.8", 6666));
-            add(new HttpHost("58.216.202.149", 8118));
-            add(new HttpHost("114.214.164.38", 9999));
-            add(new HttpHost("221.7.255.168", 8080));
-            add(new HttpHost("211.159.177.212", 3128));
-            add(new HttpHost("119.28.138.104", 3128));
-            add(new HttpHost("219.135.164.245", 3128));
-            add(new HttpHost("124.193.37.5", 8888));
-            add(new HttpHost("120.78.182.79", 3128));
-            add(new HttpHost("120.78.78.141", 8888));
-            add(new HttpHost("175.163.66.136", 8118));
-            add(new HttpHost("120.92.88.202", 10000));
-            add(new HttpHost("59.44.16.6", 80));
-            add(new HttpHost("58.19.13.49", 18118));
         }
     };
     private static int size = Proxys.size();

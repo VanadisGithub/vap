@@ -17,7 +17,17 @@ public class TenXunAIApi {
     public static String AppKey = "yn8xOKpmDX777D7K";
     public static String textchat = "https://api.ai.qq.com/fcgi-bin/nlp/nlp_textchat";
     public static String texttrans = "https://api.ai.qq.com/fcgi-bin/nlp/nlp_texttrans";
+    public static String wordseg = "https://api.ai.qq.com/fcgi-bin/nlp/nlp_wordseg";
     public static String generalocr = "https://api.ai.qq.com/fcgi-bin/ocr/ocr_generalocr";
+
+    public static JSONObject wordsegApi(String text) {
+        SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
+        parameters.put("text", text);
+        String result = doApi(wordseg, parameters);
+        JSONObject resultObj = JSONObject.parseObject(result).getJSONObject("data");
+        return resultObj;
+
+    }
 
     public static String texttransApi(String text, int type) {
         SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
@@ -38,6 +48,13 @@ public class TenXunAIApi {
         return resultStr;
     }
 
+    /**
+     * 图片识别
+     *
+     * @param session
+     * @param question
+     * @return
+     */
     public static String generalocr(String session, String question) {
         SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
         parameters.put("session", session);

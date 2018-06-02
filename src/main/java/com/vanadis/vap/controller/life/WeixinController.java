@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,7 +46,7 @@ public class WeixinController extends BaseController {
 
     @RequestMapping("getQrCode")
     public Result getQrCode() {
-        String qrPath = "qrCode/qrCode.png"; // 保存登陆二维码图片的路径
+        String qrPath = "qrCode/weixinQRCode.png"; // 保存登陆二维码图片的路径
         System.setProperty("jsse.enableSNIExtension", "false"); // 重要：防止SSL错误
 
         List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
@@ -136,25 +140,21 @@ public class WeixinController extends BaseController {
             //add by 默非默 2017-08-01 22:28:09
             //如果登录被禁止时，则登录返回的message内容不为空，下面代码则判断登录内容是否为空，不为空则退出程序
 //            String msg = getLoginMessage(text);
-//            if (!"".equals(msg)) {
-//                log.info(msg);
-//                System.exit(0);
-//            }
-//            Document doc = CommonTools.xmlParser(text);
-//            if (doc != null) {
-//                core.getLoginInfo().put(StorageLoginInfoEnum.skey.getKey(),
-//                        doc.getElementsByTagName(StorageLoginInfoEnum.skey.getKey()).item(0).getFirstChild()
-//                                .getNodeValue());
-//                core.getLoginInfo().put(StorageLoginInfoEnum.wxsid.getKey(),
-//                        doc.getElementsByTagName(StorageLoginInfoEnum.wxsid.getKey()).item(0).getFirstChild()
-//                                .getNodeValue());
-//                core.getLoginInfo().put(StorageLoginInfoEnum.wxuin.getKey(),
-//                        doc.getElementsByTagName(StorageLoginInfoEnum.wxuin.getKey()).item(0).getFirstChild()
-//                                .getNodeValue());
-//                core.getLoginInfo().put(StorageLoginInfoEnum.pass_ticket.getKey(),
-//                        doc.getElementsByTagName(StorageLoginInfoEnum.pass_ticket.getKey()).item(0).getFirstChild()
-//                                .getNodeValue());
-//            }
+            Document doc = xmlParser(text);
+            if (doc != null) {
+                core.getLoginInfo().put(StorageLoginInfoEnum.skey.getKey(),
+                        doc.getElementsByTagName(StorageLoginInfoEnum.skey.getKey()).item(0).getFirstChild()
+                                .getNodeValue());
+                core.getLoginInfo().put(StorageLoginInfoEnum.wxsid.getKey(),
+                        doc.getElementsByTagName(StorageLoginInfoEnum.wxsid.getKey()).item(0).getFirstChild()
+                                .getNodeValue());
+                core.getLoginInfo().put(StorageLoginInfoEnum.wxuin.getKey(),
+                        doc.getElementsByTagName(StorageLoginInfoEnum.wxuin.getKey()).item(0).getFirstChild()
+                                .getNodeValue());
+                core.getLoginInfo().put(StorageLoginInfoEnum.pass_ticket.getKey(),
+                        doc.getElementsByTagName(StorageLoginInfoEnum.pass_ticket.getKey()).item(0).getFirstChild()
+                                .getNodeValue());
+            }
 
         }
         return core;
@@ -169,7 +169,7 @@ public class WeixinController extends BaseController {
                 String.valueOf(System.currentTimeMillis() / 3158L),
                 core.getLoginInfo().get(StorageLoginInfoEnum.pass_ticket.getKey()));
 
-        Map<String, Object> paramMap = core.getParamMap();
+        Map<String, Object> paramMap = core.getParamMap(core.getLoginInfo());
 
         // 请求初始化接口
         try {
@@ -226,7 +226,7 @@ public class WeixinController extends BaseController {
     public Core webWxGetContact(Core core) {
         String url = String.format(URLEnum.WEB_WX_GET_CONTACT.getUrl(),
                 core.getLoginInfo().get(StorageLoginInfoEnum.url.getKey()));
-        Map<String, Object> paramMap = core.getParamMap();
+        Map<String, Object> paramMap = core.getParamMap(core.getLoginInfo());
         try {
             String result = HttpUtils.doPost(url, JSON.toJSONString(paramMap), null, null);
             JSONObject fullFriendsJsonList = JSON.parseObject(result);
@@ -356,24 +356,40 @@ public class WeixinController extends BaseController {
         return possibleUrlMap;
     }
 
-//    int man = 0;
-//    int woman = 0;
-//    int zhejiang = 0;
-//    int yunnan = 0;
-//        for (JSONObject f : list) {
-//        System.out.println(f.getString("RemarkName") + " " + f.getString("NickName") + "" + f.getString("Province") + "|" + f.getString("City"));
-//        if (f.getInteger("Sex") == 1) {
-//            man++;
-//        }
-//        if (f.getInteger("Sex") == 2) {
-//            woman++;
-//        }
-//        if ("浙江".equals(f.getString("Province")))
-//            zhejiang++;
-//        if ("云南".equals(f.getString("Province")))
-//            yunnan++;
-//    }
-//        System.out.println(list.size() + "|男：" + man + "|女：" + woman);
-//        System.out.println(list.size() + "浙江：" + zhejiang + "|云南：" + yunnan);
+    /**
+     * 解析登录返回的消息，如果成功登录，则message为空
+     *
+     * @param result
+     * @return
+     */
+    public String getLoginMessage(String result) {
+        String[] strArr = result.split("<message>");
+        String[] rs = strArr[1].split("</message>");
+        if (rs != null && rs.length > 1) {
+            return rs[0];
+        }
+        return "";
+    }
 
+    /**
+     * xml解析器
+     *
+     * @param text
+     * @return
+     * @author https://github.com/yaphone
+     * @date 2017年4月9日 下午6:24:25
+     */
+    public static Document xmlParser(String text) {
+        Document doc = null;
+        StringReader sr = new StringReader(text);
+        InputSource is = new InputSource(sr);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            doc = builder.parse(is);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doc;
+    }
 }

@@ -50,14 +50,17 @@ public class VisitScheduler {
         }
     };
 
-    @Value("${spring.mail.username}")
-    private String Sender; //读取配置文件中的参数
+    @Value("${spring.proxy.switch}")
+    private boolean proxySwitch;
 
     @Autowired
     private ProxyMapper proxyMapper;
 
     @Scheduled(cron = "0 0/30 * * * ? ")//每30分钟
     public void scheduler() {
+        if (!proxySwitch) {
+            return;
+        }
         proxyMapper.updateErrorNum(-50);
         List<Proxy> list = proxyMapper.getGoodList(30);
         List<String> urlList = ProxyController.htmlToProxyCsdn();
@@ -68,13 +71,19 @@ public class VisitScheduler {
         }
     }
 
-//    @Scheduled(cron = "0 5/10 * * * ? ")//15/25/35分钟
+    @Scheduled(cron = "0 5/10 * * * ? ")//15/25/35分钟
     public void saveProxyKuai() {
+        if (!proxySwitch) {
+            return;
+        }
         ProxyUtils.saveProxyKuai(proxyMapper);
     }
 
-//    @Scheduled(cron = "0 15/59 0/1 * * ? ")//15分开始 每1小时
+    @Scheduled(cron = "0 15/59 0/1 * * ? ")//15分开始 每1小时
     public void saveProxyXici() {
+        if (!proxySwitch) {
+            return;
+        }
         ProxyUtils.saveProxyXici(proxyMapper);
     }
 

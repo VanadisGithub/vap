@@ -1,7 +1,10 @@
 package com.vanadis.vap.utils;
 
 import com.mysql.jdbc.StringUtils;
-import org.apache.http.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -9,7 +12,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,7 +28,7 @@ import java.util.Map;
 
 public class HttpUtils {
 
-    private static Logger log = Logger.getLogger(HttpUtils.class);
+    private static Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
     public static String UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/4.9.2.1000 Chrome/39.0.2146.0 Safari/537.36";
 
@@ -131,6 +135,12 @@ public class HttpUtils {
         return result;
     }
 
+    /**
+     * @param url
+     * @param headerMap
+     * @param proxy
+     * @return
+     */
     public static String doGet(String url, Map<String, Object> headerMap, HttpHost proxy) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {

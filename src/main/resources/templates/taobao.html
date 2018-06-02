@@ -27,6 +27,7 @@
     </div>
     <div class="row" style="margin-top: 10px">
         <div id="couponList" style="width: 50%; float:left;">
+            <div style=""></div>
             <span v-for="coupon in couponList" class="btn btn-default coupon" style="margin-right:10px"
                   :activityId="coupon.activityId" @click="getBuyUrl(coupon.activityId)">{{coupon.title}}</span>
             <!--<div v-for="coupon in couponList" class="coupons-wrap noFollow">-->
