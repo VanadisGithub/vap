@@ -151,19 +151,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
-                <!--热启动-->
                 <configuration>
-                    <fork>true</fork>
-                </configuration>
-
-            </plugin>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <classifier>exec</classifier>
+                    <mainClass>com.vanadis.vap.VapApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

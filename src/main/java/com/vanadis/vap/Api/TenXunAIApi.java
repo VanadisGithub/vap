@@ -39,6 +39,11 @@ public class TenXunAIApi {
 
     }
 
+    public static void main(String[] args) {
+        String o = textchatApi("10000", "今天天气");
+        System.out.println(o);
+    }
+
     public static String textchatApi(String session, String question) {
         SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
         parameters.put("session", session);

@@ -28,10 +28,10 @@ public class FlightController extends BaseController {
     @RequestMapping("getFlight")
     public Result getFlight(String depCity, String arrCity, String startDate) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        result.put("qunar", getQunar(depCity, arrCity, startDate));
-        result.put("meituan", getMeiTuan(depCity, arrCity, startDate));
-        result.put("jingdong", getJingDong(depCity, arrCity, startDate));
-        result.put("feizhu", getFeiZhu(depCity, arrCity, startDate));
+        //result.put("qunar", getQunar(depCity, arrCity, startDate));
+        //result.put("meituan", getMeiTuan(depCity, arrCity, startDate));
+        //result.put("jingdong", getJingDong(depCity, arrCity, startDate));
+        //result.put("feizhu", getFeiZhu(depCity, arrCity, startDate));
         result.put("xiecheng", getXieCheng(depCity, arrCity, startDate));
         return ResultUtils.success(result);
     }

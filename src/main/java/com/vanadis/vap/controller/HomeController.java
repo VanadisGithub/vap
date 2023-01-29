@@ -41,7 +41,7 @@ public class HomeController extends BaseController {
 
     @RequestMapping("")
     public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView("/home");
+        ModelAndView modelAndView = new ModelAndView("home");
         return modelAndView;
     }
 
@@ -68,6 +68,7 @@ public class HomeController extends BaseController {
         String answer = TenXunAIApi.textchatApi("10000", text);
         return ResultUtils.success(answer);
     }
+
 
     @RequestMapping("getHomeImg")
     public Result getHomeImg() {
